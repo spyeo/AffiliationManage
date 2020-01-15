@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Handles requests for the application home page.
+ * Handles req uests for the application home page.
+ * branche 'won' 추가
  */
 @Controller
 public class HomeController {
