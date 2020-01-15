@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Handles requests for the application home page.
- * branches 'won' 추가
- * branches 'spyeo' 추가
  */
 @Controller
 public class HomeController {
