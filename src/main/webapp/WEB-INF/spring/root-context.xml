@@ -11,10 +11,10 @@
 		
 		<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
 			<!-- <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
-			<property name="jdbcUrl" value="jdbc:oracle:thin:@192.158.0.53:1521:orcl"></property> -->
+			<property name="jdbcUrl" value="jdbc:oracle:thin:@192.168.0.53:1521:orcl"></property> -->
 			
 			<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
-			<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.158.0.53:1521:orcl"></property>
+			<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@192.168.0.53:1521:orcl"></property>
 			
 			<property name="username" value="test"></property>
 			<property name="password" value="test"></property>
