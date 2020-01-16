@@ -1,0 +1,11 @@
+package com.coreplus.service;
+
+import java.util.List;
+
+import com.coreplus.domain.CodeVO;
+
+public interface ConsultingService {
+	
+	public List<CodeVO> getCode();
+
+}
