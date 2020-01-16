@@ -33,10 +33,6 @@ public class JDBCTest {
 	private CodeMapper mapper;
 	
 	@Test
-	public void getCode() {
-		mapper.getCode().forEach(code -> log.info(code));
-	}
-	
 	public void testConnection() {
 		try(Connection con= DriverManager.getConnection(
 				"jdbc:log4jdbc:oracle:thin:@192.168.0.53:1521:orcl","test","test")){

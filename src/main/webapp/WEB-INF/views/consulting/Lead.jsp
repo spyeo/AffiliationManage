@@ -8,9 +8,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:forEach var="code" items="${codeList}">
-	코드타입: ${code.code_type } ,코드:${code.code}<br>
-</c:forEach>
+
+
 
 </body>
 </html>
