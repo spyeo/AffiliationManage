@@ -9,19 +9,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - 404 Error</title>
+    <title>SB Admin - Blank Page</title>
 
     <!-- Bootstrap core CSS-->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/resources/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
     <!-- Page level plugin CSS-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="/resources/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin.css" rel="stylesheet">
+    <link href="/resources/css/sb-admin.css" rel="stylesheet">
 
   </head>
 
@@ -110,8 +110,8 @@
             <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
             <div class="dropdown-divider"></div>
             <h6 class="dropdown-header">Other Pages:</h6>
-            <a class="dropdown-item active" href="404.html">404 Page</a>
-            <a class="dropdown-item" href="blank.html">Blank Page</a>
+            <a class="dropdown-item" href="404.html">404 Page</a>
+            <a class="dropdown-item active" href="blank.html">Blank Page</a>
           </div>
         </li>
         <li class="nav-item">
@@ -135,15 +135,13 @@
             <li class="breadcrumb-item">
               <a href="index.html">Dashboard</a>
             </li>
-            <li class="breadcrumb-item active">404 Error</li>
+            <li class="breadcrumb-item active">Blank Page</li>
           </ol>
 
           <!-- Page Content -->
-          <h1 class="display-1">404</h1>
-          <p class="lead">Page not found. You can
-            <a href="javascript:history.back()">go back</a>
-            to the previous page, or
-            <a href="index.html">return home</a>.</p>
+          <h1>Blank Page</h1>
+          <hr>
+          <p>This is a great starting point for new custom pages.</p>
 
         </div>
         <!-- /.container-fluid -->
@@ -188,14 +186,14 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/resources/vendor/jquery/jquery.min.js"></script>
+    <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
+    <script src="/resources/js/sb-admin.min.js"></script>
 
   </body>
 

@@ -4,15 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
 
+@Controller
 public class MainController {
 	
-	@RequestMapping(value="/")
-	public ModelAndView MainView(ModelAndView mv) throws Exception{
+	//메인
+	@RequestMapping("/")
+	public ModelAndView mainView(ModelAndView mv) throws Exception {
 		
-		mv.setViewName("main/header");
+		mv.setViewName("main/main.tiles");
 		return mv;
-	}
+	}	
 	
 }
