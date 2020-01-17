@@ -1,0 +1,74 @@
+
+.right-f{
+	float:right;
+	width: 100%;
+	font-family: 'Jeju Gothic', sans-serif;
+}
+
+.right-f button {
+	font-size: 12px;
+}
+
+.fsize a {
+	font-size: 25px;
+}
+
+#topMenu {
+	height: 60px;
+	width: 100%;
+	padding: .1rem .1rem;
+	background-color: #343a40;
+	}
+
+#topMenu ul {
+	padding: 5px;
+}
+#topMenu ul li {
+	list-style: none;
+	color: white;
+	background-color: #343a40;
+	float: left;
+	line-height: 50px;
+	vertical-align: middle;
+	text-align: center;
+	}
+	
+#topMenu .menuLink {
+	text-decoration:none;
+	color: white;
+	display: block;
+	width: 240px;
+	font-size: 16px;
+	font-family: 'Jeju Gothic', sans-serif;
+	height: 50px;
+	}
+	
+#topMenu .menuLink:hover {
+	color: skyblue;
+	font-weight: bold;
+	background-color: #4d4d4d;
+	}
+
+	
+.minimenu {
+	background-color: white;
+	vertical-align: middle;
+	text-align: center;
+	width: 300px;
+	height: 50px;
+	display: inline-block;
+	}
+
+.minimenu ul {
+	background-color: white;
+	float: left;
+	vertical-align: middle;
+	text-align: center;
+	font-family: 'Jeju Gothic', sans-serif;
+	font-size: 15px;
+}
+
+.pamini {
+	padding-left: 30px;
+	padding-top: 20px;
+}
