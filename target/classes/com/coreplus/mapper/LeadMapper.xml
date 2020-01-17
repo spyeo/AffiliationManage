@@ -22,8 +22,8 @@ from   lead
 
 <select id="selectCount" resultType="int">
 select count(*)
-from   lead
-
+from   lead ld, prospect pros
+where  ld.pros_id = pros.pros_id
 </select>
 
 <select id="selectListWithPaging" resultType="com.coreplus.domain.LeadVO">
@@ -58,5 +58,23 @@ and    rn <= #{pageNum} * #{amount}
 ]]>
 </select>
 
+<select id="getLeadReceiptList" resultMap="leadReceipt">
+	
+</select>
+
+<resultMap id="leadReceipt" type="com.coreplus.doamain.LeadVO">
+	<result column="lead_id" property="lead_id"/>
+	<result column="last_upd" property="last_upd"/>
+	<result column="reg_chnl_nm" property="reg_chnl_cd"/>
+	<result column="con_type_nm" property="contype_cd"/>
+	<association property="prospect" javaType="com.coreplus.domain.Prospect">
+		<result column="pros_nm" property="pros_nm"/>
+		<result column="cell_ph_no" property="cell_ph_no"/>
+		<result column="cell_ph_tno" property="cell_ph_tno"/>
+		<result column="cell_ph_pno" property="cell_ph_pno"/>
+		<result column="eml_id" property="eml_id"/>
+		<result column="eml_domain" property="eml_domain"/>	
+	</association>
+</resultMap>
 
 </mapper>
