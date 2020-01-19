@@ -18,7 +18,7 @@ public interface ConsultingService {
 	
 	public List<LeadVO> getLeadList(Criteria cri);
 	
-	public Map<String, Object> getLeadReceiptList(Criteria cri);
+	public List<LeadVO> getLeadReceiptList(Criteria cri);
 
 	public int getLeadCount();
 

@@ -1,6 +1,6 @@
 package com.coreplus.controller;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.coreplus.domain.Criteria;
+import com.coreplus.domain.LeadVO;
 import com.coreplus.domain.PageDTO;
 import com.coreplus.service.ConsultingService;
 
+import lombok.AllArgsConstructor;
+
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/consulting")
 public class ConsultingController {
 	
@@ -26,16 +30,16 @@ public class ConsultingController {
 		int totalCount=service.getLeadCount();
 		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
 		model.addAttribute("leadlist",service.getLeadList(cri));
-		System.out.println("leadlist ½ÇÇà");
+		System.out.println("leadlist ï¿½ï¿½ï¿½ï¿½");
 		return "consulting/LeadList";
 	}
 	 */
 	
 	
-	@GetMapping("/leadReceiptList") 
+	 @GetMapping("/leadReceiptList") 
 	public String leadReceiptList(Criteria cri, Model model) {
 		int totalCount=service.getLeadCount();
-		Map<String, Object> result=service.getLeadReceiptList(cri);
+		List<LeadVO> result=service.getLeadReceiptList(cri);
 		model.addAttribute("leadReceiptList", result);
 		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
 		return "consulting/LeadList";

@@ -13,8 +13,9 @@ public class LeadVO {
 	String last_upd_by;
 	Date last_upd;
 	String reg_chnl_cd;
-	String con_type_code;
+	String con_type_cd;
 	String spec_desc;
 	String pros_id;
+	ProspectVO prospectVO;
 	
 }

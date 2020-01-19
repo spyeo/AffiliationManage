@@ -41,16 +41,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="lead" items="${leadlist}">
+				<c:forEach var="lead" items="${leadReceiptList}">
 					<tr>
 						<th scope="row"><a href="consulting/leaddetail">${lead.lead_id}</a>
 						</th>
 						<td>${lead.reg_chnl_cd }</td>
-						<td>${lead.con_type_code }</td>
-						<td>${lead.pros_id }</td>
-						<td>${lead.reg_chnl_cd}</td>
-						<td>pros_id</td>
-						<td>pros_id</td>
+						<td>${lead.con_type_cd }</td>
+						<td>${lead.prospectVO.pros_nm}</td>
+						<td>${lead.prospectVO.cell_ph_no}-${lead.prospectVO.cell_ph_tno}-${lead.prospectVO.cell_ph_no}</td>
+						<td>${lead.prospectVO.eml_id}@${lead.prospectVO.eml_domain}</td>
+						<td>${lead.last_upd}</td>
 					</tr>
 				</c:forEach>
 			</tbody>
