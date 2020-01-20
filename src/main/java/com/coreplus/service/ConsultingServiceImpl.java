@@ -24,19 +24,8 @@ public class ConsultingServiceImpl implements ConsultingService{
 		
 		return codeMapper.selectList();
 	}
-
-	/*
-	 @Override
-	public List<LeadVO> getLeadList() {
-		
-		return leadMapper.selectList();
-	}
-	 */
 	
-	@Override
-	public List<LeadVO> getLeadList(Criteria cri) {
-		return leadMapper.selectListWithPaging(cri);
-	}
+	//lead table crud
 	
 	@Override
 	public List<LeadVO> getLeadReceiptList(Criteria cri) {

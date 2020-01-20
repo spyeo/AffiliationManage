@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.coreplus.domain.Criteria;
@@ -22,22 +23,8 @@ public class ConsultingController {
 	
 	private ConsultingService service;
 	
-	
-	
-	/*
-	  @GetMapping("/leadlist")
-	public String leadList(Criteria cri, Model model) {
-		int totalCount=service.getLeadCount();
-		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
-		model.addAttribute("leadlist",service.getLeadList(cri));
-		System.out.println("leadlist ����");
-		return "consulting/LeadList";
-	}
-	 */
-	
-	
-	 @GetMapping("/leadReceiptList") 
-	public String leadReceiptList(Criteria cri, Model model) {
+	 @GetMapping("/leads") 
+	public String leadReceiptList(@ModelAttribute Criteria cri, Model model) {
 		int totalCount=service.getLeadCount();
 		List<LeadVO> result=service.getLeadReceiptList(cri);
 		model.addAttribute("leadReceiptList", result);

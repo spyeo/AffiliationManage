@@ -12,11 +12,7 @@ public interface ConsultingService {
 	//code table crud
 	public List<CodeVO> getCodeList();
 
-	
 	//lead table crud
-	//public List<LeadVO> getLeadList();
-	
-	public List<LeadVO> getLeadList(Criteria cri);
 	
 	public List<LeadVO> getLeadReceiptList(Criteria cri);
 

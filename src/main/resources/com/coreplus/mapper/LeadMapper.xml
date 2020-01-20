@@ -4,59 +4,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.LeadMapper">
 
-	<select id="selectList" resultType="com.coreplus.domain.LeadVO">
-
-		select lead_id
-		, del_yn
-		, created_by
-		, created
-		, last_upd_by
-		, last_upd
-		, reg_chnl_cd
-		, con_type_cd
-		, spec_desc
-		, pros_id
-		from lead
-
-	</select>
-
 	<select id="selectCount" resultType="int">
 		select count(*)
-		from lead ld, prospect pros
+		from lead ld,
+		prospect pros
 		where ld.pros_id = pros.pros_id
-	</select>
-
-	<select id="selectListWithPaging"
-		resultType="com.coreplus.domain.LeadVO">
-
-<![CDATA[
-select lead_id
-     , del_yn
-     , created_by
-     , created
-     , last_upd_by
-     , last_upd
-     , reg_chnl_cd
-     , con_type_cd
-     , spec_desc
-     , pros_id
-from   (select rownum rn
-             , lead_id
-     		 , del_yn
-     		 , created_by
-     		 , created
-     		 , last_upd_by
-     		 , last_upd
-     		 , reg_chnl_cd
-     		 , con_type_cd
-     		 , spec_desc
-     		 , pros_id
-     	from   lead
-     	order  by last_upd desc
-     	)
-where  rn > (#{pageNum}-1) * #{amount}
-and    rn <= #{pageNum} * #{amount}
-]]>
 	</select>
 
 	<select id="selectJoinList" resultMap="leadReceipt">
@@ -71,6 +23,8 @@ select lead_id
      , cell_ph_pno
      , eml_id
      , eml_domain
+     , last_upd
+     
 from 
     (
     select rownum as rn
@@ -83,6 +37,8 @@ from
          , x.cell_ph_pno
          , x.eml_id
          , x.eml_domain
+         , x.last_upd
+         
     from 
         (select a.lead_id
               , a.reg_chnl_cd
@@ -93,29 +49,30 @@ from
               , b.cell_ph_pno
               , b.eml_id
               , b.eml_domain
+              , a.last_upd
+              
          from     lead a, prospect b
          where    a.pros_id = b.pros_id
          order by a.last_upd desc, b.pros_nm
         ) x
-    where rownum < 8
+    where rownum <= #{pageNum} * #{amount}
     )
-where rn > 2
+where rn > (#{pageNum}-1) * #{amount}
 ]]>
 
 	</select>
-	
 
-	<resultMap id="leadReceipt"
-		type="com.coreplus.domain.LeadVO">
+
+	<resultMap id="leadReceipt" type="com.coreplus.domain.LeadVO">
 		<result column="lead_id" property="lead_id" />
 		<result column="last_upd" property="last_upd" />
 		<result column="reg_chnl_cd" property="reg_chnl_cd" />
 		<result column="con_type_cd" property="con_type_cd" />
-		<collection property="prospectVO" resultMap="prospect"/>
+		<collection property="prospectVO" resultMap="prospect" />
 	</resultMap>
 
 	<resultMap id="prospect"
-	 	type="com.coreplus.domain.ProspectVO">
+		type="com.coreplus.domain.ProspectVO">
 		<result column="pros_nm" property="pros_nm" />
 		<result column="cell_ph_no" property="cell_ph_no" />
 		<result column="cell_ph_tno" property="cell_ph_tno" />
