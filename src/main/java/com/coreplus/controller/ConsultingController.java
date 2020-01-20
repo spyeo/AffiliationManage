@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.coreplus.domain.Criteria;
 import com.coreplus.domain.LeadVO;
@@ -24,18 +25,20 @@ public class ConsultingController {
 	private ConsultingService service;
 	
 	 @GetMapping("/leads") 
-	public String leadReceiptList(@ModelAttribute Criteria cri, Model model) {
+	public ModelAndView leads(ModelAndView mv,@ModelAttribute Criteria cri, Model model) {
 		int totalCount=service.getLeadCount();
 		List<LeadVO> result=service.getLeadReceiptList(cri);
 		model.addAttribute("leadReceiptList", result);
 		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
-		return "consulting/LeadList";
+		mv.setViewName("consulting/LeadList.tiles");
+		return mv;
 	}
 	 
 	 @GetMapping("/lead")
-	 public String leadReceiptDetail(String lead_id) {
+	 public ModelAndView lead(ModelAndView mv,String lead_id) {
 		 
-		 return "consulting/Lead";
+		 mv.setViewName("consulting/Lead.tiles");
+		 return mv;
 	 }
 	
 	
