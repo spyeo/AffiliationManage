@@ -31,6 +31,12 @@ public class ConsultingController {
 		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
 		return "consulting/LeadList";
 	}
+	 
+	 @GetMapping("/lead")
+	 public String leadReceiptDetail(String lead_id) {
+		 
+		 return "consulting/Lead";
+	 }
 	
 	
 }
