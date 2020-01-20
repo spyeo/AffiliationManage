@@ -4,77 +4,81 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.LeadMapper">
 
-<select id="selectList" resultType="com.coreplus.domain.LeadVO">
+	<select id="selectCount" resultType="int">
+		select count(*)
+		from lead ld,
+		prospect pros
+		where ld.pros_id = pros.pros_id
+	</select>
 
-select lead_id
-     , del_yn
-     , created_by
-     , created
-     , last_upd_by
-     , last_upd
-     , reg_chnl_cd
-     , con_type_cd
-     , spec_desc
-     , pros_id
-from   lead
-
-</select>
-
-<select id="selectCount" resultType="int">
-select count(*)
-from   lead ld, prospect pros
-where  ld.pros_id = pros.pros_id
-</select>
-
-<select id="selectListWithPaging" resultType="com.coreplus.domain.LeadVO">
+	<select id="selectJoinList" resultMap="leadReceipt">
 
 <![CDATA[
 select lead_id
-     , del_yn
-     , created_by
-     , created
-     , last_upd_by
-     , last_upd
      , reg_chnl_cd
      , con_type_cd
-     , spec_desc
-     , pros_id
-from   (select rownum rn
-             , lead_id
-     		 , del_yn
-     		 , created_by
-     		 , created
-     		 , last_upd_by
-     		 , last_upd
-     		 , reg_chnl_cd
-     		 , con_type_cd
-     		 , spec_desc
-     		 , pros_id
-     	from   lead
-     	order  by last_upd desc
-     	)
-where  rn > (#{pageNum}-1) * #{amount}
-and    rn <= #{pageNum} * #{amount}
+     , pros_nm
+     , cell_ph_no
+     , cell_ph_tno
+     , cell_ph_pno
+     , eml_id
+     , eml_domain
+     , last_upd
+     
+from 
+    (
+    select rownum as rn
+         , x.lead_id
+         , x.reg_chnl_cd
+         , x.con_type_cd
+         , x.pros_nm
+         , x.cell_ph_no
+         , x.cell_ph_tno
+         , x.cell_ph_pno
+         , x.eml_id
+         , x.eml_domain
+         , x.last_upd
+         
+    from 
+        (select a.lead_id
+              , a.reg_chnl_cd
+              , a.con_type_cd
+              , b.pros_nm
+              , b.cell_ph_no
+              , b.cell_ph_tno
+              , b.cell_ph_pno
+              , b.eml_id
+              , b.eml_domain
+              , a.last_upd
+              
+         from     lead a, prospect b
+         where    a.pros_id = b.pros_id
+         order by a.last_upd desc, b.pros_nm
+        ) x
+    where rownum <= #{pageNum} * #{amount}
+    )
+where rn > (#{pageNum}-1) * #{amount}
 ]]>
-</select>
 
-<select id="getLeadReceiptList" resultMap="leadReceipt">
-	
-</select>
+	</select>
 
-<resultMap id="leadReceipt" type="com.coreplus.doamain.LeadVO">
-	<result column="lead_id" property="lead_id"/>
-	<result column="last_upd" property="last_upd"/>
-	<result column="reg_chnl_nm" property="reg_chnl_cd"/>
-	<result column="con_type_nm" property="contype_cd"/>
-	<association property="prospect" javaType="com.coreplus.domain.Prospect">
-		<result column="pros_nm" property="pros_nm"/>
-		<result column="cell_ph_no" property="cell_ph_no"/>
-		<result column="cell_ph_tno" property="cell_ph_tno"/>
-		<result column="cell_ph_pno" property="cell_ph_pno"/>
-		<result column="eml_id" property="eml_id"/>
-		<result column="eml_domain" property="eml_domain"/>	
-	</association>
-</resultMap>
+
+	<resultMap id="leadReceipt" type="com.coreplus.domain.LeadVO">
+		<result column="lead_id" property="lead_id" />
+		<result column="last_upd" property="last_upd" />
+		<result column="reg_chnl_cd" property="reg_chnl_cd" />
+		<result column="con_type_cd" property="con_type_cd" />
+		<collection property="prospectVO" resultMap="prospect" />
+	</resultMap>
+
+	<resultMap id="prospect"
+		type="com.coreplus.domain.ProspectVO">
+		<result column="pros_nm" property="pros_nm" />
+		<result column="cell_ph_no" property="cell_ph_no" />
+		<result column="cell_ph_tno" property="cell_ph_tno" />
+		<result column="cell_ph_pno" property="cell_ph_pno" />
+		<result column="eml_id" property="eml_id" />
+		<result column="eml_domain" property="eml_domain" />
+	</resultMap>
 
 </mapper>

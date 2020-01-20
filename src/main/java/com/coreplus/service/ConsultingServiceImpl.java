@@ -1,7 +1,6 @@
 package com.coreplus.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -25,23 +24,11 @@ public class ConsultingServiceImpl implements ConsultingService{
 		
 		return codeMapper.selectList();
 	}
-
-	/*
-	 @Override
-	public List<LeadVO> getLeadList() {
-		
-		return leadMapper.selectList();
-	}
-	 */
+	
+	//lead table crud
 	
 	@Override
-	public List<LeadVO> getLeadList(Criteria cri) {
-
-		return leadMapper.selectListWithPaging(cri);
-	}
-	
-	@Override
-	public Map<String, Object> getLeadReceiptList(Criteria cri) {
+	public List<LeadVO> getLeadReceiptList(Criteria cri) {
 		return leadMapper.selectJoinList(cri);
 	}
 
