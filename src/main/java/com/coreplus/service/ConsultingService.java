@@ -10,7 +10,7 @@ import com.coreplus.domain.LeadVO;
 public interface ConsultingService {
 	
 	//code table crud
-	public List<CodeVO> getCodeList();
+	public List<CodeVO> getCodeList(String code);
 
 	//lead table crud
 	

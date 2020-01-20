@@ -15,8 +15,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <![CDATA[
 select lead_id
-     , reg_chnl_cd
-     , con_type_cd
+     , reg_chnl_nm
+     , con_type_nm
      , pros_nm
      , cell_ph_no
      , cell_ph_tno
@@ -29,8 +29,8 @@ from
     (
     select rownum as rn
          , x.lead_id
-         , x.reg_chnl_cd
-         , x.con_type_cd
+         , x.reg_chnl_nm
+         , x.con_type_nm
          , x.pros_nm
          , x.cell_ph_no
          , x.cell_ph_tno
@@ -41,8 +41,8 @@ from
          
     from 
         (select a.lead_id
-              , a.reg_chnl_cd
-              , a.con_type_cd
+              , c.code_nm     as reg_chnl_nm
+              , d.code_nm     as con_type_nm
               , b.pros_nm
               , b.cell_ph_no
               , b.cell_ph_tno
@@ -51,8 +51,10 @@ from
               , b.eml_domain
               , a.last_upd
               
-         from     lead a, prospect b
+         from     lead a, prospect b, code c, code d
          where    a.pros_id = b.pros_id
+         and      a.reg_chnl_cd = c.code
+         and      a.con_type_cd = d.code
          order by a.last_upd desc, b.pros_nm
         ) x
     where rownum <= #{pageNum} * #{amount}
@@ -66,8 +68,8 @@ where rn > (#{pageNum}-1) * #{amount}
 	<resultMap id="leadReceipt" type="com.coreplus.domain.LeadVO">
 		<result column="lead_id" property="lead_id" />
 		<result column="last_upd" property="last_upd" />
-		<result column="reg_chnl_cd" property="reg_chnl_cd" />
-		<result column="con_type_cd" property="con_type_cd" />
+		<result column="reg_chnl_nm" property="reg_chnl_cd" />
+		<result column="con_type_nm" property="con_type_cd" />
 		<collection property="prospectVO" resultMap="prospect" />
 	</resultMap>
 
@@ -81,12 +83,12 @@ where rn > (#{pageNum}-1) * #{amount}
 		<result column="eml_domain" property="eml_domain" />
 	</resultMap>
 
-	<select id="selectOne" parameterType="String" resultMap="leadReceipt">
+	<select id="selectOne" resultMap="leadReceipt">
 <![CDATA[
 
          select a.lead_id     as lead_id
-              , a.reg_chnl_cd as reg_chnl_cd
-              , a.con_type_cd as con_type_cd
+              , c.code_nm     as reg_chnl_nm
+              , d.code_nm     as con_type_nm
               , b.pros_nm     as pros_nm
               , b.cell_ph_no  as cell_ph_no
               , b.cell_ph_tno as cell_ph_tno
@@ -95,9 +97,12 @@ where rn > (#{pageNum}-1) * #{amount}
               , b.eml_domain  as eml_domain
               , a.last_upd    as last_upd
               
-         from     lead a, prospect b
+         from     lead a, prospect b, code c, code d
          where    a.pros_id = b.pros_id
+         and	  a.reg_chnl_cd = c.code
+         and	  a.con_type_cd = d.code
          and      lead_id = #{lead_id}
-]]>	</select>
+]]>	
+</select>
 
 </mapper>

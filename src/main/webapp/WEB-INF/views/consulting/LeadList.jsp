@@ -3,24 +3,60 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<div style="flex-direction:column;">
+
+<script>
+window.onload = function () {
+	
+}
+
+</script>
+
+<div style="flex-direction: column;">
+<!-- 검색 리스트 -->
+
 	<div class="input-group">
 		<div class="input-group-prepend">
-			<span class="input-group-text">접수채널</span> <span
-				class="input-group-text"> <input type="text"
-				aria-label="chenal" class="form-control">
-			</span> <span class="input-group-text">계약형태</span> <span
-				class="input-group-text"> <input type="text"
-				aria-label="contract" class="form-control">
-			</span> <span class="input-group-text">가망고객명</span> <span
-				class="input-group-text"> <input type="text"
-				aria-label="name" class="form-control">
-			</span>
+			<span class="input-group-text">
+				접수채널
+			</span> 
+			<span class="input-group-text">
+				<span class="form-group">
+					<select class="form-control" id="select_reg_chnl_cd">
+						<option value="201">전화</option>
+						<option value="202">이메일</option>
+						<option value="203">SNS</option>
+					</select>
+				</span>
+			</span> 
+			
+			
+			<span class="input-group-text">
+				계약형태
+			</span> 
+			<span class="input-group-text">
+				<span class="form-group">
+					<select class="form-control" id="select_con_type_cd">
+						<option value="301">직영계약</option>
+						<option value="302">가맹계약</option>
+						<option value="303">협력계약</option>
+					</select>
+				</span>
+			</span>  
+			<span class="input-group-text">
+				가망고객명
+			</span> 
+			<span class="input-group-text"> 
+				<input type="text" aria-label="contract" class="form-control">
+			</span> 
 			<div class="input-group-prepend">
 				<button type="button" class="btn btn-primary">검색</button>
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	
 	<div>
 		<table class="table table-hover">
 			<thead>
@@ -46,8 +82,8 @@
 						<td>${lead.prospectVO.cell_ph_no}-${lead.prospectVO.cell_ph_tno}-${lead.prospectVO.cell_ph_no}</td>
 						<td>${lead.prospectVO.eml_id}@${lead.prospectVO.eml_domain}</td>
 						<td><fmt:formatDate var="dateTempParse"
-								pattern="yyyy-MM-dd HH:mm" value="${lead.last_upd}" />
-							<c:out value="${dateTempParse }" /></td>
+								pattern="yyyy-MM-dd HH:mm" value="${lead.last_upd}" /> <c:out
+								value="${dateTempParse }" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>
