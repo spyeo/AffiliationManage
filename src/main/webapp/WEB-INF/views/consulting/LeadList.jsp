@@ -38,7 +38,7 @@
 				<c:forEach var="lead" items="${leadReceiptList}">
 					<tr>
 						<th scope="row"><a
-							href="consulting/lead?lead_id=${lead.lead_id}">${lead.lead_id}</a>
+							href="/consulting/lead?lead_id=${lead.lead_id}">${lead.lead_id}</a>
 						</th>
 						<td>${lead.reg_chnl_cd }</td>
 						<td>${lead.con_type_cd }</td>

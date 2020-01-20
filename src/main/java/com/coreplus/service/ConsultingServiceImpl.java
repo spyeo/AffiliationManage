@@ -28,13 +28,18 @@ public class ConsultingServiceImpl implements ConsultingService{
 	//lead table crud
 	
 	@Override
-	public List<LeadVO> getLeadReceiptList(Criteria cri) {
+	public List<LeadVO> getLeadList(Criteria cri) {
 		return leadMapper.selectJoinList(cri);
 	}
 
 	@Override
 	public int getLeadCount() {
 		return leadMapper.selectCount();
+	}
+
+	@Override
+	public LeadVO getLeadInfo(String lead_id) {
+		return leadMapper.selectOne(lead_id);
 	}
 
 

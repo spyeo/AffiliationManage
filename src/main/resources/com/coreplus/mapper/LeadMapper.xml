@@ -81,4 +81,23 @@ where rn > (#{pageNum}-1) * #{amount}
 		<result column="eml_domain" property="eml_domain" />
 	</resultMap>
 
+	<select id="selectOne" parameterType="String" resultMap="leadReceipt">
+<![CDATA[
+
+         select a.lead_id     as lead_id
+              , a.reg_chnl_cd as reg_chnl_cd
+              , a.con_type_cd as con_type_cd
+              , b.pros_nm     as pros_nm
+              , b.cell_ph_no  as cell_ph_no
+              , b.cell_ph_tno as cell_ph_tno
+              , b.cell_ph_pno as cell_ph_pno
+              , b.eml_id      as eml_id
+              , b.eml_domain  as eml_domain
+              , a.last_upd    as last_upd
+              
+         from     lead a, prospect b
+         where    a.pros_id = b.pros_id
+         and      lead_id = #{lead_id}
+]]>	</select>
+
 </mapper>

@@ -12,4 +12,7 @@ public interface LeadMapper {
 
 
 	public List<LeadVO> selectJoinList(Criteria cri);
+
+
+	public LeadVO selectOne(String lead_id);
 }

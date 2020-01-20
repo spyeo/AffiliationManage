@@ -14,9 +14,11 @@ public interface ConsultingService {
 
 	//lead table crud
 	
-	public List<LeadVO> getLeadReceiptList(Criteria cri);
+	public List<LeadVO> getLeadList(Criteria cri);
 
 	public int getLeadCount();
+	
+	public LeadVO getLeadInfo(String lead_id);
 
 
 }
