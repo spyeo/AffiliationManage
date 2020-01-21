@@ -7,7 +7,15 @@
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script>
 
-
+function search(){
+	var searchfm = $('#searchForm');
+	var regchnl = $('#searchForm [name="reg_chnl_cd"]').val();
+	var contype = $('#searchForm [name="con_type_cd"]').val();
+	var name = $('#searchForm [name="pros_nm"]').val();
+	if(regchnl!="" || contype!="" || name!=""){
+		searchfm.submit();
+	}
+}
 
 function getcodes(code,tag){
 	$.ajax({
@@ -59,56 +67,66 @@ $(document).ready(function (){
 	
 	var actionForm = $("#actionForm");
 	
-	$(".paginate_button a").on("click", function(e){
+	$(".page-item .page-link").on("click", function(e){
 		e.preventDefault();
 		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 		actionForm.submit();
 	});
 	
+	$(".move").on("click", function(e){
+		
+		e.preventDefault();
+		actionForm.append("<input type='hidden' name='lead_id' value='"+$(this).attr("href")+"'>");
+		actionForm.attr("action","/consulting/lead");
+		actionForm.submit();
+	})
+	
 });
 </script>
+<!-- 검색  -->
 
 <div style="flex-direction: column;">
-<!-- 검색 리스트 -->
-	<div class="input-group">
-		<div class="input-group-prepend">
-			<span class="input-group-text">
-				접수채널
-			</span> 
-			<span class="input-group-text">
-				<span class="form-group">
-					<select class="form-control" id="select_reg_chnl_cd">
-						<option value="">없음</option>
-					</select>
-				</span>
-			</span> 
-			
-			
-			<span class="input-group-text">
-				계약형태
-			</span> 
-			<span class="input-group-text">
-				<span class="form-group">
-					<select class="form-control" id="select_con_type_cd">
-						<option value="">없음</option>
-					</select>
-				</span>
-			</span>  
-			<span class="input-group-text">
-				가망고객명
-			</span> 
-			<span class="input-group-text"> 
-				<input type="text" aria-label="contract" class="form-control">
-			</span> 
+	<form id="searchForm" name="searchForm" action="/consulting/search" method="get">
+		<div class="input-group">
 			<div class="input-group-prepend">
-				<button type="button" class="btn btn-primary">검색</button>
+			
+				<span class="input-group-text">
+					접수채널
+				</span> 
+				<span class="input-group-text">
+					<span class="form-group">
+						<select name="reg_chnl_cd" class="form-control" id="select_reg_chnl_cd">
+							<option value="">없음</option>
+						</select>
+					</span>
+				</span> 
+				
+				
+				<span class="input-group-text">
+					계약형태
+				</span> 
+				<span class="input-group-text">
+					<span class="form-group">
+						<select name="con_type_cd" class="form-control" id="select_con_type_cd">
+							<option value="">없음</option>
+						</select>
+					</span>
+				</span>  
+				<span class="input-group-text">
+					가망고객명
+				</span> 
+				<span class="input-group-text"> 
+					<input type="text" name="pros_nm" aria-label="contract" class="form-control">
+				</span> 
+				<span class="input-group-prepend">
+					<button type="button" class="btn btn-primary" onclick="search()">검색</button>
+				</span>
 			</div>
 		</div>
-	</div>
+	</form>	
 	
 	
-	
-	
+<!-- 게시물 리스트 -->
 	<div>
 		<table class="table table-hover">
 			<thead>
@@ -125,49 +143,60 @@ $(document).ready(function (){
 			<tbody>
 				<c:forEach var="lead" items="${leadReceiptList}">
 					<tr>
-						<th scope="row"><a
-							href="/consulting/lead?lead_id=${lead.lead_id}">${lead.lead_id}</a>
-						</th>
+						<td scope="row">
+							<a class="move" href='<c:out value="${lead.lead_id }"/>'>
+								<c:out value="${lead.lead_id }"/>
+							</a>
+						</td>
 						<td>${lead.reg_chnl_cd }</td>
 						<td>${lead.con_type_cd }</td>
 						<td>${lead.prospectVO.pros_nm}</td>
 						<td>${lead.prospectVO.cell_ph_no}-${lead.prospectVO.cell_ph_tno}-${lead.prospectVO.cell_ph_no}</td>
 						<td>${lead.prospectVO.eml_id}@${lead.prospectVO.eml_domain}</td>
 						<td><fmt:formatDate var="dateTempParse"
-								pattern="yyyy-MM-dd HH:mm" value="${lead.last_upd}" /> <c:out
-								value="${dateTempParse }" /></td>
+								pattern="yyyy-MM-dd HH:mm" value="${lead.last_upd}" /> 
+								<c:out value="${dateTempParse }" />
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 	</div>
-
-	<div class="pull-right">
+<!-- 페이징 -->
+	<div class="container">
 		<ul class="pagination">
 
 			<c:if test="${pageMarker.prev}">
-				<li class="paginate_button previous">
-				<a href="${pageMarker.startPage-1 }"
-					class="btn btn-primary">Previous</a></li>
+				<li class="page-item previous">
+				<a href="${pageMarker.startPage-1 }" class="page-link">Previous</a></li>
 			</c:if>
 
 			<c:forEach var="num" begin="${pageMarker.startPage }"
 				end="${pageMarker.endPage }">
 
-				<li class="paginate_button ${pageMarker.cri.pageNum == num ? "active":""}">
-					<a href="${num}" class="btn btn-primary">${num}</a>
-				</li>
+				<c:if test="${pageMarker.cri.pageNum eq num }">
+					<li class="page-item active">
+						<a href="${num}" class="page-link">${num}</a>
+					</li>
+				</c:if>
+				<c:if test="${pageMarker.cri.pageNum ne num }">
+					<li class="page-item">
+						<a href="${num}" class="page-link">${num}</a>
+					</li>
+				</c:if>
 			</c:forEach>
 
 			<c:if test="${pageMaker.next }">
-				<li class="paginate_button next">
-					<a href="${pageMarcker.endPage+1 }" class="btn btn-primary">Next</a>
+				<li class="page-item next">
+					<a href="${pageMarcker.endPage+1 }" class="page-link">Next</a>
 				</li>
 			</c:if>
 		</ul>
-		<form id='actionForm' action="/consulting/leads" method='get'>
-			<input type="hidden" name='pageNum' value = '${pageMarker.cri.pageNum }'>
-			<input type="hidden" name='amount' value='${pageMarker.cri.amount }'>
-		</form>
 	</div>
 </div>
+
+<!-- 페이지 처리 히든 파라매터 -->
+<form id='actionForm' action="/consulting/leads" method='get'>
+	<input type="hidden" name='pageNum' value = '${pageMarker.cri.pageNum }'>
+	<input type="hidden" name='amount' value='${pageMarker.cri.amount }'>
+</form>

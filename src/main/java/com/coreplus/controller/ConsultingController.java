@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.coreplus.domain.Criteria;
 import com.coreplus.domain.LeadVO;
 import com.coreplus.domain.PageDTO;
+import com.coreplus.domain.ProspectVO;
 import com.coreplus.service.ConsultingService;
 
 import lombok.AllArgsConstructor;
@@ -53,9 +54,10 @@ public class ConsultingController {
 	 public ModelAndView search(ModelAndView mv,
 			 @ModelAttribute Criteria cri,
 			 @ModelAttribute LeadVO leadVO,
+			 @ModelAttribute ProspectVO prospectVO,
 			 Model model) {
 		 
-		 
+		 leadVO.setProspectVO(prospectVO);
 		 
 		 
 		 return mv;
