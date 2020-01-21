@@ -12,5 +12,6 @@ public class CodeVO {
 	String created_by;
 	Date created;
 	String last_upd_by;
+	Date last_upd;
 	String code_nm;
 }

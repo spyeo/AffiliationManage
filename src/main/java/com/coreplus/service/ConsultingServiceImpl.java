@@ -20,9 +20,9 @@ public class ConsultingServiceImpl implements ConsultingService{
 	private LeadMapper leadMapper;
 	
 	@Override
-	public List<CodeVO> getCodeList() {
+	public List<CodeVO> getCodeList(String code) {
 		
-		return codeMapper.selectList();
+		return codeMapper.selectList(code);
 	}
 	
 	//lead table crud

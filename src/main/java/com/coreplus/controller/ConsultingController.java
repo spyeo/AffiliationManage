@@ -26,7 +26,10 @@ public class ConsultingController {
 	private ConsultingService service;
 	
 	 @GetMapping("/leads") 
-	public ModelAndView leads(ModelAndView mv, @ModelAttribute Criteria cri, Model model) {
+	public ModelAndView leads(ModelAndView mv, 
+			@ModelAttribute Criteria cri, 
+			Model model) {
+		 
 		int totalCount=service.getLeadCount();
 		List<LeadVO> result=service.getLeadList(cri);
 		model.addAttribute("leadReceiptList", result);
@@ -36,10 +39,25 @@ public class ConsultingController {
 	}
 	 
 	 @GetMapping("/lead")
-	 public ModelAndView lead(ModelAndView mv, @RequestParam String lead_id, Model model) {
+	 public ModelAndView lead(ModelAndView mv, 
+			 @RequestParam String lead_id, 
+			 Model model) {
+		 
 		 LeadVO result=service.getLeadInfo(lead_id);
 		 model.addAttribute("lead",result);
 		 mv.setViewName("consulting/Lead.tiles");
+		 return mv;
+	 }
+	 
+	 @GetMapping("/search")
+	 public ModelAndView search(ModelAndView mv,
+			 @ModelAttribute Criteria cri,
+			 @ModelAttribute LeadVO leadVO,
+			 Model model) {
+		 
+		 
+		 
+		 
 		 return mv;
 	 }
 	
