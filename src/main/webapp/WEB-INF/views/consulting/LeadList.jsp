@@ -17,7 +17,11 @@ function search(){
 	}
 }
 
-function getcodes(code,tag){
+function searchReset(){
+	location.href="/consulting/leads";
+}
+
+function getcodes(code, tag, codename){
 	$.ajax({
 		type : 'get',
 		url : '/consulting/data/codes/'+code,
@@ -27,15 +31,20 @@ function getcodes(code,tag){
 				data=0;
 			}
 			for(var i = 0; i < data.length; i++){
+				
 				$(tag).append("<option value='"+ data[i]['code']
 				+ "'>"+data[i]['code_nm'] + "</option>");
 			}
+			if($('#actionForm [name="'+codename+'"]').val() != null){
+				$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
+			}
+			
 		}
 	})
 }
 
-$(document).ready(getcodes('200','#select_reg_chnl_cd'));
-$(document).ready(getcodes('300','#select_con_type_cd'));
+$(document).ready(getcodes('200','#select_reg_chnl_cd','reg_chnl_cd'));
+$(document).ready(getcodes('300','#select_con_type_cd','con_type_cd'));
 
 $(document).ready(function (){
 	/*
@@ -86,7 +95,8 @@ $(document).ready(function (){
 <!-- 검색  -->
 
 <div style="flex-direction: column;">
-	<form id="searchForm" name="searchForm" action="/consulting/search" method="get">
+	<form id="searchForm" name="searchForm" action="/consulting/leads" method="get">
+		<input type="hidden" name="pageNum" value="1">
 		<div class="input-group">
 			<div class="input-group-prepend">
 			
@@ -116,14 +126,20 @@ $(document).ready(function (){
 					가망고객명
 				</span> 
 				<span class="input-group-text"> 
-					<input type="text" name="pros_nm" aria-label="contract" class="form-control">
+					<input type="text" name="pros_nm" value="${pageMarker.cri.pros_nm }" aria-label="contract" class="form-control">
 				</span> 
 				<span class="input-group-prepend">
 					<button type="button" class="btn btn-primary" onclick="search()">검색</button>
 				</span>
+				<span class="input-group-prepend">
+					<button type="button" class="btn btn-light" onclick="searchReset()">초기화</button>
+				</span>
 			</div>
 		</div>
 	</form>	
+	<div style="float:right;">
+	<a href="/consulting/newlead" class="btn btn-primary">추가</a>
+	</div>
 	
 	
 <!-- 게시물 리스트 -->
@@ -199,4 +215,7 @@ $(document).ready(function (){
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value = '${pageMarker.cri.pageNum }'>
 	<input type="hidden" name='amount' value='${pageMarker.cri.amount }'>
+	<input type="hidden" name='reg_chnl_cd' value='${pageMarker.cri.reg_chnl_cd }'>
+	<input type="hidden" name='con_type_cd' value='${pageMarker.cri.con_type_cd }'>
+	<input type="hidden" name='pros_nm' value='${pageMarker.cri.pros_nm }'>
 </form>

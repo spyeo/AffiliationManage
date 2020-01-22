@@ -16,7 +16,7 @@ public interface ConsultingService {
 	
 	public List<LeadVO> getLeadList(Criteria cri);
 
-	public int getLeadCount();
+	public int getLeadCount(Criteria cri);
 	
 	public LeadVO getLeadInfo(String lead_id);
 

@@ -4,11 +4,47 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.LeadMapper">
 
+	<sql id="criteria">
+		<trim prefix="and (" prefixOverrides="and" suffix=")" >
+			<if test="reg_chnl_cd != null">
+				reg_chnl_cd like '%'||#{reg_chnl_cd}||'%'
+			</if>
+			<if test="con_type_cd != null ">
+				and con_type_cd like '%'||#{con_type_cd}||'%'
+			</if>
+			<if test="pros_nm != null ">
+				and pros_nm like '%'||#{pros_nm}||'%'
+			</if>
+		</trim>
+	</sql>
+
+
+
+	<resultMap id="leadReceipt" type="com.coreplus.domain.LeadVO">
+		<result column="lead_id" property="lead_id" />
+		<result column="last_upd" property="last_upd" />
+		<result column="reg_chnl_nm" property="reg_chnl_cd" />
+		<result column="con_type_nm" property="con_type_cd" />
+		<collection property="prospectVO" resultMap="prospect" />
+	</resultMap>
+
+	<resultMap id="prospect"
+		type="com.coreplus.domain.ProspectVO">
+		<result column="pros_nm" property="pros_nm" />
+		<result column="cell_ph_no" property="cell_ph_no" />
+		<result column="cell_ph_tno" property="cell_ph_tno" />
+		<result column="cell_ph_pno" property="cell_ph_pno" />
+		<result column="eml_id" property="eml_id" />
+		<result column="eml_domain" property="eml_domain" />
+	</resultMap>
+
 	<select id="selectCount" resultType="int">
+<![CDATA[	
 		select count(*)
-		from lead ld,
-		prospect pros
-		where ld.pros_id = pros.pros_id
+		from lead a, prospect b
+		where a.pros_id = b.pros_id
+]]>
+        <include refid="criteria"></include>
 	</select>
 
 	<select id="selectJoinList" resultMap="leadReceipt">
@@ -55,6 +91,11 @@ from
          where    a.pros_id = b.pros_id
          and      a.reg_chnl_cd = c.code
          and      a.con_type_cd = d.code
+         ]]>
+         
+         <include refid="criteria"></include>
+         
+         <![CDATA[
          order by a.last_upd desc, b.pros_nm
         ) x
     where rownum <= #{pageNum} * #{amount}
@@ -64,24 +105,6 @@ where rn > (#{pageNum}-1) * #{amount}
 
 	</select>
 
-
-	<resultMap id="leadReceipt" type="com.coreplus.domain.LeadVO">
-		<result column="lead_id" property="lead_id" />
-		<result column="last_upd" property="last_upd" />
-		<result column="reg_chnl_nm" property="reg_chnl_cd" />
-		<result column="con_type_nm" property="con_type_cd" />
-		<collection property="prospectVO" resultMap="prospect" />
-	</resultMap>
-
-	<resultMap id="prospect"
-		type="com.coreplus.domain.ProspectVO">
-		<result column="pros_nm" property="pros_nm" />
-		<result column="cell_ph_no" property="cell_ph_no" />
-		<result column="cell_ph_tno" property="cell_ph_tno" />
-		<result column="cell_ph_pno" property="cell_ph_pno" />
-		<result column="eml_id" property="eml_id" />
-		<result column="eml_domain" property="eml_domain" />
-	</resultMap>
 
 	<select id="selectOne" resultMap="leadReceipt">
 <![CDATA[

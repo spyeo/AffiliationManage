@@ -33,8 +33,8 @@ public class ConsultingServiceImpl implements ConsultingService{
 	}
 
 	@Override
-	public int getLeadCount() {
-		return leadMapper.selectCount();
+	public int getLeadCount(Criteria cri) {
+		return leadMapper.selectCount(cri);
 	}
 
 	@Override

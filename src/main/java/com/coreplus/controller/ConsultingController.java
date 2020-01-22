@@ -13,55 +13,42 @@ import org.springframework.web.servlet.ModelAndView;
 import com.coreplus.domain.Criteria;
 import com.coreplus.domain.LeadVO;
 import com.coreplus.domain.PageDTO;
-import com.coreplus.domain.ProspectVO;
 import com.coreplus.service.ConsultingService;
 
 import lombok.AllArgsConstructor;
-
 
 @Controller
 @AllArgsConstructor
 @RequestMapping("/consulting")
 public class ConsultingController {
-	
+
 	private ConsultingService service;
-	
-	 @GetMapping("/leads") 
-	public ModelAndView leads(ModelAndView mv, 
-			@ModelAttribute Criteria cri, 
-			Model model) {
-		 
-		int totalCount=service.getLeadCount();
-		List<LeadVO> result=service.getLeadList(cri);
+
+	@GetMapping("/leads")
+	public ModelAndView leads(ModelAndView mv, @ModelAttribute Criteria cri, Model model) {
+		
+		int totalCount = service.getLeadCount(cri);
+		List<LeadVO> result = service.getLeadList(cri);
 		model.addAttribute("leadReceiptList", result);
-		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
+		model.addAttribute("pageMarker", new PageDTO(cri, totalCount));
 		mv.setViewName("consulting/LeadList.tiles");
+		
 		return mv;
 	}
-	 
-	 @GetMapping("/lead")
-	 public ModelAndView lead(ModelAndView mv, 
-			 @RequestParam String lead_id, 
-			 Model model) {
-		 
-		 LeadVO result=service.getLeadInfo(lead_id);
-		 model.addAttribute("lead",result);
-		 mv.setViewName("consulting/Lead.tiles");
-		 return mv;
-	 }
-	 
-	 @GetMapping("/search")
-	 public ModelAndView search(ModelAndView mv,
-			 @ModelAttribute Criteria cri,
-			 @ModelAttribute LeadVO leadVO,
-			 @ModelAttribute ProspectVO prospectVO,
-			 Model model) {
-		 
-		 leadVO.setProspectVO(prospectVO);
-		 
-		 
-		 return mv;
-	 }
+
+	@GetMapping("/lead")
+	public ModelAndView lead(ModelAndView mv, @RequestParam String lead_id, Model model) {
+
+		LeadVO result = service.getLeadInfo(lead_id);
+		model.addAttribute("lead", result);
+		mv.setViewName("consulting/Lead.tiles");
+		return mv;
+	}
 	
-	
+	@GetMapping("/newlead")
+	public ModelAndView newlead(ModelAndView mv) {
+		mv.setViewName("consulting/LeadInsertForm.tiles");
+		return mv;
+	}
+
 }
