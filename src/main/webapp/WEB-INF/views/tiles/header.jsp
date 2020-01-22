@@ -22,8 +22,8 @@
      <div class="minimenu">
 		<ul class="breadcrumb pamini"> 
             <li class="breadcrumb-item"><a href="/">홈</a></li>
-            <li class="breadcrumb-item"><a href="#!">가맹점</a></li>
-            <li class="breadcrumb-item"><a href="#!">가맹점 정보</a></li>
+            <li class="breadcrumb-item"><a href="#">가맹점</a></li>
+            <li class="breadcrumb-item"><a href="#">가맹점 정보</a></li>
         </ul>
      </div>
         
