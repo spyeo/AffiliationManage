@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coreplus.mapper.StoreMapper">
+
+<select id="getList" resultMap="fcombine">
+	
+	select b.brand_cd                    as brand_cd
+	     , b.fra_cd                      as fra_cd
+	     , s.str_cd                      as str_cd
+	     , s.str_nm                      as str_nm
+	     , s.str_rep_nm                   as str_rep_nm
+	     , s.ph_area_no               as ph_area_no
+	     , s.ph_tno                  as ph_tno
+	     , s.ph_cno                  as ph_cno
+	     , s.str_addr                as str_addr
+	     , s.str_addr_dtl            as str_addr_dtl
+	  from franchise f
+	     , brand b
+	     , store s
+	 where b.brand_cd = s.brand_cd
+	   and f.fra_cd = b.fra_cd
+
+</select>
+
+<insert id="insert">
+
+	insert into 
+     store 
+	     (
+	       str_cd
+	     , created_by
+	     , last_upd_by
+	     , str_nm
+	     , str_rep_nm
+	     , str_zipcd
+	     , str_addr
+	     , str_addr_dtl
+	     , ph_area_no
+	     , ph_tno
+	     , ph_cno
+	     , brand_cd
+	     )
+    values 
+    	 ( 
+    	   #{str_cd}
+         , #{created_by}
+         , #{last_upd_by}
+         , #{str_nm}
+         , #{str_rep_nm}
+         , #{str_zipcd}
+         , #{str_addr}
+         , #{str_addr_dtl}
+         , #{ph_area_no}
+         , #{ph_tno}
+         , #{ph_cno}
+         , #{brand_cd}
+         )
+
+</insert>
+
+<select id="read" resultType="com.coreplus.domain.StoreVO">
+	
+	select * 
+	  from store
+	 where str_cd
+	     = #{str_cd}
+	
+</select>
+
+<delete id="delete">
+
+	delete store
+	 where str_cd
+	     = #{str_cd}
+
+</delete>
+
+<update id="update">
+
+	update store
+	   set str_nm = #{str_nm}
+	     , str_rep_nm = #{str_rep_nm}
+	     , str_zipcd = #{str_zipcd}
+	     , str_addr = #{str_addr}
+	     , str_addr_dtl = #{str_addr_dtl}
+	     , ph_area_no = #{ph_area_no}
+	     , ph_tno = #{ph_tno}
+	     , ph_cno = #{ph_cno}
+	     , brand_cd = #{brand_cd}
+         , last_upd = sysdate
+     where str_cd = #{str_cd}
+     
+</update>
+
+	<resultMap id="fcombine" type="com.coreplus.domain.StoreVO">
+		<result column="str_cd" property="str_cd" />
+		<result column="str_nm" property="str_nm" />
+		<result column="str_rep_nm" property="str_rep_nm" />
+		<result column="ph_area_no" property="ph_area_no" />
+		<result column="ph_tno" property="ph_tno" />
+		<result column="ph_cno" property="ph_cno" />
+		<result column="str_addr" property="str_addr" />
+		<result column="str_addr_dtl" property="str_addr_dtl" />
+		<collection property="franchise" resultMap="franchise" />
+		<collection property="Brand" resultMap="brand" />
+	</resultMap>
+
+	<resultMap id="brand" type="com.coreplus.domain.BrandVO">
+		<result column="brand_cd" property="brand_cd" />
+	</resultMap>
+	
+	<resultMap id="franchise" type="com.coreplus.domain.FranchiseVO">
+		<result column="fra_cd" property="fra_cd" />
+	</resultMap>
+
+</mapper>

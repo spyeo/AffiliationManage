@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class FranchiseVO {
 
-	private String fra_Cd;
+	private String fra_cd;
 	private String del_yn;
 	private String created_by;
 	private Date created;

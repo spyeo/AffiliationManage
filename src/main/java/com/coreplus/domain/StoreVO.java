@@ -3,6 +3,9 @@ package com.coreplus.domain;
 import java.util.Date;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Data
 public class StoreVO {
@@ -22,5 +25,7 @@ public class StoreVO {
 	private int ph_tno;
 	private int ph_cno;
 	private String brand_cd;
+	private BrandVO brand;
+	private FranchiseVO franchise;
 	
 }
