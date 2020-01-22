@@ -20,21 +20,26 @@ public class ConsultingServiceImpl implements ConsultingService{
 	private LeadMapper leadMapper;
 	
 	@Override
-	public List<CodeVO> getCodeList() {
+	public List<CodeVO> getCodeList(String code) {
 		
-		return codeMapper.selectList();
+		return codeMapper.selectList(code);
 	}
 	
 	//lead table crud
 	
 	@Override
-	public List<LeadVO> getLeadReceiptList(Criteria cri) {
+	public List<LeadVO> getLeadList(Criteria cri) {
 		return leadMapper.selectJoinList(cri);
 	}
 
 	@Override
-	public int getLeadCount() {
-		return leadMapper.selectCount();
+	public int getLeadCount(Criteria cri) {
+		return leadMapper.selectCount(cri);
+	}
+
+	@Override
+	public LeadVO getLeadInfo(String lead_id) {
+		return leadMapper.selectOne(lead_id);
 	}
 
 
