@@ -4,70 +4,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.LeadMapper">
 
-	<select id="selectCount" resultType="int">
-		select count(*)
-		from lead ld,
-		prospect pros
-		where ld.pros_id = pros.pros_id
-	</select>
+	<sql id="criteria">
+		<trim prefix="and (" prefixOverrides="and" suffix=")" >
+			<if test="reg_chnl_cd != null">
+				reg_chnl_cd like '%'||#{reg_chnl_cd}||'%'
+			</if>
+			<if test="con_type_cd != null ">
+				and con_type_cd like '%'||#{con_type_cd}||'%'
+			</if>
+			<if test="pros_nm != null ">
+				and pros_nm like '%'||#{pros_nm}||'%'
+			</if>
+		</trim>
+	</sql>
 
-	<select id="selectJoinList" resultMap="leadReceipt">
-
-<![CDATA[
-select lead_id
-     , reg_chnl_cd
-     , con_type_cd
-     , pros_nm
-     , cell_ph_no
-     , cell_ph_tno
-     , cell_ph_pno
-     , eml_id
-     , eml_domain
-     , last_upd
-     
-from 
-    (
-    select rownum as rn
-         , x.lead_id
-         , x.reg_chnl_cd
-         , x.con_type_cd
-         , x.pros_nm
-         , x.cell_ph_no
-         , x.cell_ph_tno
-         , x.cell_ph_pno
-         , x.eml_id
-         , x.eml_domain
-         , x.last_upd
-         
-    from 
-        (select a.lead_id
-              , a.reg_chnl_cd
-              , a.con_type_cd
-              , b.pros_nm
-              , b.cell_ph_no
-              , b.cell_ph_tno
-              , b.cell_ph_pno
-              , b.eml_id
-              , b.eml_domain
-              , a.last_upd
-              
-         from     lead a, prospect b
-         where    a.pros_id = b.pros_id
-         order by a.last_upd desc, b.pros_nm
-        ) x
-    where rownum <= #{pageNum} * #{amount}
-    )
-where rn > (#{pageNum}-1) * #{amount}
-]]>
-
-	</select>
 
 
 	<resultMap id="leadReceipt" type="com.coreplus.domain.LeadVO">
 		<result column="lead_id" property="lead_id" />
 		<result column="last_upd" property="last_upd" />
-		<result column="reg_chnl_cd" property="reg_chnl_cd" />
-		<result column="con_type_cd" property="con_type_cd" />
+		<result column="reg_chnl_nm" property="reg_chnl_cd" />
+		<result column="con_type_nm" property="con_type_cd" />
 		<collection property="prospectVO" resultMap="prospect" />
 	</resultMap>
 
@@ -80,5 +37,95 @@ where rn > (#{pageNum}-1) * #{amount}
 		<result column="eml_id" property="eml_id" />
 		<result column="eml_domain" property="eml_domain" />
 	</resultMap>
+
+	<select id="selectCount" resultType="int">
+<![CDATA[	
+		select count(*)
+		from lead a, prospect b
+		where a.pros_id = b.pros_id
+]]>
+        <include refid="criteria"></include>
+	</select>
+
+	<select id="selectJoinList" resultMap="leadReceipt">
+
+<![CDATA[
+select lead_id
+     , reg_chnl_nm
+     , con_type_nm
+     , pros_nm
+     , cell_ph_no
+     , cell_ph_tno
+     , cell_ph_pno
+     , eml_id
+     , eml_domain
+     , last_upd
+     
+from 
+    (
+    select rownum as rn
+         , x.lead_id
+         , x.reg_chnl_nm
+         , x.con_type_nm
+         , x.pros_nm
+         , x.cell_ph_no
+         , x.cell_ph_tno
+         , x.cell_ph_pno
+         , x.eml_id
+         , x.eml_domain
+         , x.last_upd
+         
+    from 
+        (select a.lead_id
+              , c.code_nm     as reg_chnl_nm
+              , d.code_nm     as con_type_nm
+              , b.pros_nm
+              , b.cell_ph_no
+              , b.cell_ph_tno
+              , b.cell_ph_pno
+              , b.eml_id
+              , b.eml_domain
+              , a.last_upd
+              
+         from     lead a, prospect b, code c, code d
+         where    a.pros_id = b.pros_id
+         and      a.reg_chnl_cd = c.code
+         and      a.con_type_cd = d.code
+         ]]>
+         
+         <include refid="criteria"></include>
+         
+         <![CDATA[
+         order by a.last_upd desc, b.pros_nm
+        ) x
+    where rownum <= #{pageNum} * #{amount}
+    )
+where rn > (#{pageNum}-1) * #{amount}
+]]>
+
+	</select>
+
+
+	<select id="selectOne" resultMap="leadReceipt">
+<![CDATA[
+
+         select a.lead_id     as lead_id
+              , c.code_nm     as reg_chnl_nm
+              , d.code_nm     as con_type_nm
+              , b.pros_nm     as pros_nm
+              , b.cell_ph_no  as cell_ph_no
+              , b.cell_ph_tno as cell_ph_tno
+              , b.cell_ph_pno as cell_ph_pno
+              , b.eml_id      as eml_id
+              , b.eml_domain  as eml_domain
+              , a.last_upd    as last_upd
+              
+         from     lead a, prospect b, code c, code d
+         where    a.pros_id = b.pros_id
+         and	  a.reg_chnl_cd = c.code
+         and	  a.con_type_cd = d.code
+         and      lead_id = #{lead_id}
+]]>	
+</select>
 
 </mapper>

@@ -10,13 +10,15 @@ import com.coreplus.domain.LeadVO;
 public interface ConsultingService {
 	
 	//code table crud
-	public List<CodeVO> getCodeList();
+	public List<CodeVO> getCodeList(String code);
 
 	//lead table crud
 	
-	public List<LeadVO> getLeadReceiptList(Criteria cri);
+	public List<LeadVO> getLeadList(Criteria cri);
 
-	public int getLeadCount();
+	public int getLeadCount(Criteria cri);
+	
+	public LeadVO getLeadInfo(String lead_id);
 
 
 }

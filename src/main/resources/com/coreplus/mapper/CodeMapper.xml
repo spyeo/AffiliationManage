@@ -14,7 +14,9 @@ select code_type
      , last_upd_by
      , last_upd
      , code_nm
-  from code
+from   code
+where code_type = #{code}
+  
 
 </select>
 
