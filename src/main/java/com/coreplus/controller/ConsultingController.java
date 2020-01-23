@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.coreplus.domain.Criteria;
 import com.coreplus.domain.LeadVO;
 import com.coreplus.domain.PageDTO;
+import com.coreplus.domain.ProspectVO;
 import com.coreplus.service.ConsultingService;
 
 import lombok.AllArgsConstructor;
@@ -45,10 +47,21 @@ public class ConsultingController {
 		return mv;
 	}
 	
-	@GetMapping("/newlead")
-	public ModelAndView newlead(ModelAndView mv) {
-		mv.setViewName("consulting/LeadInsertForm.tiles");
+	@GetMapping("/registlead")
+	public ModelAndView newlead(ModelAndView mv, @ModelAttribute Criteria cri, Model model) {
+		int totalCount=service.getLeadCount(cri);
+		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
+		mv.setViewName("consulting/LeadRegistForm.tiles");
 		return mv;
+	}
+	
+	@PostMapping("/registlead")
+	public String newlead(@ModelAttribute LeadVO leadVO,
+			@ModelAttribute ProspectVO prospectVO,
+			@ModelAttribute Criteria cri, Model model) {
+		
+		leadVO.setProspectVO(prospectVO);
+		return "redirect:/consulting/leads";
 	}
 
 }

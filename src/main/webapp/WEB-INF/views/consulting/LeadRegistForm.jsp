@@ -4,35 +4,56 @@
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 
 <script>
-	function getcodes(code, tag, codename) {
-		$.ajax({
-			type : 'get',
-			url : '/consulting/data/codes/' + code,
-			dataType : 'json',
-			success : function(data) {
-				if (data == null) {
-					data = 0;
-				}
-				for (var i = 0; i < data.length; i++) {
+function registLead(){
 
-					$(tag).append(
-							"<option value='"+ data[i]['code']
-				+ "'>"
-									+ data[i]['code_nm'] + "</option>");
-				}
-				if ($('#actionForm [name="' + codename + '"]').val() != null) {
-					$(tag)
-							.val(
-									$('#actionForm [name="' + codename + '"]')
-											.val()).prop("selected", true);
-				}
+	var queryString = $("form[id=registForm]").serialize();
+	
+	$.ajax({
+		type : 'get',
+		url : '/consulting/registlead',
+		data : queryString,
+		dataType : 'json',
+		success : function(data){
+			alert('저장되었습니다.');
+		},
+		error : function(xhr, status, error){
+			alert('저장에 실패했습니다.');
+			console.log(queryString);
+		}
+	});
+}
 
+function backToLeads(){
+	
+	document.getElementById('#actionForm').submit();
+}
+
+function getcodes(code, tag, codename){
+	$.ajax({
+		type : 'get',
+		url : '/consulting/data/codes/'+code,
+		dataType : 'json',
+		success : function(data){
+			if(data==null){
+				data=0;
 			}
-		})
-	}
+			for(var i = 0; i < data.length; i++){
+				
+				$(tag).append("<option value='"+ data[i]['code']
+				+ "'>"+data[i]['code_nm'] + "</option>");
+			}
+			if(codename!=null){
+				if($('#actionForm [name="'+codename+'"]').val() != null){
+					$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
+				}
+			}
+			
+		}
+	});
+}
 
-	$(document).ready(getcodes('200', '#select_reg_chnl_cd', 'reg_chnl_cd'));
-	$(document).ready(getcodes('300', '#select_con_type_cd', 'con_type_cd'));
+$(document).ready(getcodes('200', '#select_reg_chnl_cd', null));
+$(document).ready(getcodes('300', '#select_con_type_cd', null));
 </script>
 
 <div id="content-wrapper">
@@ -42,7 +63,7 @@
 		<div class="col-sm-12">
 			<div class="card">
 				<div class="card-block">
-					<form name="input" method="post" action="consulting/newlead">
+					<form id="registForm" method="post" action="/consulting/registlead">
 						<table id="demo-foo-filtering" class="table">
 							<tbody>
 								<tr>
@@ -108,7 +129,7 @@
 									<th>접수채널</th>
 									<th>
 										<div class="col-12">
-											<select name="select_reg_chnl_cd" id="select_reg_chnl_cd"
+											<select name="reg_chnl_cd" id="select_reg_chnl_cd"
 												class="js-example-basic-single form-control plus-imp">
 												<option value="">없음</option>
 											</select>
@@ -117,7 +138,7 @@
 									<th>계약형태</th>
 									<th>
 										<div class="col-12">
-											<select name="select_con_type_cd" id="select_con_type_cd"
+											<select name="con_type_cd" id="select_con_type_cd"
 												class="js-example-basic-single form-control plus-imp">
 												<option value="">없음</option>
 											</select>
@@ -136,9 +157,9 @@
 							</tbody>
 						</table>
 						<div id="plus-size1" class="modal-footer">
-							<button type="submit" class="btn btn-primary">저장</button>
-							<button type="button" class="btn btn-secondary">취소</button>
-							<button type="button" class="btn btn-default">목록</button>
+							<button type="button" id="regist" class="btn btn-primary" onclick="registLead()">저장</button>
+							<button type="button" id="calcel" class="btn btn-secondary">취소</button>
+							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
 						</div>
 					</form>
 				</div>
@@ -172,10 +193,9 @@
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value='${pageMarker.cri.pageNum }'>
 	<input type="hidden" name='amount' value='${pageMarker.cri.amount }'>
-	<input type="hidden" name='reg_chnl_cd'
-		value='${pageMarker.cri.reg_chnl_cd }'> <input type="hidden"
-		name='con_type_cd' value='${pageMarker.cri.con_type_cd }'> <input
-		type="hidden" name='pros_nm' value='${pageMarker.cri.pros_nm }'>
+	<input type="hidden" name='reg_chnl_cd' value='${pageMarker.cri.reg_chnl_cd }'> 
+	<input type="hidden" name='con_type_cd' value='${pageMarker.cri.con_type_cd }'> 
+	<input type="hidden" name='pros_nm' value='${pageMarker.cri.pros_nm }'>
 </form>
 
 

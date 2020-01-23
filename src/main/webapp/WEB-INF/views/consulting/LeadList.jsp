@@ -7,6 +7,15 @@
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script>
 
+function newLead(){
+	var actionForm=$('#actionForm');
+	actionForm.attr("action", "/consulting/registlead");
+	actionForm.submit();
+    
+    
+	
+}
+
 function search(){
 	var searchfm = $('#searchForm');
 	var regchnl = $('#searchForm [name="reg_chnl_cd"]').val();
@@ -89,7 +98,6 @@ $(document).ready(function (){
 		actionForm.attr("action","/consulting/lead");
 		actionForm.submit();
 	})
-	
 });
 </script>
 <!-- 검색  -->
@@ -138,7 +146,7 @@ $(document).ready(function (){
 		</div>
 	</form>	
 	<div style="float:right;">
-	<a href="/consulting/newlead" class="btn btn-primary">추가</a>
+	<input type="button" onclick="newLead()" class="btn btn-primary" value="추가">
 	</div>
 	
 	
