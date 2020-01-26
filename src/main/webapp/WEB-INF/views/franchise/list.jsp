@@ -17,7 +17,7 @@
 												<div class="input-group-prepend">
 												
 													<span class="input-group-text">
-														접수채널
+														가맹사업
 													</span> 
 													<span class="input-group-text">
 														<span class="form-group">
@@ -29,7 +29,7 @@
 													
 													
 													<span class="input-group-text">
-														계약형태
+														브랜드
 													</span> 
 													<span class="input-group-text">
 														<span class="form-group">
