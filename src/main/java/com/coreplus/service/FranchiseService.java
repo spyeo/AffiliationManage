@@ -2,6 +2,7 @@ package com.coreplus.service;
 
 import java.util.List;
 
+import com.coreplus.domain.Criteria;
 import com.coreplus.domain.StoreVO;
 
 public interface FranchiseService {
@@ -14,4 +15,5 @@ public interface FranchiseService {
 	
 	public List<StoreVO> getList();
 	
+	//public List<StoreVO> getList(Criteria cri);
 }

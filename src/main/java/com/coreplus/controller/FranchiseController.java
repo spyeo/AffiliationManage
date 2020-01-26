@@ -24,12 +24,26 @@ public class FranchiseController {
 	private FranchiseService service;
 	
 	@GetMapping("/list")
-	public void list(Model model) {
+	public ModelAndView list(ModelAndView mv, Model model) {
 		
 		log.info("list  ::  : :: :: ");
 		model.addAttribute("list", service.getList());
+		mv.setViewName("franchise/list.tiles");
+		
+		return mv;
 		
 	}
+	
+	/*@GetMapping("/list")
+	public ModelAndView list(ModelAndView mv, Criteria cri, Model model) {
+		
+		log.info("list  ::  : :: :: " + cri);
+		model.addAttribute("list", service.getList(cri));
+		mv.setViewName("franchise/list.tiles");
+		
+		return mv;
+		
+	}*/
 	
 	@PostMapping("/insert")
 	public String insert(StoreVO store, RedirectAttributes rttr) {
@@ -42,7 +56,7 @@ public class FranchiseController {
 		
 	}
 	
-	@GetMapping("/franchise/insert")
+	@GetMapping("/insert")
 	public ModelAndView insert(ModelAndView mv){
 		
 		mv.setViewName("franchise/insert.tiles");
