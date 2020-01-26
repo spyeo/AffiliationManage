@@ -23,3 +23,7 @@
     
     <!-- header css 수정 -->
     <link href="/resources/css/main-header.css" rel="stylesheet">
+    
+     <!-- franchise css -->
+    <link href="/resources/css/franchise.css" rel="stylesheet">
+    
