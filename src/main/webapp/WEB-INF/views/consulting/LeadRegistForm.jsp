@@ -18,7 +18,7 @@ function registLead(){
 			alert('저장되었습니다.');
 		},
 		error : function(xhr, status, error){
-			alert(queryString);
+			alert('실패했습니다.');
 		}
 	});
 }
@@ -76,6 +76,11 @@ $(document).ready(function(){
 		}
 	})
 });
+$(document).ready(function(){
+	$("#exampleModalCenter").on('show.bs.modal', function (event) {
+		//이벤트 생성
+	});
+});
 </script>
 
 <div id="content-wrapper">
@@ -92,7 +97,6 @@ $(document).ready(function(){
 									<th>모객접수ID</th>
 									<th><input name="lead_id" type="text"
 										class="form-control plus-imp"></th>
-
 								</tr>
 								<tr>
 									<th>고객명</th>
@@ -101,8 +105,8 @@ $(document).ready(function(){
   											<input type="text" class="form-control">
  					 						<div class="input-group-append">
 	    										<span class="input-group-text" id="basic-addon2">
-		    										<a href="#" data-toggle="modal"
-													data-target="#exampleModalCenter"">검색</a>
+		    										 <a href="#" data-toggle="modal"
+													data-target="#exampleModalCenter">검색</a>
 												</span>
 										  </div>
 										</div>
@@ -209,7 +213,8 @@ $(document).ready(function(){
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">...</div>
+			<div class="modal-body">
+			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-primary">Save changes</button>
@@ -217,6 +222,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 </div>
+
 
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value='${pageMarker.cri.pageNum }'>

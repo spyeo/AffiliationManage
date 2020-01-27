@@ -63,5 +63,12 @@ public class ConsultingController {
 		leadVO.setProspectVO(prospectVO);
 		return "redirect:/consulting/leads";
 	}
+	
+	@GetMapping("/prospects")
+	public String prospects(@ModelAttribute Criteria cri, Model model){
+		List<ProspectVO> result = service.getProspectList(cri);
+		model.addAttribute("prospects",result);
+		return "consulting/Prospects";
+	}
 
 }
