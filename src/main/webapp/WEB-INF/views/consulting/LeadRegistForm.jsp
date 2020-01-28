@@ -5,6 +5,16 @@
 
 <script>
 
+function searchProspects(){
+	var url = "/consulting/prospects";
+	if($("input[id='newProspect']:checked").length<=0){
+		$("#exampleModalLabel").load(url, function(){
+			$("#exampleModalLabel").modal();
+			
+		});
+	}
+}
+
 function registLead(){
 
 	var queryString = $("form[id=registForm]").serialize();
@@ -57,7 +67,6 @@ $(document).ready(getcodes('300', '#select_con_type_cd', null));
 $(document).ready(function(){
 	$("#newProspect").change(function(){
 		if($("#newProspect").is(":checked")){
-			$("#pros_id").attr("readonly",false);
 			$("#pros_nm").attr("readonly",false);
 			$("#cell_ph_no").attr("readonly",false);
 			$("#cell_ph_tno").attr("readonly",false);
@@ -66,7 +75,6 @@ $(document).ready(function(){
 			$("#eml_domain").attr("readonly",false);
 		}
 		else{
-			$("#pros_id").attr("readonly",true);
 			$("#pros_nm").attr("readonly",true);
 			$("#cell_ph_no").attr("readonly",true);
 			$("#cell_ph_tno").attr("readonly",true);
@@ -93,11 +101,15 @@ $(document).ready(function(){
 					<form id="registForm" method="post" action="/consulting/registlead">
 						<table id="demo-foo-filtering" class="table">
 							<tbody>
+								
+								<!-- 
 								<tr>
 									<th>모객접수ID</th>
-									<th><input name="lead_id" type="text"
-										class="form-control plus-imp"></th>
+									<th><input name="lead_id" type="text" value="자동채번 됩니다."
+										class="form-control plus-imp" readonly></th>
 								</tr>
+								 -->
+								
 								<tr>
 									<th>고객명</th>
 									<th>
@@ -105,22 +117,30 @@ $(document).ready(function(){
   											<input type="text" class="form-control">
  					 						<div class="input-group-append">
 	    										<span class="input-group-text" id="basic-addon2">
-		    										 <a href="#" data-toggle="modal"
-													data-target="#exampleModalCenter">검색</a>
+		    										 <a href="#" id="searchProspects" onclick="searchProspects()">검색</a>
 												</span>
 										  </div>
 										</div>
-										</th>
+									</th>
 									<th>신규여부</th>
 									<th><label><input type="checkbox" id="newProspect">신규</label></th>
 								</tr>
 								<tr>
-									<th>가망고객ID</th>
-									<th><input id="pros_id" name="pros_id" type="text"
+									
+									<!-- <th>가망고객ID</th>
+									<th><input id="pros_id" name="pros_id" type="text" value="자동채번 됩니다."
 										class="form-control plus-imp" readonly></th>
+									 -->
 									<th>가망고객명</th>
-									<th><input id="pros_nm" name="pros_nm" type="text"
-										class="form-control plus-imp" readonly></th>
+									<th colspan="3">
+										<div class="row">
+											<div class="col-lg-6">
+												<input id="pros_nm" name="pros_nm" type="text"
+										class="form-control" readonly>
+											</div>
+										</div>
+									</th>
+									
 								</tr>
 								<tr>
 									<th>이동전화</th>
@@ -149,12 +169,12 @@ $(document).ready(function(){
 										<div class="row">
 											<div class="col-lg-5">
 												<input id="eml_id" name="eml_id" type="text"
-													class="form-control plus-imp" readonly>
+													class="form-control" readonly>
 											</div>
 											<div class="col-lg-1">@</div>
 											<div class="col-lg-6">
 												<input id="eml_domain" name="eml_domain" type="text"
-													class="form-control plus-imp" readonly>
+													class="form-control" readonly>
 											</div>
 										</div>
 									</th>
@@ -164,7 +184,7 @@ $(document).ready(function(){
 									<th>
 										<div class="col-12">
 											<select name="reg_chnl_cd" id="select_reg_chnl_cd"
-												class="js-example-basic-single form-control plus-imp">
+												class="js-example-basic-single form-control">
 												<option value="">없음</option>
 											</select>
 										</div>
@@ -173,7 +193,7 @@ $(document).ready(function(){
 									<th>
 										<div class="col-12">
 											<select name="con_type_cd" id="select_con_type_cd"
-												class="js-example-basic-single form-control plus-imp">
+												class="js-example-basic-single form-control">
 												<option value="">없음</option>
 											</select>
 										</div>
@@ -201,28 +221,12 @@ $(document).ready(function(){
 	</div>
 </div>
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1"
-	role="dialog" aria-labelledby="exampleModalCenterTitle"
-	aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
-		</div>
-	</div>
+<div id="exampleModalLabel" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" style="width:600px;height:350px;backgroud-color:white">
+        <div class="modal-content">
+        </div>
+    </div>
 </div>
-
 
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value='${pageMarker.cri.pageNum }'>
