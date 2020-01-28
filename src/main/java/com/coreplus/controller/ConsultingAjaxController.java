@@ -26,4 +26,15 @@ public class ConsultingAjaxController {
 		List<CodeVO> result=service.getCodeList(code);
 		return result;
 	}
+	
+	/*
+	 @GetMapping(value="/prospects/{pageNum}", produces= {
+			MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public List<ProspectVO> prospects(@PathVariable("pageNum") int pageNum){
+		Criteria cri=new Criteria();
+		cri.setPageNum(pageNum);
+		List<ProspectVO> result = service.getProspectList(cri);
+		return result;
+	}
+	 */
 }
