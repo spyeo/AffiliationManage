@@ -11,49 +11,43 @@
 
    <div class="col-sm-12">
                                     <div class="card">
-                                        <div class="card-header">
-                                         <tr><th>가맹사업
-                                             <div class='row' style="padding-top:15px">
-                                      <form id='searchForm' action="franchise/list" method='get'>
-                                         <select name='type'>
-                                            <option value="" 
-                                               <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>매장</option>
-                                            <option value="T" 
-                                               <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>배달</option>
-                                            <option value="C" 
-                                               <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>O2O</option>
-                                         </select>
-                                      </form>
-                                </div>
-                                	</th>
-                                	<th>브랜드
-                                     <div class='row' style="padding-top:15px">
-                                      <form id='searchForm' action="franchise/list" method='get' >
-                                         <select name='type'>
-                                            <option value="" 
-                                               <c:out value="${pageMaker.cri.type == null?'selected':''}"/>>돈까스</option>
-                                            <option value="T" 
-                                               <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>일식</option>
-                                            <option value="C" 
-                                               <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>분식</option>
-                                            <option value="W" 
-                                               <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>도시락</option>
-                                            <option value="T" 
-                                               <c:out value="${pageMaker.cri.type eq 'T'?'selected':''}"/>>햄버거</option>
-                                            <option value="C" 
-                                               <c:out value="${pageMaker.cri.type eq 'C'?'selected':''}"/>>한식</option>
-                                            <option value="W" 
-                                               <c:out value="${pageMaker.cri.type eq 'W'?'selected':''}"/>>설렁탕</option>   
-                                         </select>
-                                      </form>
-                                      </th></tr>
-                                </div>
-                                             <div class="card-header-right">
-                                                <div id="plus-size1" class="modal-footer">
-                                                         <button type="button" onclick="location.href='franchise/insert'" class="btn btn-primary">등록</button>
-                                                         <button type="button" class="btn btn-secondary">조회</button>
-                                                </div>
-                                            </div>
+                                        <form id="searchForm" name="searchForm" action="/consulting/leads" method="get">
+											<input type="hidden" name="pageNum" value="1">
+											<div class="input-group">
+												<div class="input-group-prepend">
+												
+													<span class="input-group-text">
+														가맹사업
+													</span> 
+													<span class="input-group-text">
+														<span class="form-group">
+															<select name="reg_chnl_cd" class="form-control" id="select_reg_chnl_cd">
+																<option value="">없음</option>
+															</select>
+														</span>
+													</span> 
+													
+													
+													<span class="input-group-text">
+														브랜드
+													</span> 
+													<span class="input-group-text">
+														<span class="form-group">
+															<select name="con_type_cd" class="form-control" id="select_con_type_cd">
+																<option value="">없음</option>
+															</select>
+														</span>
+													</span>  
+													<span class="input-group-prepend">
+														<button type="button" class="btn btn-primary" onclick="search()">검색</button>
+													</span>
+													<span class="input-group-prepend">
+														<button type="button" class="btn btn-light" onclick="searchReset()">초기화</button>
+													</span>
+												</div>
+											</div>
+										</form>
+                                          
                                         </div>
                                         <div class="card-block">
                                             <table id="demo-foo-filtering" class="table table-striped table-hover">
@@ -76,21 +70,15 @@
 													<c:otherwise>
                                                 	<c:forEach items="${list}" var="store">
                                                     <tr>
-                                                        <td><c:out value="${store.brand.fra_cd}" /></td>
+                                                        <td><c:out value="${store.franchise.fra_cd}" /></td>
                                                         <td><c:out value="${store.brand.brand_cd}" /></td>
                                                         <td><c:out value="${store.str_cd}" /></td>
-                                                        <td class="hidden"><c:out value="${store.del_yn}" /></td>
-                                                        <td class="hidden"><c:out value="${store.created_by}" /></td>
-                                                        <td class="hidden"><fmt:formatDate pattern="YYYY-MM-DD"
-                                                        					value="${store.created}" /></td>
-                                                        <td class="hidden"><c:out value="${store.last_upd_by}" /></td>
-                                                        <td class="hidden"><fmt:formatDate pattern="YYYY-MM-DD"
-                                                        					value="${store.last_upd}" /></td>
+                                                       
                                                         <td>${store.str_nm}</td>
                                                         <td>${store.str_rep_nm}</td>
-                                                        <td><c:out value="${store.str_area_no}"/>
-                                                        	<c:out value="${store.str_tno}" />
-                                                        	<c:out value="${store.str_cno}" />
+                                                        <td><c:out value="${store.ph_area_no}"/>
+                                                        	<c:out value="${store.ph_tno}" />
+                                                        	<c:out value="${store.ph_cno}" />
                                                         </td>
                                                         <td><c:out value="${store.str_addr}" />
                                                         	<c:out value="${store.str_addr_dtl}" />
@@ -159,4 +147,93 @@
 	
 	$(document).ready(getcodes('200','#select_reg_chnl_cd'));
 
+</script>
+
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script>
+
+function search(){
+	var searchfm = $('#searchForm');
+	var regchnl = $('#searchForm [name="reg_chnl_cd"]').val();
+	var contype = $('#searchForm [name="con_type_cd"]').val();
+	var name = $('#searchForm [name="pros_nm"]').val();
+	if(regchnl!="" || contype!="" || name!=""){
+		searchfm.submit();
+	}
+}
+
+function searchReset(){
+	location.href="/franchise/list";
+}
+
+function getcodes(code, tag, codename){
+	$.ajax({
+		type : 'get',
+		url : '/consulting/data/codes/'+code,
+		dataType : 'json',
+		success : function(data){
+			if(data==null){
+				data=0;
+			}
+			for(var i = 0; i < data.length; i++){
+				
+				$(tag).append("<option value='"+ data[i]['code']
+				+ "'>"+data[i]['code_nm'] + "</option>");
+			}
+			if($('#actionForm [name="'+codename+'"]').val() != null){
+				$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
+			}
+			
+		}
+	})
+}
+
+$(document).ready(getcodes('200','#select_reg_chnl_cd','reg_chnl_cd'));
+$(document).ready(getcodes('300','#select_con_type_cd','con_type_cd'));
+
+$(document).ready(function (){
+	/*
+	var result = '<c:out value="${result}"/>';
+	
+	checkModal(result);
+	
+	history.replaceState({},null,null);
+	
+	function checkModal(result) {
+		
+		if(result === '' || history.state) {
+			return;
+		}
+		
+		if (parseInt(result)>0) {
+			$(".modal-body").html("게시글 " + parseInt(result) + "번이 등록되었습니다.");
+		}
+		
+		$("#myModal").modal("show");
+		
+	}
+	
+	$("#regBtn").on("click", function(){
+		self.location = "/consulting/register";
+	});
+	
+	*/
+	
+	var actionForm = $("#actionForm");
+	
+	$(".page-item .page-link").on("click", function(e){
+		e.preventDefault();
+		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+		actionForm.submit();
+	});
+	
+	$(".move").on("click", function(e){
+		
+		e.preventDefault();
+		actionForm.append("<input type='hidden' name='lead_id' value='"+$(this).attr("href")+"'>");
+		actionForm.attr("action","/consulting/lead");
+		actionForm.submit();
+	})
+	
+});
 </script>

@@ -11,56 +11,64 @@
    <div class="col-sm-12">
                                     <div class="card">
                                         <div class="card-block">
-                                        <form name="input" method="post" action="franchise/insert">
                                             <table id="demo-foo-filtering" class="table">
                                             	<tbody>
                                                     <tr>
                                                         <th>가맹사업
                                                         <div class="col-12">
-                                                    		<select name="c_asset" class="js-example-basic-single form-control plus-imp">
-                                                            	<option value="AS001">매장</option>
-                                                            	<option value="AS002">배달</option>
-                                                            	<option value="AS003">O2O</option>
+                                                    		<select name="brand_cd" class="js-example-basic-single form-control plus-imp">
+                                                            	<option value="100">매장</option>
+                                                            	<option value="101">배달</option>
+                                                            	<option value="102">O2O</option>
                                                         	</select> 
                                                      	</div></th>
                                                         <th>브랜드
                                                         <div class="col-12">
-                                                    		<select name="c_asset" class="js-example-basic-single form-control plus-imp">
-                                                            	<option value="AS001">돈까스</option>
-                                                            	<option value="AS002">일식</option>
-                                                            	<option value="AS003">분식</option>
-                                                            	<option value="AS004">도시락</option>
-                                                            	<option value="AS005">햄버거</option>
-                                                            	<option value="AS006">한식</option>
-                                                        		<option value="AS007">설렁탕</option>
+                                                    		<select name="fra_cd" class="js-example-basic-single form-control plus-imp">
+                                                            	<option value="100">돈까스</option>
+                                                            	<option value="101">일식</option>
+                                                            	<option value="102">분식</option>
+                                                            	<option value="103">도시락</option>
+                                                            	<option value="104">햄버거</option>
+                                                            	<option value="105">한식</option>
+                                                        		<option value="106">설렁탕</option>
                                                         	</select> 
                                                      	</div></th>
                                                     </tr>
+                                                    <form name="input" method="post" action="/franchise/insert">
                                                     <tr>
                                                    		<th>가맹점 코드
-                                                   		<input name="a_nickname" type="text" class="form-control plus-imp">
+                                                   		<input name="str_cd" type="text" class="form-control plus-imp">
                                                    		</th>
+                                                   		
                                                         <th>가맹점명
-                                                        <input name="a_nickname" type="text" class="form-control plus-imp">
+                                                        <input name="str_nm" type="text" class="form-control plus-imp">
                                                         </th>
                                                     </tr>
                                                     <tr>
                                                    		<th>대표자명
-                                                   		<input name="a_nickname" type="text" class="form-control plus-imp">
+                                                   		<input name="str_rep_nm" type="text" class="form-control plus-imp">
                                                    		</th>
+                                                   		
                                                         <th>전화번호
-                                                        <input name="a_nickname" type="text" class="form-control plus-imp">
+                                                        <input name="ph_area_no" type="text" class="form-control plus-imp">-
+                                                        <input name="ph_tno" type="text" class="form-control plus-imp">-
+                                                        <input name="ph_cno" type="text" class="form-control plus-imp">
                                                         </th>
                                                     </tr>
+                                                    
                                                     <tr><th>가맹점 주소
-                                                    <input name="a_nickname" type="text" class="form-control plus-imp">
+                                                    <input name="str_zipcd" type="text" class="form-control plus-imp">
+                                                    <input name="str_addr" type="text" class="form-control plus-imp">
+                                                    <input name="str_addr_dtl" type="text" class="form-control plus-imp">
                                                     </th></tr>
+                                                    
                                                     </tbody>
 	                                            </table>
                                        				 <div id="plus-size1" class="modal-footer">
                                                          <button type="submit" class="btn btn-primary">저장</button>
                                                          <button type="button" class="btn btn-secondary">취소</button>
-                                                         <button type="button" class="btn btn-default">목록</button>
+                                                         <button type="button" class="btn btn-defalut" onclick="/franchise/list">목록</button>
                                                      </div>
                                         		</div>
                                			 </div>

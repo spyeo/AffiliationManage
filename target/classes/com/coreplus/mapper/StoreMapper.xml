@@ -4,6 +4,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.StoreMapper">
 
+	<sql id="criteria">
+		<trim prefix="and (" prefixOverrides="and" suffix=")" >
+			<if test="fra_cd != null">
+				fra_cd like '%'||#{fra_cd}||'%'
+			</if>
+			<if test="brand_cd != null ">
+				and brand_cd like '%'||#{brand_cd}||'%'
+			</if>
+		</trim>
+	</sql>
+
 <select id="getList" resultMap="fcombine">
 	
 	select b.brand_cd                    as brand_cd
@@ -24,7 +35,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </select>
 
-<insert id="insert">
+<!-- <select id="getListPaging" resultMap="fcombine">
+	
+ <![CDATA[
+	select b.brand_cd                    as brand_cd
+	     , b.fra_cd                      as fra_cd
+	     , s.str_cd                      as str_cd
+	     , s.str_nm                      as str_nm
+	     , s.str_rep_nm                   as str_rep_nm
+	     , s.ph_area_no               as ph_area_no
+	     , s.ph_tno                  as ph_tno
+	     , s.ph_cno                  as ph_cno
+	     , s.str_addr                as str_addr
+	     , s.str_addr_dtl            as str_addr_dtl
+	  from
+	     (
+    select rownum as rn
+         , b.brand_cd                    as brand_cd
+	     , b.fra_cd                      as fra_cd
+	     , s.str_cd                      as str_cd
+	     , s.str_nm                      as str_nm
+	     , s.str_rep_nm                   as str_rep_nm
+	     , s.ph_area_no               as ph_area_no
+	     , s.ph_tno                  as ph_tno
+	     , s.ph_cno                  as ph_cno
+	     , s.str_addr                as str_addr
+	     , s.str_addr_dtl            as str_addr_dtl
+	     	  
+	  from franchise f
+	     , brand b
+	     , store s
+	 where b.brand_cd = s.brand_cd
+	   and f.fra_cd = b.fra_cd
+
+	   ]]>
+	   
+           <include refid="criteria"></include>
+         
+ <![CDATA[
+           order by b.fra_cd desc
+         ) x
+           where rownum <= #{pageNum} * #{amount}
+         )
+     where rn > (#{pageNum}-1) * #{amount}
+       ]]>	   
+	
+</select>
+ -->
+ 
+<insert id="insert" parameterType="String">
 
 	insert into 
      store 
@@ -104,7 +163,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="str_addr" property="str_addr" />
 		<result column="str_addr_dtl" property="str_addr_dtl" />
 		<collection property="franchise" resultMap="franchise" />
-		<collection property="Brand" resultMap="brand" />
+		<collection property="brand" resultMap="brand" />
 	</resultMap>
 
 	<resultMap id="brand" type="com.coreplus.domain.BrandVO">

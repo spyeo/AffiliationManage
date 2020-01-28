@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.coreplus.domain.Criteria;
 import com.coreplus.domain.StoreVO;
 import com.coreplus.mapper.StoreMapper;
 
@@ -48,4 +49,11 @@ public class FranchiseServiceImpl implements FranchiseService {
 		return mapper.getList();
 		
 	}
+	
+	/*@Override
+	public List<StoreVO> getList(Criteria cri) {
+		log.info("getList................." + cri);
+		return mapper.getListPaging(cri);
+		
+	}*/
 }
