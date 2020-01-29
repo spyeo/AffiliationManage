@@ -28,6 +28,13 @@ public class FranchiseServiceImpl implements FranchiseService {
 		mapper.insert(store);
 		
 	}
+	
+	@Override
+	public StoreVO read(String str_cd) {
+		
+		log.info("read .........." + str_cd);
+		return mapper.read(str_cd);
+	}
 
 	@Override
 	public boolean update(StoreVO store) {

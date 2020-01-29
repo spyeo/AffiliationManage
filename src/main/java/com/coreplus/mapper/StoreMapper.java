@@ -11,6 +11,8 @@ public interface StoreMapper {
 	
 	public List<StoreVO> getListPaging(Criteria cri);
 	
+	public StoreVO read(String str_cd);
+	
 	public void insert(StoreVO store);
 	
 	public int delete(String str_cd);

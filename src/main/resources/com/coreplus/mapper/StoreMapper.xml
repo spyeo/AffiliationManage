@@ -83,14 +83,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
  -->
  
-<insert id="insert" parameterType="String">
+<insert id="insert" parameterType="com.coreplus.domain.StoreVO">
 
 	insert into 
      store 
 	     (
 	       str_cd
+	     , del_yn
 	     , created_by
+	     , created
 	     , last_upd_by
+	     , last_upd
 	     , str_nm
 	     , str_rep_nm
 	     , str_zipcd
@@ -104,8 +107,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     values 
     	 ( 
     	   #{str_cd}
-         , #{created_by}
-         , #{last_upd_by}
+    	 , '1'
+    	 , 'user03'
+         , sysdate
+         , 'user03'
+         , sysdate
          , #{str_nm}
          , #{str_rep_nm}
          , #{str_zipcd}
@@ -119,16 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </insert>
 
-<select id="read" resultType="com.coreplus.domain.StoreVO">
-	
-	select * 
-	  from store
-	 where str_cd
-	     = #{str_cd}
-	
-</select>
-
-<delete id="delete">
+<delete id="delete" parameterType="String">
 
 	delete store
 	 where str_cd
@@ -136,7 +133,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </delete>
 
-<update id="update">
+<select id="read" resultType="com.coreplus.domain.StoreVO" parameterType="com.coreplus.domain.StoreVO">
+
+	select str_cd
+		 , str_nm
+	     , str_rep_nm
+	     , str_zipcd
+	     , str_addr
+	     , str_addr_dtl
+	     , ph_area_no
+	     , ph_tno
+	     , ph_cno
+	     , brand_cd
+         , last_upd
+	  from store
+	 where str_cd
+	     = #{str_cd}
+	     
+</select>
+
+<update id="update" parameterType="com.coreplus.domain.StoreVO">
 
 	update store
 	   set str_nm = #{str_nm}
