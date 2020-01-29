@@ -8,8 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <![CDATA[
 
-select rownums
-     , pros_id
+select pros_id
      , pros_nm
      , cell_ph_no
      , cell_ph_tno
@@ -17,20 +16,27 @@ select rownums
      , eml_id
      , eml_domain
      
-from   (select (rank() over(order by pros_id)) rownums
-              , pros_id
-              , pros_nm
-              , cell_ph_no
-              , cell_ph_tno
-              , cell_ph_pno
-              , eml_id
-              , eml_domain
-     
-        from   prospect)
-        
-where  rownums <= #{pageNum} * #{amount}
-and    rownums > (#{pageNum}-1) * #{amount}
+from     prospect
+where    pros_nm like '%'||#{name}||'%'
+order by pros_id
 
+]]>
+
+</select>
+
+<select id="selectOne" resultType="com.coreplus.domain.ProspectVO">
+
+<![CDATA[
+select pros_id
+     , pros_nm
+     , cell_ph_no
+     , cell_ph_tno
+     , cell_ph_pno
+     , eml_id
+     , eml_domain
+
+from     prospect
+where    pros_id = #{pros_id}
 ]]>
 
 </select>
