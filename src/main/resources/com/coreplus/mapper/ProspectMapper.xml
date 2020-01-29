@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coreplus.mapper.ProspectMapper">
+
+<select id="selectList" resultType="com.coreplus.domain.ProspectVO">
+
+<![CDATA[
+
+select rownums
+     , pros_id
+     , pros_nm
+     , cell_ph_no
+     , cell_ph_tno
+     , cell_ph_pno
+     , eml_id
+     , eml_domain
+     
+from   (select (rank() over(order by pros_id)) rownums
+              , pros_id
+              , pros_nm
+              , cell_ph_no
+              , cell_ph_tno
+              , cell_ph_pno
+              , eml_id
+              , eml_domain
+     
+        from   prospect)
+        
+where  rownums <= #{pageNum} * #{amount}
+and    rownums > (#{pageNum}-1) * #{amount}
+
+]]>
+
+</select>
+
+</mapper>
