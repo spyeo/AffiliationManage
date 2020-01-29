@@ -3,6 +3,7 @@ package com.coreplus.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +47,7 @@ public class FranchiseController {
 	}*/
 	
 	@PostMapping("/insert")
-	public String insert(StoreVO store, RedirectAttributes rttr) {
+	public String insert(@ModelAttribute StoreVO store, RedirectAttributes rttr) {
 		
 		log.info("insert " + store);
 		service.insert(store);
@@ -64,15 +65,24 @@ public class FranchiseController {
 		
 	}
 	
-	@PostMapping("/update")
-	public String update(StoreVO store, RedirectAttributes rttr) {
+	@GetMapping("/update_view")
+	public ModelAndView update(@RequestParam("str_cd") String str_cd, ModelAndView mv, Model model){
 		
+		model.addAttribute("store", service.read(str_cd));
+		mv.setViewName("franchise/update.tiles");
+		return mv;
+		
+	}
+	
+	@PostMapping("/update")
+	public String update(@ModelAttribute StoreVO store, RedirectAttributes rttr) {
+		System.out.println("업데이트 실행됨");
 		log.info("update : " + store);
 		
 		if(service.update(store)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/store/list";
+		return "redirect:/franchise/list";
 	}
 	
 	@PostMapping("/delete")
@@ -83,7 +93,7 @@ public class FranchiseController {
 		if(service.delete(str_cd)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/store/list";
+		return "redirect:/franchise/list";
 	}
 	
 }

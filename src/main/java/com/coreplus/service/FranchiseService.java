@@ -9,6 +9,8 @@ public interface FranchiseService {
 
 	public void insert(StoreVO store);
 	
+	public StoreVO read(String str_cd);
+	
 	public boolean update(StoreVO store);
 	
 	public boolean delete(String str_cd);

@@ -3,7 +3,7 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top fsize">
 
-      <a class="navbar-brand mr-1" href="index.html">COREPLUS</a>
+      <a class="navbar-brand mr-1" href="/franchise/list">COREPLUS</a>
 
 		<div align="right" class="right-f">
 		

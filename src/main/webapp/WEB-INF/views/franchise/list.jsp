@@ -73,11 +73,11 @@
                                                         <td><c:out value="${store.franchise.fra_cd}" /></td>
                                                         <td><c:out value="${store.brand.brand_cd}" /></td>
                                                         <td><c:out value="${store.str_cd}" /></td>
-                                                       
-                                                        <td>${store.str_nm}</td>
+                                                        <td><a href='/franchise/update_view?str_cd=<c:out value="${store.str_cd}"/>'>
+                                                        	<c:out value="${store.str_nm}" /></a></td>
                                                         <td>${store.str_rep_nm}</td>
-                                                        <td><c:out value="${store.ph_area_no}"/>
-                                                        	<c:out value="${store.ph_tno}" />
+                                                        <td><c:out value="${store.ph_area_no}"/> -
+                                                        	<c:out value="${store.ph_tno}" /> -
                                                         	<c:out value="${store.ph_cno}" />
                                                         </td>
                                                         <td><c:out value="${store.str_addr}" />
