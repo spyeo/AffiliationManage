@@ -41,4 +41,13 @@ where    pros_id = #{pros_id}
 
 </select>
 
+<insert id="insertProspect">
+<![CDATA[
+insert into prospect(pros_id, del_yn, created_by, created, last_upd_by, last_upd, pros_nm, cell_ph_no, cell_ph_tno, cell_ph_pno, eml_id, eml_domain)
+values(seq_prospect.nextval, 'n', #{created_by}, sysdate, #{last_upd_by}, sysdate, #{pros_nm}, #{cell_ph_no}, #{cell_ph_tno}, #{cell_ph_pno}, #{eml_id}, #{eml_domain})
+]]>
+</insert>
+
+
+
 </mapper>

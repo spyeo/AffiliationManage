@@ -128,4 +128,13 @@ where rn > (#{pageNum}-1) * #{amount}
 ]]>	
 </select>
 
+<insert id="insertLead">
+<![CDATA[
+
+insert into lead(lead_id, del_yn, created_by, created, last_upd_by, last_upd, reg_chnl_cd, con_type_cd, spec_desc, pros_id)
+values(seq_lead.nextval, 'n', #{created_by}, sysdate, #{last_upd_by}, sysdate, #{reg_chnl_cd}, #{con_type_cd}, #{spec_desc}, #{prospectVO.pros_id})
+
+]]>
+</insert>
+
 </mapper>

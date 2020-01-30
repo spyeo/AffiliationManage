@@ -58,10 +58,14 @@ public class ConsultingController {
 	@PostMapping("/registlead")
 	public String newlead(@ModelAttribute LeadVO leadVO,
 			@ModelAttribute ProspectVO prospectVO,
-			@ModelAttribute Criteria cri, Model model) {
-		
+			@RequestParam String newProspectCheck, Model model) {
+		String user="me";
+		prospectVO.setCreated_by(user);
+		prospectVO.setLast_upd_by(user);
+		leadVO.setCreated_by(user);
+		leadVO.setLast_upd_by(user);
 		leadVO.setProspectVO(prospectVO);
-		return "redirect:/consulting/leads";
+		return "/consulting/leads";
 	}
 
 }

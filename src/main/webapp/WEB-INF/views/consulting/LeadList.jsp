@@ -218,7 +218,6 @@ $(document).ready(function (){
 		</ul>
 	</div>
 </div>
-
 <!-- 페이지 처리 히든 파라매터 -->
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value = '${pageMarker.cri.pageNum }'>

@@ -55,5 +55,23 @@ public class ConsultingServiceImpl implements ConsultingService{
 		return prospectMapper.selectOne(pros_id);
 	}
 
+	@Override
+	public boolean registLead(LeadVO leadVO) {
+		int prosResult;
+		int leadResult;
+		if(leadVO.getProspectVO().getPros_id()==null) {
+			prosResult = prospectMapper.insertProspect(leadVO.getProspectVO());
+		}
+		else {
+			prosResult = 1;
+		}
+		leadResult = leadMapper.insertLead(leadVO);
+
+		if(prosResult > 0 && leadResult > 0) {
+			return true;
+		}
+		return false;
+	}
+
 
 }

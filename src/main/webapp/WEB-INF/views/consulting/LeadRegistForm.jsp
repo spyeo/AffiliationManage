@@ -6,12 +6,120 @@
 <script>
 
 
+function searchProspects(){
+	if($("input:checkbox[id=newProspectCheck]").is(":checked") == false){
+		$("#modalBody").empty();
+		$("#inputName").val($("#searchProsNm").val());
+		if($.trim($("inputName").val()) == ''){
+			getProspects();
+		}
+		$("#modalView").modal("show");
+		
+	}
+}
+
+function getProspects(){
+	var name = $("#inputName").val();
+	$.ajax({
+		type : 'get',
+		url : '/consulting/data/prospects/'+name,
+		dataType : 'json',
+		success : function(data){
+			$("#modalBody").empty();
+			if(data.length>0){
+				$("#modalBody").append('<table border="1"> <tr><th colspan="2"> 이름</th></tr>');
+				for(var i=0; i<data.length ; i++){
+					$("#modalBody").append('<tr><td><input type="text" value="'+data[i]["pros_nm"]
+					+'"/> </td> <td><button type="button" onclick="readProspect('+'&quot;'+data[i]["pros_id"]+'&quot;'+')">선택</button></td></tr>');
+				}
+				$("#modalBody").append('</table>');
+			}
+			else{
+				$("#modalBody").append('검색 결과가 없습니다.');
+			}
+			
+		},
+		error : function(xhr, status, error){
+			$("#modalBody").empty();
+			$("#modalBody").append('검색어를 입력해 주세요.');
+		}
+	});
+}
+
+function readProspect(id){
+	$("#modalView").modal("hide");
+	
+	$.ajax({
+		type : 'get',
+		url : '/consulting/data/prospect/'+id,
+		dataType : 'json',
+		success : function(data){
+			$("#pros_id").val(data['pros_id']);
+			$("#searchProsNm").val(data['pros_nm']);
+			$("#pros_id").val(data['pros_id']);
+			$("#pros_nm").val(data['pros_nm']);
+			$("#cell_ph_no").val(data['cell_ph_no']);
+			$("#cell_ph_tno").val(data['cell_ph_tno']);
+			$("#cell_ph_pno").val(data['cell_ph_pno']);
+			$("#eml_id").val(data['eml_id']);
+			$("#eml_domain").val(data['eml_domain']);
+		}
+	});
+}
+
+function registLead(){
+	var text = CKEDITOR.instances.spec_desc.getData();
+	$("#spec_desc").val(text);
+	var queryString = $("form[id=registForm]").serialize();
+	$.ajax({
+		type : 'post',
+		url : '/consulting/data/registlead?'+queryString,
+		dataType : 'json',
+		success : function(data){
+			alert("저장하였습니다.");
+		},
+		error : function(xhr, status, error){
+			alert("저장이 실패했습니다.");
+		}
+	});
+}
+
+function backToLeads(){
+	
+	document.getElementById('#actionForm').submit();
+}
+
+function getcodes(code, tag, codename){
+	$.ajax({
+		type : 'get',
+		url : '/consulting/data/codes/'+code,
+		dataType : 'json',
+		success : function(data){
+			if(data==null){
+				data=0;
+			}
+			for(var i = 0; i < data.length; i++){
+				
+				$(tag).append("<option value='"+ data[i]['code']
+				+ "'>"+data[i]['code_nm'] + "</option>");
+			}
+			if(codename!=null){
+				if($('#actionForm [name="'+codename+'"]').val() != null){
+					$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
+				}
+			}
+			
+		}
+	});
+}
+
+
 
 $(document).ready(getcodes('200', '#select_reg_chnl_cd', null));
 $(document).ready(getcodes('300', '#select_con_type_cd', null));
 $(document).ready(function(){
-	$("#newProspect").change(function(){
-		if($("#newProspect").is(":checked")){
+	$("#newProspectCheck").change(function(){
+		if($("#newProspectCheck").is(":checked")){
 			$("#pros_nm").attr("readonly",false);
 			$("#cell_ph_no").attr("readonly",false);
 			$("#cell_ph_tno").attr("readonly",false);
@@ -55,7 +163,7 @@ $(document).ready(function(){
 										</div>
 									</th>
 									<th>신규여부</th>
-									<th><label><input type="checkbox" name="newProspect" id="newProspect">신규</label></th>
+									<th><label><input type="checkbox" name="newProspectCheck" id="newProspectCheck" value="check">신규</label></th>
 								</tr>
 								<tr>
 									<th>가망고객명</th>
@@ -65,7 +173,7 @@ $(document).ready(function(){
 												<input id="pros_nm" name="pros_nm" type="text"
 										class="form-control" readonly>
 											</div>
-											<input type="hidden" id="pros_id">
+											<input type="hidden" id="pros_id" name="pros_id">
 										</div>
 									</th>
 									
@@ -129,11 +237,12 @@ $(document).ready(function(){
 								</tr>
 								<tr>
 									<th>특이사항</th>
-									<th colspan="3"><textarea name="editor1" id="editor1"
+									<th colspan="3"><textarea name="spec_desc" id="spec_desc"
 											rows="10" cols="80">
             						</textarea> <script>
-												CKEDITOR.replace('editor1');
-												</script></th>
+												CKEDITOR.replace('spec_desc');
+												</script>
+									</th>
 								</tr>
 							</tbody>
 						</table>
@@ -158,7 +267,6 @@ $(document).ready(function(){
     <button type="submit" class="btn btn-primary" onclick="getProspects()">검색</button>
       </div>
       <div class="modal-body" id="modalBody">
-        <p>Modal body text goes here.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>

@@ -10,4 +10,6 @@ public interface ProspectMapper {
 
 	public ProspectVO selectOne(String pros_id);
 
+	public int insertProspect(ProspectVO prospectVO);
+
 }
