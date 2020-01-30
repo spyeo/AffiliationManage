@@ -46,8 +46,13 @@ public class ConsultingServiceImpl implements ConsultingService{
 	}
 
 	@Override
-	public List<ProspectVO> getProspectList(Criteria cri) {
-		return prospectMapper.selectList(cri);
+	public List<ProspectVO> getProspectList(String name) {
+		return prospectMapper.selectList(name);
+	}
+
+	@Override
+	public ProspectVO getProspect(String pros_id) {
+		return prospectMapper.selectOne(pros_id);
 	}
 
 

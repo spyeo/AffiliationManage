@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coreplus.domain.CodeVO;
+import com.coreplus.domain.ProspectVO;
 import com.coreplus.service.ConsultingService;
 
 import lombok.AllArgsConstructor;
@@ -27,14 +28,19 @@ public class ConsultingAjaxController {
 		return result;
 	}
 	
-	/*
-	 @GetMapping(value="/prospects/{pageNum}", produces= {
+	
+	 @GetMapping(value="/prospects/{name}", produces= {
 			MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public List<ProspectVO> prospects(@PathVariable("pageNum") int pageNum){
-		Criteria cri=new Criteria();
-		cri.setPageNum(pageNum);
-		List<ProspectVO> result = service.getProspectList(cri);
-		return result;
-	}
-	 */
+	 public List<ProspectVO> prospects(@PathVariable("name") String name){
+		 List<ProspectVO> result = service.getProspectList(name);
+		 return result;
+	 }
+	 
+	 @GetMapping(value="/prospect/{id}", produces= {
+			 MediaType.APPLICATION_JSON_UTF8_VALUE})
+	 public ProspectVO prospect(@PathVariable("id") String pros_id) {
+		 ProspectVO result = service.getProspect(pros_id);
+		 return result;
+	 }
+	 
 }
