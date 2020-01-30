@@ -14,52 +14,52 @@
                                         <form name="input" method="post" action="/franchise/insert">
                                             <table id="demo-foo-filtering" class="table">
                                             	<tbody>
-                                                    <tr>
+                                                     <tr>
                                                         <th>가맹사업
-                                                          <div class="col-12">
-                                                       	 	<select class="js-example-basic-single form-control plus-imp">
+                                                       	 	<select class="form_con_block">
                                                             	<option value="100">매장</option>
                                                             	<option value="101">배달</option>
                                                             	<option value="102">O2O</option>
                                                         	</select> 
-                                                     	</div></th>
+                                                     	</th>
                                                         <th>브랜드
-                                                        <div class="col-12">
-                                                    		<select name="brand_cd" class="js-example-basic-single form-control plus-imp">
+                                                    		<select name="barnd_cd" id="brand_cd" class="form_con_block plus-imp" value="${store.brand_cd}">
                                                             	<option value="102">분식</option>
                                                             	<option value="103">도시락</option>
                                                             	<option value="104">햄버거</option>
                                                             	<option value="105">한식</option>
                                                         		<option value="106">설렁탕</option>
                                                         	</select> 
-                                                     	</div></th>
+                                                     	</th>
                                                     </tr>
-                                                     <tr>
+                                                      <tr>
                                                    		<th>가맹점 코드
-                                                   		<input name="str_cd" type="text" class="form-control plus-imp">
+                                                   		<input name="str_cd" id="str_cd" type="text" class="form_con_block numform">
                                                    		</th>
                                                    		
                                                    		<th>가맹점명
-                                                        <input name="str_nm" type="text" class="form-control plus-imp">
+                                                        <input name="str_nm" id="str_nm" type="text" class="form_con_block numform3">
                                                         </th>
                                                     </tr>
                                                     <tr>
                                                    		<th>대표자명
-                                                   		<input name="str_rep_nm" type="text" class="form-control plus-imp">
+                                                   		<input name="str_rep_nm" id="str_rep_nm" type="text" class="form_con_block numform2">
                                                    		</th>
                                                    		
                                                         <th>전화번호
-                                                        <input name="ph_area_no" type="text" class="form-control plus-imp">-
-                                                        <input name="ph_tno" type="text" class="form-control plus-imp">-
-                                                        <input name="ph_cno" type="text" class="form-control plus-imp">
+                                                        </br>
+                                                        <input name="ph_area_no" id="ph_area_no" type="text" class="form_con numform">-
+                                                        <input name="ph_tno" id="ph_tno" type="text" class="form_con numform">-
+                                                        <input name="ph_cno" id="ph_cno" type="text" class="form_con numform">
                                                         </th>
                                                     </tr>
                                                     
                                                     <tr><th>가맹점 주소
-                                                    <input name="str_zipcd" type="text" class="form-control plus-imp">
-                                                    <input name="str_addr" type="text" class="form-control plus-imp">
-                                                    <input name="str_addr_dtl" type="text" class="form-control plus-imp">
+                                                    <input name="str_zipcd" id="str_zipcd" type="text" class="form_con_block numform">
+                                                    <input name="str_addr" id="str_addr" type="text" class="form_con numform4">
+                                                    <input name="str_addr_dtl" id="str_addr_dtl" type="text" class="form_con numform3">
                                                     </th></tr>
+                                                    
                                                     </tbody>
 	                                            </table>
                                        				 <div id="plus-size1" class="modal-footer">
