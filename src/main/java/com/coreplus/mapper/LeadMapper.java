@@ -17,4 +17,7 @@ public interface LeadMapper {
 
 
 	public int insertLead(LeadVO leadVO);
+
+
+	public int updateLead(LeadVO leadVO);
 }

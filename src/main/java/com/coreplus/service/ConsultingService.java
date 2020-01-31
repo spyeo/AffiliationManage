@@ -26,5 +26,7 @@ public interface ConsultingService {
 
 	public boolean registLead(LeadVO leadVO);
 
+	public boolean modifyLead(LeadVO leadVO);
+
 
 }

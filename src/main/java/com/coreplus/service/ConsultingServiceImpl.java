@@ -59,7 +59,7 @@ public class ConsultingServiceImpl implements ConsultingService{
 	public boolean registLead(LeadVO leadVO) {
 		int prosResult;
 		int leadResult;
-		if(leadVO.getProspectVO().getPros_id()==null) {
+		if(leadVO.getProspectVO().getPros_id().length() <= 0) {
 			prosResult = prospectMapper.insertProspect(leadVO.getProspectVO());
 		}
 		else {
@@ -67,6 +67,22 @@ public class ConsultingServiceImpl implements ConsultingService{
 		}
 		leadResult = leadMapper.insertLead(leadVO);
 
+		if(prosResult > 0 && leadResult > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean modifyLead(LeadVO leadVO) {
+		int prosResult;
+		int leadResult;
+		System.out.println("before");
+		prosResult = prospectMapper.updateProspect(leadVO.getProspectVO());
+		System.out.println("pros=============");
+		leadResult = leadMapper.updateLead(leadVO);
+		System.out.println("lead=============");
+		
 		if(prosResult > 0 && leadResult > 0) {
 			return true;
 		}

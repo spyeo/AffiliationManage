@@ -67,26 +67,28 @@ function readProspect(id){
 	});
 }
 
+function backToLeads(){
+	
+	document.getElementById('actionForm').submit();
+}
+
 function registLead(){
 	var text = CKEDITOR.instances.spec_desc.getData();
 	$("#spec_desc").val(text);
 	var queryString = $("form[id=registForm]").serialize();
 	$.ajax({
 		type : 'post',
-		url : '/consulting/data/registlead?'+queryString,
+		url : '/consulting/data/registlead',
 		dataType : 'json',
+		data : queryString,
 		success : function(data){
 			alert("저장하였습니다.");
+			backToLeads();
 		},
 		error : function(xhr, status, error){
-			alert("저장이 실패했습니다.");
+			alert("저장하는 도중 에러가 발생했습니다.");
 		}
 	});
-}
-
-function backToLeads(){
-	
-	document.getElementById('#actionForm').submit();
 }
 
 function getcodes(code, tag, codename){
@@ -126,6 +128,8 @@ $(document).ready(function(){
 			$("#cell_ph_pno").attr("readonly",false);
 			$("#eml_id").attr("readonly",false);
 			$("#eml_domain").attr("readonly",false);
+			
+			$("#searchProsNm").attr("readonly",true);
 		}
 		else{
 			$("#pros_nm").attr("readonly",true);
@@ -134,6 +138,13 @@ $(document).ready(function(){
 			$("#cell_ph_pno").attr("readonly",true);
 			$("#eml_id").attr("readonly",true);
 			$("#eml_domain").attr("readonly",true);
+			
+			$("#pros_nm").val('');
+			$("#cell_ph_no").val('');
+			$("#cell_ph_tno").val('');
+			$("#cell_ph_pno").val('');
+			$("#eml_id").val('');
+			$("#eml_domain").val('');
 		}
 	})
 });
@@ -247,8 +258,7 @@ $(document).ready(function(){
 							</tbody>
 						</table>
 						<div id="plus-size1" class="modal-footer">
-							<button type="button" id="regist" class="btn btn-primary" onclick="registLead()">저장</button>
-							<button type="button" id="calcel" class="btn btn-secondary">취소</button>
+							<button type="button" id="regist" class="btn btn-primary" onclick="registLead()">등록</button>
 							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
 						</div>
 					</form>

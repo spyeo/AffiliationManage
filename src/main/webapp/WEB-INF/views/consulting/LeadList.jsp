@@ -44,7 +44,7 @@ function getcodes(code, tag, codename){
 				$(tag).append("<option value='"+ data[i]['code']
 				+ "'>"+data[i]['code_nm'] + "</option>");
 			}
-			if($('#actionForm [name="'+codename+'"]').val() != null){
+			if(codename != null){
 				$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
 			}
 			

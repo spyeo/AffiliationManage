@@ -3,13 +3,11 @@ package com.coreplus.controller;
 import java.util.List;
 
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coreplus.domain.CodeVO;
@@ -48,10 +46,11 @@ public class ConsultingAjaxController {
 		 return result;
 	 }
 	 
-	 @PostMapping("/registlead")
-		public String newlead(@ModelAttribute LeadVO leadVO,
+	 @PostMapping(value = "/registlead", produces= {
+			 MediaType.APPLICATION_JSON_UTF8_VALUE})
+		public boolean newlead(@ModelAttribute LeadVO leadVO,
 				@ModelAttribute ProspectVO prospectVO) {
-		 String result="fail";
+		 boolean result=false;
 			String user="me";
 			prospectVO.setCreated_by(user);
 			prospectVO.setLast_upd_by(user);
@@ -59,8 +58,27 @@ public class ConsultingAjaxController {
 			leadVO.setLast_upd_by(user);
 			leadVO.setProspectVO(prospectVO);
 			if(service.registLead(leadVO)) {
-				result="success";
+				result=true;
 			}
 			return result;
 		}
+	 
+	 @PostMapping(value="/modifylead", produces= {
+			 MediaType.APPLICATION_JSON_UTF8_VALUE})
+	 public boolean modifyLead(@ModelAttribute LeadVO leadVO,
+				@ModelAttribute ProspectVO prospectVO) {
+		 
+		 boolean result=false;
+		 String user="me";
+			prospectVO.setCreated_by(user);
+			prospectVO.setLast_upd_by(user);
+			leadVO.setCreated_by(user);
+			leadVO.setLast_upd_by(user);
+			leadVO.setProspectVO(prospectVO);
+			if(service.modifyLead(leadVO)) {
+				result = true;
+			}
+		 
+		 return result;
+	 }
 }
