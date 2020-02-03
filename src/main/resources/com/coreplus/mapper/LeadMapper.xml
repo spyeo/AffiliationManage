@@ -154,4 +154,14 @@ where lead_id = #{lead_id}
 
 </update>
 
+<delete id="deleteLead">
+
+<![CDATA[
+
+delete from lead where lead_id = #{lead_id}
+
+]]>
+
+</delete>
+
 </mapper>
