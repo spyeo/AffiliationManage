@@ -7,7 +7,7 @@
 
       <div id="content-wrapper">
 
-        <div class="container-fluid">s
+        <div class="container-fluid">
 
    <div class="col-sm-12">
                                     <div class="card">
@@ -25,11 +25,13 @@
                                                      	</th>
                                                         <th>브랜드
                                                     		<select name="barnd_cd" id="brand_cd" class="form_con_block plus-imp" value="${store.brand_cd}">
-                                                            	<option value="102">분식</option>
-                                                            	<option value="103">도시락</option>
-                                                            	<option value="104">햄버거</option>
-                                                            	<option value="105">한식</option>
-                                                        		<option value="106">설렁탕</option>
+                                                    			<option value="102">돈까스</option>
+                                                            	<option value="103">일식</option>
+                                                            	<option value="104">분식</option>
+                                                            	<option value="105">도시락</option>
+                                                            	<option value="106">햄버거</option>
+                                                            	<option value="107">한식</option>
+                                                        		<option value="108">설렁탕</option>
                                                         	</select> 
                                                      	</th>
                                                     </tr>
@@ -63,14 +65,14 @@
                                                     
                                                     <input name="last_upd" id="last_upd" type="hidden" class="form-control plus-imp" 
                                                     	value='<fmt:formatDate pattern="YYYY-MM-DD" value="${store.last_upd}"/>'>
-                                                   
+                                                    
                                                     </tbody>
 	                                            </table>
                                        				 <div id="plus-size1" class="modal-footer">
-                                                         <input type="submit" class="update btn btn-primary" value="수정">
-                                                         <button class="delete btn btn-secondary">삭제</button>
-                                                         <button type="button" class="btn btn-defalut"
-                                                         	onclick="location.href='/franchise/list'">목록</button>
+                                                         <button type="submit" data-oper='update' class="btn btn-primary">수정</button>
+                                                         <button type="submit" data-oper='delete' class="btn btn-secondary">삭제</button>
+                                                         <button type="submit" data-oper='list' class="btn btn-secondary">목록</button>
+                                                         
                                                      </div>
                                                    </form>
                                         		</div>
@@ -109,43 +111,36 @@
       </div>
     </div>
 
+<!-- 
+		업데이트 페이지로 이동하는 로직 / 필요없음 
+		
+		var operForm = $("#operForm");
+		
+		$("button[data-oper='update']").on("click", function(e){
+			operForm.attr("action", "/franchise/update").submit();			
+		});
+		
+ -->
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
 		var formObj = $("form");
 		
-		// 수정 
-		$(".update").on("click", function(){
-			formObj.attr("action", "/franchise/update");
-			formObj.attr("method", "post");
-			formObj.submit();				
-		});
-		
-		// 삭제
-		$(".delete").on("click", function(){
-			formObj.attr("action", "/franchise/delete");
-			formObj.attr("method", "post");
+		$('button').on("click", function(e){
+			
+			e.preventDefault();
+			var operation = $(this).data("oper");
+			
+			if(operation === 'delete'){
+				formObj.attr("action", "/franchise/delete");
+			}else if(operation === 'list'){
+				formObj.attr("action", "/franchise/list").attr("method","get");
+				formObj.empty();
+			}
 			formObj.submit();
+			
 		});
 	});
 	
-	function getcodes(code,tag){
-	   $.ajax({
-	      type : 'get',
-	      url : '/consulting/data/codes/'+code,
-	      dataType : 'json',
-	      success : function(data){
-	         if(data==null){
-	            data=0;
-	         }
-	         for(var i = 0; i < data.length; i++){
-	            $(tag).append("<option value='"+ data[i]['code']
-	            + "'>"+data[i]['code_nm'] + "</option>");
-	         }
-	      }
-	   })
-	}
-	
-	$(document).ready(getcodes('200','#select_reg_chnl_cd'));
-
 </script>

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.coreplus.domain.Criteria2;
+import com.coreplus.domain.PageDTO2;
 import com.coreplus.domain.StoreVO;
 import com.coreplus.service.FranchiseService;
 
@@ -24,7 +26,7 @@ public class FranchiseController {
 	
 	private FranchiseService service;
 	
-	@GetMapping("/list")
+	/*@GetMapping("/list")
 	public ModelAndView list(ModelAndView mv, Model model) {
 		
 		log.info("list  ::  : :: :: ");
@@ -33,18 +35,23 @@ public class FranchiseController {
 		
 		return mv;
 		
-	}
+	}*/
 	
-	/*@GetMapping("/list")
-	public ModelAndView list(ModelAndView mv, Criteria cri, Model model) {
+	@GetMapping("/list")
+	public ModelAndView list(ModelAndView mv, Criteria2 cri, Model model) {
 		
 		log.info("list  ::  : :: :: " + cri);
+
+		int total = service.total(cri);
+		log.info("total  :: " + total);
+		
 		model.addAttribute("list", service.getList(cri));
+		model.addAttribute("pageMaker", new PageDTO2(cri, total));
 		mv.setViewName("franchise/list.tiles");
 		
 		return mv;
 		
-	}*/
+	}
 	
 	@PostMapping("/insert")
 	public String insert(@ModelAttribute StoreVO store, RedirectAttributes rttr) {
@@ -66,7 +73,8 @@ public class FranchiseController {
 	}
 	
 	@GetMapping("/update_view")
-	public ModelAndView update(@RequestParam("str_cd") String str_cd, ModelAndView mv, Model model){
+	public ModelAndView update(@RequestParam("str_cd") String str_cd,
+			@ModelAttribute Criteria2 cri, ModelAndView mv, Model model){
 		
 		model.addAttribute("store", service.read(str_cd));
 		mv.setViewName("franchise/update.tiles");
@@ -75,13 +83,14 @@ public class FranchiseController {
 	}
 	
 	@PostMapping("/update")
-	public String update(@ModelAttribute StoreVO store, RedirectAttributes rttr) {
+	public String update(@ModelAttribute StoreVO store,
+			@ModelAttribute Criteria2 cri, RedirectAttributes rttr) {
 		System.out.println("업데이트 실행됨");
 		log.info("update : " + store);
 		
-		if(service.update(store)) {
-			rttr.addFlashAttribute("result", "success");
-		}
+		service.update(store);
+		rttr.addFlashAttribute("result", "success");
+
 		return "redirect:/franchise/list";
 	}
 	

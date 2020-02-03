@@ -11,9 +11,6 @@ public class Criteria {
 	private String con_type_cd;
 	private String pros_nm;
 	
-	private String fra_cd;
-	private String brand_cd;
-
 	public Criteria() {
 		this(1,10);
 	}

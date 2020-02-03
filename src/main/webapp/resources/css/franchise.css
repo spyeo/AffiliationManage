@@ -52,3 +52,23 @@
 	width: 230px;
     height: 40px;
 }
+
+.rright {
+	float: right;
+}
+
+.pagedesign {
+	text-align: center;
+	list-style: none;
+    border-radius: .25rem;
+}
+
+.page_ac {
+	display: inline-block;
+	text-align: -webkit-match-parent;
+}
+
+.borderplus {
+    border-bottom: 1px solid #dee2e6;
+}
+

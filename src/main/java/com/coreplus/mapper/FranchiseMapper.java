@@ -6,6 +6,6 @@ import com.coreplus.domain.FranchiseVO;
 
 public interface FranchiseMapper {
 
-	public List<FranchiseVO> getList();
+	public List<FranchiseVO> getList(String fra_cd);
 	
 }

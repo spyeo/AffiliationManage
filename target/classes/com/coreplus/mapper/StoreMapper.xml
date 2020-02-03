@@ -4,6 +4,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.StoreMapper">
 
+<select id="getList" resultMap="franchise">
+	
+	select fra_cd
+	     , del_yn
+	     , created_by
+	     , created
+	     , last_upd_by
+	     , last_upd
+	     , fra_nm
+	  from franchise
+	 where fra_cd = #{fra_cd}
+
+</select>
+
+
 	<sql id="criteria">
 		<trim prefix="and (" prefixOverrides="and" suffix=")" >
 			<if test="fra_cd != null">
@@ -15,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</trim>
 	</sql>
 
-<select id="getList" resultMap="fcombine">
+<!-- <select id="getList" resultMap="fcombine">
 	
 	select b.brand_cd                    as brand_cd
 	     , b.fra_cd                      as fra_cd
@@ -34,12 +49,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   and f.fra_cd = b.fra_cd
 
 </select>
-
-<!-- <select id="getListPaging" resultMap="fcombine">
+ -->
+<select id="getListPaging" resultMap="fcombine">
 	
  <![CDATA[
-	select b.brand_cd                    as brand_cd
-	     , b.fra_cd                      as fra_cd
+    select s.brand_cd                    as brand_cd
+	     , s.fra_cd                      as fra_cd
 	     , s.str_cd                      as str_cd
 	     , s.str_nm                      as str_nm
 	     , s.str_rep_nm                   as str_rep_nm
@@ -50,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	     , s.str_addr_dtl            as str_addr_dtl
 	  from
 	     (
-    select rownum as rn
+    select rownum rn
          , b.brand_cd                    as brand_cd
 	     , b.fra_cd                      as fra_cd
 	     , s.str_cd                      as str_cd
@@ -69,19 +84,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   and f.fra_cd = b.fra_cd
 
 	   ]]>
-	   
            <include refid="criteria"></include>
-         
  <![CDATA[
-           order by b.fra_cd desc
-         ) x
-           where rownum <= #{pageNum} * #{amount}
-         )
-     where rn > (#{pageNum}-1) * #{amount}
+       and rownum <= #{pageNum} * #{amount}
+         ) s
+     where rn > (#{pageNum} -1) * #{amount}
        ]]>	   
 	
 </select>
- -->
+
+<select id="totalCount" resultType="int">
+
+	select count(*)
+	  from store
+	 where str_cd > 0
+	 
+</select>
  
 <insert id="insert" parameterType="com.coreplus.domain.StoreVO">
 

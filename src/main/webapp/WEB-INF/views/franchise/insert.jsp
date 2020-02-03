@@ -24,6 +24,8 @@
                                                      	</th>
                                                         <th>브랜드
                                                     		<select name="barnd_cd" id="brand_cd" class="form_con_block plus-imp" value="${store.brand_cd}">
+                                                    			<option value="102">돈까스</option>
+                                                            	<option value="103">일식</option>
                                                             	<option value="102">분식</option>
                                                             	<option value="103">도시락</option>
                                                             	<option value="104">햄버거</option>
@@ -55,9 +57,23 @@
                                                     </tr>
                                                     
                                                     <tr><th>가맹점 주소
-                                                    <input name="str_zipcd" id="str_zipcd" type="text" class="form_con_block numform">
-                                                    <input name="str_addr" id="str_addr" type="text" class="form_con numform4">
-                                                    <input name="str_addr_dtl" id="str_addr_dtl" type="text" class="form_con numform3">
+                                                     </br>
+	                                                    <form name="juso_form" id="juso_form" method="post">
+	
+															<div id="list"></div>
+															<div id="callBackDiv">
+																<table>
+				                                                    <input name="str_zipcd" id="str_zipcd" type="text" class="form_con_block numform" placeholder="우편번호">
+				                                                    <input name="str_addr" id="str_addr" type="text" class="form_con numform4" placeholder="주소">
+				                                                    <input name="str_addr_dtl" id="str_addr_dtl" type="text" class="form_con numform3" placeholder="상세주소">
+																</table>
+															</div>
+														
+														</form>
+                                                    
+                                                    <button type="button" class="btn btn-warning" onclick="goPopup()">주소검색</button>
+													<input type="text" id="userAddr" name="userAddr" class="form-control" placeholder="주소" required="true" readonly="true"/>
+                                                    
                                                     </th></tr>
                                                     
                                                     </tbody>
@@ -108,23 +124,16 @@
 
 <script type="text/javascript">
 
-	function getcodes(code,tag){
-	   $.ajax({
-	      type : 'get',
-	      url : '/consulting/data/codes/'+code,
-	      dataType : 'json',
-	      success : function(data){
-	         if(data==null){
-	            data=0;
-	         }
-	         for(var i = 0; i < data.length; i++){
-	            $(tag).append("<option value='"+ data[i]['code']
-	            + "'>"+data[i]['code_nm'] + "</option>");
-	         }
-	      }
-	   })
-	}
+function goPopup(){
+
+	var pop = window.open("/views/franchise/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
 	
-	$(document).ready(getcodes('200','#select_reg_chnl_cd'));
+}
+
+function jusoCallBack(roadFullAddr){
+		document.form.userAddr.value = roadFullAddr;		
+}
 
 </script>
+
+

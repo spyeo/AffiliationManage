@@ -2,14 +2,14 @@ package com.coreplus.mapper;
 
 import java.util.List;
 
-import com.coreplus.domain.Criteria;
+import com.coreplus.domain.Criteria2;
 import com.coreplus.domain.StoreVO;
 
 public interface StoreMapper {
 
 	public List<StoreVO> getList();
 	
-	public List<StoreVO> getListPaging(Criteria cri);
+	public List<StoreVO> getListPaging(Criteria2 cri);
 	
 	public StoreVO read(String str_cd);
 	
@@ -19,5 +19,5 @@ public interface StoreMapper {
 	
 	public int update(StoreVO store);
 	
-	
+	public int totalCount(Criteria2 cri);
 }
