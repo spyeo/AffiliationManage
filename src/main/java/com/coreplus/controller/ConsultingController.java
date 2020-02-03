@@ -39,10 +39,12 @@ public class ConsultingController {
 	}
 
 	@GetMapping("/lead")
-	public ModelAndView lead(ModelAndView mv, @RequestParam String lead_id, Model model) {
+	public ModelAndView lead(ModelAndView mv, @ModelAttribute Criteria cri, @RequestParam String lead_id, Model model) {
 
+		int totalCount = service.getLeadCount(cri);
 		LeadVO result = service.getLeadInfo(lead_id);
 		model.addAttribute("lead", result);
+		model.addAttribute("pageMarker",new PageDTO(cri, totalCount));
 		mv.setViewName("consulting/Lead.tiles");
 		return mv;
 	}
@@ -51,17 +53,21 @@ public class ConsultingController {
 	public ModelAndView newlead(ModelAndView mv, @ModelAttribute Criteria cri, Model model) {
 		int totalCount=service.getLeadCount(cri);
 		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
-		mv.setViewName("consulting/LeadRegistForm.tiles");
+		mv.setViewName("consulting/NewLead.tiles");
 		return mv;
 	}
 	
 	@PostMapping("/registlead")
 	public String newlead(@ModelAttribute LeadVO leadVO,
 			@ModelAttribute ProspectVO prospectVO,
-			@ModelAttribute Criteria cri, Model model) {
-		
+			@RequestParam String newProspectCheck, Model model) {
+		String user="me";
+		prospectVO.setCreated_by(user);
+		prospectVO.setLast_upd_by(user);
+		leadVO.setCreated_by(user);
+		leadVO.setLast_upd_by(user);
 		leadVO.setProspectVO(prospectVO);
-		return "redirect:/consulting/leads";
+		return "/consulting/leads";
 	}
 
 }

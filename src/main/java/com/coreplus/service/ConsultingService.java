@@ -24,5 +24,9 @@ public interface ConsultingService {
 
 	public ProspectVO getProspect(String pros_id);
 
+	public boolean registLead(LeadVO leadVO);
+
+	public boolean modifyLead(LeadVO leadVO);
+
 
 }

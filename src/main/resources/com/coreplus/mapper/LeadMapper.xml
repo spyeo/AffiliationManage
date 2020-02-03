@@ -25,6 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="last_upd" property="last_upd" />
 		<result column="reg_chnl_nm" property="reg_chnl_cd" />
 		<result column="con_type_nm" property="con_type_cd" />
+		<result column="spec_desc" property="spec_desc"/>
 		<collection property="prospectVO" resultMap="prospect" />
 	</resultMap>
 
@@ -110,8 +111,9 @@ where rn > (#{pageNum}-1) * #{amount}
 <![CDATA[
 
          select a.lead_id     as lead_id
-              , c.code_nm     as reg_chnl_nm
-              , d.code_nm     as con_type_nm
+         	  , b.pros_id	  as pros_id
+         	  , a.reg_chnl_cd as reg_chnl_nm
+         	  , a.con_type_cd as con_type_nm
               , b.pros_nm     as pros_nm
               , b.cell_ph_no  as cell_ph_no
               , b.cell_ph_tno as cell_ph_tno
@@ -119,13 +121,37 @@ where rn > (#{pageNum}-1) * #{amount}
               , b.eml_id      as eml_id
               , b.eml_domain  as eml_domain
               , a.last_upd    as last_upd
+              , a.spec_desc   as spec_desc
               
-         from     lead a, prospect b, code c, code d
+         from     lead a, prospect b
          where    a.pros_id = b.pros_id
-         and	  a.reg_chnl_cd = c.code
-         and	  a.con_type_cd = d.code
          and      lead_id = #{lead_id}
 ]]>	
 </select>
+
+<insert id="insertLead">
+<![CDATA[
+
+insert into lead(lead_id, del_yn, created_by, created, last_upd_by, last_upd, reg_chnl_cd, con_type_cd, spec_desc, pros_id)
+values(seq_lead.nextval, 'n', #{created_by}, sysdate, #{last_upd_by}, sysdate, #{reg_chnl_cd}, #{con_type_cd}, #{spec_desc}, #{prospectVO.pros_id})
+
+]]>
+</insert>
+
+<update id="updateLead">
+
+<![CDATA[
+
+update lead set
+reg_chnl_cd = #{reg_chnl_cd},
+con_type_cd = #{con_type_cd},
+spec_desc = #{spec_desc},
+last_upd_by = #{last_upd_by},
+last_upd = sysdate
+where lead_id = #{lead_id}
+
+]]>
+
+</update>
 
 </mapper>

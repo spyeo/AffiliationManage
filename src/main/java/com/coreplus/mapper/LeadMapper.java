@@ -14,4 +14,10 @@ public interface LeadMapper {
 
 
 	public LeadVO selectOne(String lead_id);
+
+
+	public int insertLead(LeadVO leadVO);
+
+
+	public int updateLead(LeadVO leadVO);
 }
