@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -11,7 +12,7 @@
 
    <div class="col-sm-12">
                                     <div class="card">
-                                        <form id="searchForm" name="searchForm" action="/consulting/leads" method="get">
+                                        <form id="searchForm" name="searchForm" action="/franchise/list" method="get">
 											<input type="hidden" name="pageNum" value="1">
 											<div class="input-group">
 												<div class="input-group-prepend">
@@ -21,33 +22,44 @@
 													</span> 
 													<span class="input-group-text">
 														<span class="form-group">
-															<select name="reg_chnl_cd" class="form-control" id="select_reg_chnl_cd">
-																<option value="">없음</option>
+															<select name="fra_cd" id="fra_cd" class="form-control" value="${store.franchise.fra_cd}">
+																<option value="100">매장</option>
+                                                            	<option value="101">배달</option>
+                                                            	<option value="102">O2O</option>
 															</select>
 														</span>
 													</span> 
-													
 													
 													<span class="input-group-text">
 														브랜드
 													</span> 
 													<span class="input-group-text">
 														<span class="form-group">
-															<select name="con_type_cd" class="form-control" id="select_con_type_cd">
-																<option value="">없음</option>
+															<select name="brand_cd" id="barnd_cd" class="form-control" value="${store.barnd.brand_cd}">
+																<option value="102">돈까스</option>
+                                                            	<option value="103">일식</option>
+																<option value="102">분식</option>
+                                                            	<option value="103">도시락</option>
+                                                            	<option value="104">햄버거</option>
+                                                            	<option value="105">한식</option>
+                                                        		<option value="106">설렁탕</option>
 															</select>
 														</span>
 													</span>  
 													<span class="input-group-prepend">
-														<button type="button" class="btn btn-primary" onclick="search()">검색</button>
+														<button type="button" class="btn btn-primary" onclick="search()"> 검색 </button>
 													</span>
 													<span class="input-group-prepend">
 														<button type="button" class="btn btn-light" onclick="searchReset()">초기화</button>
 													</span>
+													<span class="input-group-prepend">
+														<button type="button" class="btn btn-primary" onclick="insertForm()"> 추가 </button>
+													</span>
 												</div>
 											</div>
 										</form>
-                                          
+										
+										
                                         </div>
                                         <div class="card-block">
                                             <table id="demo-foo-filtering" class="table table-striped table-hover">
@@ -73,7 +85,7 @@
                                                         <td><c:out value="${store.franchise.fra_cd}" /></td>
                                                         <td><c:out value="${store.brand.brand_cd}" /></td>
                                                         <td><c:out value="${store.str_cd}" /></td>
-                                                        <td><a href='/franchise/update_view?str_cd=<c:out value="${store.str_cd}"/>'>
+                                                        <td><a class='move' href='<c:out value="${store.str_cd}"/>'>
                                                         	<c:out value="${store.str_nm}" /></a></td>
                                                         <td>${store.str_rep_nm}</td>
                                                         <td><c:out value="${store.ph_area_no}"/> -
@@ -91,6 +103,36 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                        	<div class="container">
+												<ul class="pagedesign">
+										
+													<c:if test="${pageMarker.prev}">
+														<li class="page_ac">
+														<a href="${pageMarker.startPage-1 }" class="page-link">Previous</a></li>
+													</c:if>
+										
+													<c:forEach var="num" begin="${pageMarker.startPage }"
+														end="${pageMarker.endPage }">
+										
+														<c:if test="${pageMarker.cri.pageNum eq num }">
+															<li>
+																<a href="${num}" class="page-link">${num}</a>
+															</li>
+														</c:if>
+														<c:if test="${pageMarker.cri.pageNum ne num }">
+															<li>
+																<a href="${num}" class="page-link">${num}</a>
+															</li>
+														</c:if>
+													</c:forEach>
+										
+													<c:if test="${pageMaker.next }">
+														<li>
+															<a href="${pageMarcker.endPage+1 }" class="page-link">Next</a>
+														</li>
+													</c:if>
+												</ul>
+											</div>
                                     </div>
                                 </div>
         </div>
@@ -126,38 +168,21 @@
       </div>
     </div>
 
-<script type="text/javascript">
-
-	function getcodes(code,tag){
-	   $.ajax({
-	      type : 'get',
-	      url : '/consulting/data/codes/'+code,
-	      dataType : 'json',
-	      success : function(data){
-	         if(data==null){
-	            data=0;
-	         }
-	         for(var i = 0; i < data.length; i++){
-	            $(tag).append("<option value='"+ data[i]['code']
-	            + "'>"+data[i]['code_nm'] + "</option>");
-	         }
-	      }
-	   })
-	}
-	
-	$(document).ready(getcodes('200','#select_reg_chnl_cd'));
-
-</script>
 
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script>
 
+function insertForm(){
+	var actionForm=$('#actionForm');
+	actionForm.attr("action", "/franchise/insert");
+	actionForm.submit();
+}
+
 function search(){
 	var searchfm = $('#searchForm');
-	var regchnl = $('#searchForm [name="reg_chnl_cd"]').val();
-	var contype = $('#searchForm [name="con_type_cd"]').val();
-	var name = $('#searchForm [name="pros_nm"]').val();
-	if(regchnl!="" || contype!="" || name!=""){
+	var franchise = $('#searchForm [name="fra_cd"]').val();
+	var brand = $('#searchForm [name="brand_cd"]').val();
+	if(franchise!="" || brand!=""){
 		searchfm.submit();
 	}
 }
@@ -166,62 +191,28 @@ function searchReset(){
 	location.href="/franchise/list";
 }
 
-function getcodes(code, tag, codename){
+function getvalues(brand_cd, tag, name){
 	$.ajax({
 		type : 'get',
-		url : '/consulting/data/codes/'+code,
+		url : '/franchise/ajax/store/',
 		dataType : 'json',
 		success : function(data){
-			if(data==null){
-				data=0;
-			}
-			for(var i = 0; i < data.length; i++){
-				
-				$(tag).append("<option value='"+ data[i]['code']
-				+ "'>"+data[i]['code_nm'] + "</option>");
-			}
-			if($('#actionForm [name="'+codename+'"]').val() != null){
-				$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
-			}
+			alert(data);
 			
 		}
 	})
 }
 
-$(document).ready(getcodes('200','#select_reg_chnl_cd','reg_chnl_cd'));
-$(document).ready(getcodes('300','#select_con_type_cd','con_type_cd'));
+$(document).ready(getvalues('102','#fra_cd','fra_cd'));
+$(document).ready(getvalues('103','#fra_cd','fra_cd'));
+
+
 
 $(document).ready(function (){
-	/*
-	var result = '<c:out value="${result}"/>';
-	
-	checkModal(result);
-	
-	history.replaceState({},null,null);
-	
-	function checkModal(result) {
-		
-		if(result === '' || history.state) {
-			return;
-		}
-		
-		if (parseInt(result)>0) {
-			$(".modal-body").html("게시글 " + parseInt(result) + "번이 등록되었습니다.");
-		}
-		
-		$("#myModal").modal("show");
-		
-	}
-	
-	$("#regBtn").on("click", function(){
-		self.location = "/consulting/register";
-	});
-	
-	*/
 	
 	var actionForm = $("#actionForm");
 	
-	$(".page-item .page-link").on("click", function(e){
+	$(".page_ac .page-link").on("click", function(e){
 		e.preventDefault();
 		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 		actionForm.submit();
@@ -230,10 +221,19 @@ $(document).ready(function (){
 	$(".move").on("click", function(e){
 		
 		e.preventDefault();
-		actionForm.append("<input type='hidden' name='lead_id' value='"+$(this).attr("href")+"'>");
-		actionForm.attr("action","/consulting/lead");
+		actionForm.append("<input type='hidden' name='str_cd' value='"+$(this).attr("href")+"'>");
+		actionForm.attr("action","/franchise/update_view");
 		actionForm.submit();
 	})
 	
 });
 </script>
+
+<form id='actionForm' action="/franchise/list" method='get'>
+
+	<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+	<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+	<input type='hidden' name='fra_cd' value='${pageMaker.cri.fra_cd}'>
+	<input type='hidden' name='brand_cd' value='${pageMaker.cri.brand_cd}'>
+	
+</form>

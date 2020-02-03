@@ -3,3 +3,72 @@
 	text-align: center;
     padding-top: 80px;
 }
+
+.form_con {
+    height: calc(2.25rem + 2px);
+    padding: .25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    margin: 5px;
+}
+
+.form_con_block {
+	display: block;
+    height: calc(2.25rem + 2px);
+    padding: .25rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    margin: 5px;
+}
+
+.numform {
+	width: 70px;
+    height: 40px;
+}
+
+.numform2 {
+	width: 100px;
+    height: 40px;
+}
+
+.numform3 {
+	width: 180px;
+    height: 40px;
+}
+
+.numform4 {
+	width: 230px;
+    height: 40px;
+}
+
+.rright {
+	float: right;
+}
+
+.pagedesign {
+	text-align: center;
+	list-style: none;
+    border-radius: .25rem;
+}
+
+.page_ac {
+	display: inline-block;
+	text-align: -webkit-match-parent;
+}
+
+.borderplus {
+    border-bottom: 1px solid #dee2e6;
+}
+

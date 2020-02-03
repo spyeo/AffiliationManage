@@ -6,6 +6,6 @@ import com.coreplus.domain.BrandVO;
 
 public interface BrandMapper {
 
-	public List<BrandVO> getList();
+	public List<BrandVO> getList(String brand_cd);
 	
 }

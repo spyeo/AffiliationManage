@@ -7,7 +7,7 @@
 
       <div id="content-wrapper">
 
-        <div class="container-fluid">s
+        <div class="container-fluid">
 
    <div class="col-sm-12">
                                     <div class="card">
@@ -17,61 +17,62 @@
                                             	<tbody>
                                                     <tr>
                                                         <th>가맹사업
-                                                          <div class="col-12">
-                                                       	 	<select class="js-example-basic-single form-control plus-imp">
+                                                       	 	<select class="form_con_block">
                                                             	<option value="100">매장</option>
                                                             	<option value="101">배달</option>
                                                             	<option value="102">O2O</option>
                                                         	</select> 
-                                                     	</div></th>
+                                                     	</th>
                                                         <th>브랜드
-                                                        <div class="col-12">
-                                                    		<select name="barnd_cd" id="brand_cd" class="js-example-basic-single form-control plus-imp" value="${store.brand_cd}">
-                                                            	<option value="102">분식</option>
-                                                            	<option value="103">도시락</option>
-                                                            	<option value="104">햄버거</option>
-                                                            	<option value="105">한식</option>
-                                                        		<option value="106">설렁탕</option>
+                                                    		<select name="barnd_cd" id="brand_cd" class="form_con_block plus-imp" value="${store.brand_cd}">
+                                                    			<option value="102">돈까스</option>
+                                                            	<option value="103">일식</option>
+                                                            	<option value="104">분식</option>
+                                                            	<option value="105">도시락</option>
+                                                            	<option value="106">햄버거</option>
+                                                            	<option value="107">한식</option>
+                                                        		<option value="108">설렁탕</option>
                                                         	</select> 
-                                                     	</div></th>
+                                                     	</th>
                                                     </tr>
                                                      <tr>
                                                    		<th>가맹점 코드
-                                                   		<input name="str_cd" id="str_cd" type="text" class="form-control plus-imp" value="${store.str_cd}">
+                                                   		<input name="str_cd" id="str_cd" type="text" class="form_con_block numform" value="${store.str_cd}">
                                                    		</th>
                                                    		
                                                    		<th>가맹점명
-                                                        <input name="str_nm" id="str_nm" type="text" class="form-control plus-imp" value="${store.str_nm}">
+                                                        <input name="str_nm" id="str_nm" type="text" class="form_con_block numform3" value="${store.str_nm}">
                                                         </th>
                                                     </tr>
                                                     <tr>
                                                    		<th>대표자명
-                                                   		<input name="str_rep_nm" id="str_rep_nm" type="text" class="form-control plus-imp" value="${store.str_rep_nm}">
+                                                   		<input name="str_rep_nm" id="str_rep_nm" type="text" class="form_con_block numform2" value="${store.str_rep_nm}">
                                                    		</th>
                                                    		
                                                         <th>전화번호
-                                                        <input name="ph_area_no" id="ph_area_no" type="text" class="form-control plus-imp" value="${store.ph_area_no}">-
-                                                        <input name="ph_tno" id="ph_tno" type="text" class="form-control plus-imp" value="${store.ph_tno}">-
-                                                        <input name="ph_cno" id="ph_cno" type="text" class="form-control plus-imp" value="${store.ph_cno}">
+                                                        </br>
+                                                        <input name="ph_area_no" id="ph_area_no" type="text" class="form_con numform" value="${store.ph_area_no}">-
+                                                        <input name="ph_tno" id="ph_tno" type="text" class="form_con numform" value="${store.ph_tno}">-
+                                                        <input name="ph_cno" id="ph_cno" type="text" class="form_con numform" value="${store.ph_cno}">
                                                         </th>
                                                     </tr>
                                                     
                                                     <tr><th>가맹점 주소
-                                                    <input name="str_zipcd" id="str_zipcd" type="text" class="form-control plus-imp" value="${store.str_zipcd}">
-                                                    <input name="str_addr" id="str_addr" type="text" class="form-control plus-imp" value="${store.str_addr}">
-                                                    <input name="str_addr_dtl" id="str_addr_dtl" type="text" class="form-control plus-imp" value="${store.str_addr_dtl}">
+                                                    <input name="str_zipcd" id="str_zipcd" type="text" class="form_con_block numform" value="${store.str_zipcd}">
+                                                    <input name="str_addr" id="str_addr" type="text" class="form_con numform4" value="${store.str_addr}">
+                                                    <input name="str_addr_dtl" id="str_addr_dtl" type="text" class="form_con numform3" value="${store.str_addr_dtl}">
                                                     </th></tr>
                                                     
                                                     <input name="last_upd" id="last_upd" type="hidden" class="form-control plus-imp" 
                                                     	value='<fmt:formatDate pattern="YYYY-MM-DD" value="${store.last_upd}"/>'>
-                                                   
+                                                    
                                                     </tbody>
 	                                            </table>
                                        				 <div id="plus-size1" class="modal-footer">
-                                                         <input type="submit" class="update btn btn-primary" value="정">
-                                                         <button class="delete btn btn-secondary">삭제</button>
-                                                         <button type="button" class="btn btn-defalut"
-                                                         	onclick="location.href='/franchise/list'">목록</button>
+                                                         <button type="submit" data-oper='update' class="btn btn-primary">수정</button>
+                                                         <button type="submit" data-oper='delete' class="btn btn-secondary">삭제</button>
+                                                         <button type="submit" data-oper='list' class="btn btn-secondary">목록</button>
+                                                         
                                                      </div>
                                                    </form>
                                         		</div>
@@ -110,43 +111,36 @@
       </div>
     </div>
 
+<!-- 
+		업데이트 페이지로 이동하는 로직 / 필요없음 
+		
+		var operForm = $("#operForm");
+		
+		$("button[data-oper='update']").on("click", function(e){
+			operForm.attr("action", "/franchise/update").submit();			
+		});
+		
+ -->
 <script type="text/javascript">
 
 	$(document).ready(function(){
+		
 		var formObj = $("form");
 		
-		// 수정 
-		$(".update").on("click", function(){
-			formObj.attr("action", "/franchise/update_view");
-			formObj.attr("method", "get");
-			formObj.submit();				
-		});
-		
-		// 삭제
-		$(".delete").on("click", function(){
-			formObj.attr("action", "/franchise/delete");
-			formObj.attr("method", "post");
+		$('button').on("click", function(e){
+			
+			e.preventDefault();
+			var operation = $(this).data("oper");
+			
+			if(operation === 'delete'){
+				formObj.attr("action", "/franchise/delete");
+			}else if(operation === 'list'){
+				formObj.attr("action", "/franchise/list").attr("method","get");
+				formObj.empty();
+			}
 			formObj.submit();
+			
 		});
 	});
 	
-	function getcodes(code,tag){
-	   $.ajax({
-	      type : 'get',
-	      url : '/consulting/data/codes/'+code,
-	      dataType : 'json',
-	      success : function(data){
-	         if(data==null){
-	            data=0;
-	         }
-	         for(var i = 0; i < data.length; i++){
-	            $(tag).append("<option value='"+ data[i]['code']
-	            + "'>"+data[i]['code_nm'] + "</option>");
-	         }
-	      }
-	   })
-	}
-	
-	$(document).ready(getcodes('200','#select_reg_chnl_cd'));
-
 </script>
