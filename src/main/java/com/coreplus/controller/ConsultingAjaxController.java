@@ -81,4 +81,16 @@ public class ConsultingAjaxController {
 		 
 		 return result;
 	 }
+	 
+	 @PostMapping(value="/deletelead/{lead_id}", produces= {
+			 MediaType.APPLICATION_JSON_UTF8_VALUE})
+	 public boolean deletelead(@PathVariable("lead_id") String lead_id) {
+		 boolean result=false;
+		 System.out.println(lead_id);
+		 if(service.deleteLead(lead_id)) {
+			 result=true;
+		 }
+		 System.out.println("result   " + result);
+		 return result;
+	 }
 }

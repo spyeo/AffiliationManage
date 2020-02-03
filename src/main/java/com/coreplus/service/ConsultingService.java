@@ -28,5 +28,7 @@ public interface ConsultingService {
 
 	public boolean modifyLead(LeadVO leadVO);
 
+	public boolean deleteLead(String lead_id);
+
 
 }

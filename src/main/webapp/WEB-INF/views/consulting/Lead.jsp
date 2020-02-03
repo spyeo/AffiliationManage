@@ -21,16 +21,36 @@ function modifyLead(){
 		$("#spec_desc").attr("readonly", false);
 		$("#select_reg_chnl_cd").removeAttr("disabled");
 		$("#select_con_type_cd").removeAttr("disabled");
-		CKEDITOR.instances['spec_desc'].setReadOnly(false);
-		$("#actionButton").prepend("<button type='button' id='modifySubmit' class='btn btn-primary' onclick='modifySubmit()'>저장</button>");
+		CKEDITOR.instances.spec_desc.setReadOnly(false);
+		$("#signup").show();
+		$("#deletelead").show();
+		$("#modify").hide();
 		check = true;
 	}
 }
 
-function modifySubmit(){
+function dellead(){
+	var lead_id = $("#lead_id").val();
+	$.ajax({
+		type : 'post',
+		url : '/consulting/data/deletelead/'+lead_id,
+		dataType : 'json',
+		success : function(data){
+			alert("삭제 되었습니다.");
+			backToLeads();
+			
+		},
+		error : function(xhr, status, error){
+			alert("수정하는 도중 에러가 발생했습니다.");
+		}
+	});
+}
+
+function signUp(){
 	
 	var text = CKEDITOR.instances.spec_desc.getData();
-	$("#spec_desc").val(text);
+	//CKEDITOR.instances.spec_desc.setData(text)
+	$("textarea#spec_desc").val(text);
 	var queryString = $("form[id=modifyForm]").serialize();
 	$.ajax({
 		type : 'post',
@@ -72,6 +92,12 @@ function getcodes(code, tag, codename){
 
 $(document).ready(getcodes('200', '#select_reg_chnl_cd', 'reg_chnl_cd'));
 $(document).ready(getcodes('300', '#select_con_type_cd', 'con_type_cd'));
+$(document).ready(function(){
+	$("#signup").hide();
+	$("#deletelead").hide();
+	CKEDITOR.replace('spec_desc');
+	CKEDITOR.instances.spec_desc.setReadOnly(true);
+});
 
 </script>
 </head>
@@ -89,8 +115,8 @@ $(document).ready(getcodes('300', '#select_con_type_cd', 'con_type_cd'));
 								<tr>
 									<th>
 									가망고객명
-									<input type="hidden" name="lead_id" value="${lead.lead_id }">
-									<input type="hidden" name="pros_id" value="${lead.prospectVO.pros_id }">
+									<input type="hidden" name="lead_id" id="lead_id" value="${lead.lead_id }">
+									<input type="hidden" name="pros_id" id="pros_id" value="${lead.prospectVO.pros_id }">
 									</th>
 									<th colspan="4">
 										<div class="row">
@@ -169,17 +195,15 @@ $(document).ready(getcodes('300', '#select_con_type_cd', 'con_type_cd'));
 									<th colspan="3"><textarea name="spec_desc" id="spec_desc"
 											rows="10" cols="80">
 											${lead.spec_desc}
-											</textarea> 
-											<script>
-												CKEDITOR.replace('spec_desc');
-												CKEDITOR.instances['spec_desc'].setReadOnly(true);
-												</script>
+											</textarea>
 									</th>
 								</tr>
 							</tbody>
 						</table>
 						<div id="actionButton" class="modal-footer">
 							<button type="button" id="modify" class="btn btn-primary" onclick="modifyLead()">수정</button>
+							<button type='button' id='signup' class='btn btn-primary' onclick="signUp()">저장</button>
+							<button type='button' id='deletelead' class='btn btn-primary' onclick="dellead()">삭제</button>
 							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
 						</div>
 					</form>

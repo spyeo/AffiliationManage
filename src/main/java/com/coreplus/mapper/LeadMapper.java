@@ -20,4 +20,7 @@ public interface LeadMapper {
 
 
 	public int updateLead(LeadVO leadVO);
+
+
+	public int deleteLead(String lead_id);
 }

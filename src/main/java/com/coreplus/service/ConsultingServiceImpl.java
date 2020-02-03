@@ -89,5 +89,15 @@ public class ConsultingServiceImpl implements ConsultingService{
 		return false;
 	}
 
+	@Override
+	public boolean deleteLead(String lead_id) {
+		boolean leadResult=false;
+		if(leadMapper.deleteLead(lead_id)>0)
+		{
+			leadResult=true;
+		}
+		return leadResult;
+	}
+
 
 }
