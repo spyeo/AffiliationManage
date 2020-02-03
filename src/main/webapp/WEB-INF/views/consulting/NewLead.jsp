@@ -5,37 +5,90 @@
 
 <script>
 
+
 function searchProspects(){
-	var url = "/consulting/prospects";
-	if($("input[id='newProspect']:checked").length<=0){
-		$("#exampleModalLabel").load(url, function(){
-			$("#exampleModalLabel").modal();
-			
-		});
+	if($("input:checkbox[id=newProspectCheck]").is(":checked") == false){
+		$("#modalBody").empty();
+		$("#inputName").val($("#searchProsNm").val());
+		if($.trim($("inputName").val()) == ''){
+			getProspects();
+		}
+		$("#modalView").modal("show");
+		
 	}
 }
 
-function registLead(){
-
-	var queryString = $("form[id=registForm]").serialize();
-	
+function getProspects(){
+	var name = $("#inputName").val();
 	$.ajax({
-		type : 'post',
-		url : '/consulting/registlead',
-		data : queryString,
+		type : 'get',
+		url : '/consulting/data/prospects/'+name,
 		dataType : 'json',
 		success : function(data){
-			alert('저장되었습니다.');
+			$("#modalBody").empty();
+			if(data.length>0){
+				$("#modalBody").append('<table border="1"> <tr><th colspan="2"> 이름</th></tr>');
+				for(var i=0; i<data.length ; i++){
+					$("#modalBody").append('<tr><td><input type="text" value="'+data[i]["pros_nm"]
+					+'"/> </td> <td><button type="button" onclick="readProspect('+'&quot;'+data[i]["pros_id"]+'&quot;'+')">선택</button></td></tr>');
+				}
+				$("#modalBody").append('</table>');
+			}
+			else{
+				$("#modalBody").append('검색 결과가 없습니다.');
+			}
+			
 		},
 		error : function(xhr, status, error){
-			alert('실패했습니다.');
+			$("#modalBody").empty();
+			$("#modalBody").append('검색어를 입력해 주세요.');
+		}
+	});
+}
+
+function readProspect(id){
+	$("#modalView").modal("hide");
+	
+	$.ajax({
+		type : 'get',
+		url : '/consulting/data/prospect/'+id,
+		dataType : 'json',
+		success : function(data){
+			$("#pros_id").val(data['pros_id']);
+			$("#searchProsNm").val(data['pros_nm']);
+			$("#pros_id").val(data['pros_id']);
+			$("#pros_nm").val(data['pros_nm']);
+			$("#cell_ph_no").val(data['cell_ph_no']);
+			$("#cell_ph_tno").val(data['cell_ph_tno']);
+			$("#cell_ph_pno").val(data['cell_ph_pno']);
+			$("#eml_id").val(data['eml_id']);
+			$("#eml_domain").val(data['eml_domain']);
 		}
 	});
 }
 
 function backToLeads(){
 	
-	document.getElementById('#actionForm').submit();
+	document.getElementById('actionForm').submit();
+}
+
+function registLead(){
+	var text = CKEDITOR.instances.spec_desc.getData();
+	$("#spec_desc").val(text);
+	var queryString = $("form[id=registForm]").serialize();
+	$.ajax({
+		type : 'post',
+		url : '/consulting/data/registlead',
+		dataType : 'json',
+		data : queryString,
+		success : function(data){
+			alert("저장하였습니다.");
+			backToLeads();
+		},
+		error : function(xhr, status, error){
+			alert("저장하는 도중 에러가 발생했습니다.");
+		}
+	});
 }
 
 function getcodes(code, tag, codename){
@@ -62,17 +115,21 @@ function getcodes(code, tag, codename){
 	});
 }
 
+
+
 $(document).ready(getcodes('200', '#select_reg_chnl_cd', null));
 $(document).ready(getcodes('300', '#select_con_type_cd', null));
 $(document).ready(function(){
-	$("#newProspect").change(function(){
-		if($("#newProspect").is(":checked")){
+	$("#newProspectCheck").change(function(){
+		if($("#newProspectCheck").is(":checked")){
 			$("#pros_nm").attr("readonly",false);
 			$("#cell_ph_no").attr("readonly",false);
 			$("#cell_ph_tno").attr("readonly",false);
 			$("#cell_ph_pno").attr("readonly",false);
 			$("#eml_id").attr("readonly",false);
 			$("#eml_domain").attr("readonly",false);
+			
+			$("#searchProsNm").attr("readonly",true);
 		}
 		else{
 			$("#pros_nm").attr("readonly",true);
@@ -81,13 +138,15 @@ $(document).ready(function(){
 			$("#cell_ph_pno").attr("readonly",true);
 			$("#eml_id").attr("readonly",true);
 			$("#eml_domain").attr("readonly",true);
+			
+			$("#pros_nm").val('');
+			$("#cell_ph_no").val('');
+			$("#cell_ph_tno").val('');
+			$("#cell_ph_pno").val('');
+			$("#eml_id").val('');
+			$("#eml_domain").val('');
 		}
 	})
-});
-$(document).ready(function(){
-	$("#exampleModalCenter").on('show.bs.modal', function (event) {
-		//이벤트 생성
-	});
 });
 </script>
 
@@ -102,19 +161,11 @@ $(document).ready(function(){
 						<table id="demo-foo-filtering" class="table">
 							<tbody>
 								
-								<!-- 
-								<tr>
-									<th>모객접수ID</th>
-									<th><input name="lead_id" type="text" value="자동채번 됩니다."
-										class="form-control plus-imp" readonly></th>
-								</tr>
-								 -->
-								
 								<tr>
 									<th>고객명</th>
 									<th>
 										<div class="input-group mb-3">
-  											<input type="text" class="form-control">
+  											<input id="searchProsNm" type="text" class="form-control">
  					 						<div class="input-group-append">
 	    										<span class="input-group-text" id="basic-addon2">
 		    										 <a href="#" id="searchProspects" onclick="searchProspects()">검색</a>
@@ -123,14 +174,9 @@ $(document).ready(function(){
 										</div>
 									</th>
 									<th>신규여부</th>
-									<th><label><input type="checkbox" id="newProspect">신규</label></th>
+									<th><label><input type="checkbox" name="newProspectCheck" id="newProspectCheck" value="check">신규</label></th>
 								</tr>
 								<tr>
-									
-									<!-- <th>가망고객ID</th>
-									<th><input id="pros_id" name="pros_id" type="text" value="자동채번 됩니다."
-										class="form-control plus-imp" readonly></th>
-									 -->
 									<th>가망고객명</th>
 									<th colspan="3">
 										<div class="row">
@@ -138,6 +184,7 @@ $(document).ready(function(){
 												<input id="pros_nm" name="pros_nm" type="text"
 										class="form-control" readonly>
 											</div>
+											<input type="hidden" id="pros_id" name="pros_id">
 										</div>
 									</th>
 									
@@ -201,17 +248,17 @@ $(document).ready(function(){
 								</tr>
 								<tr>
 									<th>특이사항</th>
-									<th colspan="3"><textarea name="editor1" id="editor1"
+									<th colspan="3"><textarea name="spec_desc" id="spec_desc"
 											rows="10" cols="80">
             						</textarea> <script>
-												CKEDITOR.replace('editor1');
-												</script></th>
+												CKEDITOR.replace('spec_desc');
+												</script>
+									</th>
 								</tr>
 							</tbody>
 						</table>
 						<div id="plus-size1" class="modal-footer">
-							<button type="button" id="regist" class="btn btn-primary" onclick="registLead()">저장</button>
-							<button type="button" id="calcel" class="btn btn-secondary">취소</button>
+							<button type="button" id="regist" class="btn btn-primary" onclick="registLead()">등록</button>
 							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
 						</div>
 					</form>
@@ -221,11 +268,21 @@ $(document).ready(function(){
 	</div>
 </div>
 
-<div id="exampleModalLabel" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" style="width:600px;height:350px;backgroud-color:white">
-        <div class="modal-content">
-        </div>
+<div class="modal fade" id="modalView" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h5>고객명</h5>
+    <input type="text" class="form-control" id="inputName">
+    <button type="submit" class="btn btn-primary" onclick="getProspects()">검색</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <form id='actionForm' action="/consulting/leads" method='get'>

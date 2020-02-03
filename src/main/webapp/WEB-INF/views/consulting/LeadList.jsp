@@ -44,7 +44,7 @@ function getcodes(code, tag, codename){
 				$(tag).append("<option value='"+ data[i]['code']
 				+ "'>"+data[i]['code_nm'] + "</option>");
 			}
-			if($('#actionForm [name="'+codename+'"]').val() != null){
+			if(codename != null){
 				$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
 			}
 			
@@ -218,7 +218,6 @@ $(document).ready(function (){
 		</ul>
 	</div>
 </div>
-
 <!-- 페이지 처리 히든 파라매터 -->
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value = '${pageMarker.cri.pageNum }'>

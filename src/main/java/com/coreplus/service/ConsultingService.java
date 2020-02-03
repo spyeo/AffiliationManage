@@ -20,7 +20,15 @@ public interface ConsultingService {
 	
 	public LeadVO getLeadInfo(String lead_id);
 
-	public List<ProspectVO> getProspectList(Criteria cri);
+	public List<ProspectVO> getProspectList(String name);
+
+	public ProspectVO getProspect(String pros_id);
+
+	public boolean registLead(LeadVO leadVO);
+
+	public boolean modifyLead(LeadVO leadVO);
+
+	public boolean deleteLead(String lead_id);
 
 
 }

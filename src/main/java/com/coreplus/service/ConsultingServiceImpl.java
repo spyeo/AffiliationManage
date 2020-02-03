@@ -46,8 +46,57 @@ public class ConsultingServiceImpl implements ConsultingService{
 	}
 
 	@Override
-	public List<ProspectVO> getProspectList(Criteria cri) {
-		return prospectMapper.selectList(cri);
+	public List<ProspectVO> getProspectList(String name) {
+		return prospectMapper.selectList(name);
+	}
+
+	@Override
+	public ProspectVO getProspect(String pros_id) {
+		return prospectMapper.selectOne(pros_id);
+	}
+
+	@Override
+	public boolean registLead(LeadVO leadVO) {
+		int prosResult;
+		int leadResult;
+		if(leadVO.getProspectVO().getPros_id().length() <= 0) {
+			prosResult = prospectMapper.insertProspect(leadVO.getProspectVO());
+		}
+		else {
+			prosResult = 1;
+		}
+		leadResult = leadMapper.insertLead(leadVO);
+
+		if(prosResult > 0 && leadResult > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean modifyLead(LeadVO leadVO) {
+		int prosResult;
+		int leadResult;
+		System.out.println("before");
+		prosResult = prospectMapper.updateProspect(leadVO.getProspectVO());
+		System.out.println("pros=============");
+		leadResult = leadMapper.updateLead(leadVO);
+		System.out.println("lead=============");
+		
+		if(prosResult > 0 && leadResult > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteLead(String lead_id) {
+		boolean leadResult=false;
+		if(leadMapper.deleteLead(lead_id)>0)
+		{
+			leadResult=true;
+		}
+		return leadResult;
 	}
 
 
