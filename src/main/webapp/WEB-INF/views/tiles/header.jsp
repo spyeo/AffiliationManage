@@ -20,6 +20,12 @@
 		</ul>
     </nav>
     <!-- 빵 조각 네비게이션 -->
+    <!-- 
+        링크 클릭 이벤트 
+    url 생성 후 비교하여 없으면 배열에 추가, 이전 메뉴로 이동시 배열 삭제,
+    for문으로 breadcrumb 생성
+    	  
+    -->
      <div class="minimenu">
 		<ul class="breadcrumb pamini"> 
             <li class="breadcrumb-item"><a href="/">홈</a></li>
