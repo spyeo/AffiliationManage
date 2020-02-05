@@ -10,7 +10,7 @@
 <script>
 
 var check = false;
-function modifyLead(){
+function modifyActive(){
 	if(check == false){
 		$("#pros_nm").attr("readonly", false);
 		$("#cell_ph_no").attr("readonly", false);
@@ -21,15 +21,15 @@ function modifyLead(){
 		$("#spec_desc").attr("readonly", false);
 		$("#select_reg_chnl_cd").removeAttr("disabled");
 		$("#select_con_type_cd").removeAttr("disabled");
-		CKEDITOR.instances.spec_desc.setReadOnly(false);
 		$("#signup").show();
 		$("#deletelead").show();
 		$("#modify").hide();
 		check = true;
+		CKEDITOR.instances['spec_desc'].setReadOnly(false);
 	}
 }
 
-function dellead(){
+function deleteLead(){
 	var lead_id = $("#lead_id").val();
 	$.ajax({
 		type : 'post',
@@ -41,15 +41,14 @@ function dellead(){
 			
 		},
 		error : function(xhr, status, error){
-			alert("수정하는 도중 에러가 발생했습니다.");
+			alert("삭제하는 도중 에러가 발생했습니다.");
 		}
 	});
 }
 
-function signUp(){
+function modifyLead(){
 	
 	var text = CKEDITOR.instances.spec_desc.getData();
-	//CKEDITOR.instances.spec_desc.setData(text)
 	$("textarea#spec_desc").val(text);
 	var queryString = $("form[id=modifyForm]").serialize();
 	$.ajax({
@@ -70,7 +69,7 @@ function backToLeads(){
 	document.getElementById('actionForm').submit();
 }
 
-function getcodes(code, tag, codename){
+function getcodes(code, selecter_id, code_type){
 	$.ajax({
 		type : 'get',
 		url : '/consulting/data/codes/'+code,
@@ -80,12 +79,12 @@ function getcodes(code, tag, codename){
 				data=0;
 			}
 			for(var i = 0; i < data.length; i++){
-				$(tag).append("<option value='"+ data[i]['code']
+				$(selecter_id).append("<option value='"+ data[i]['code']
 				+ "'>"+data[i]['code_nm'] + "</option>");
 			}
-			var id= "#"+codename
-			$(tag).val($(id).val()).attr("selected", true);
-			$(tag).not(":selected").attr("disabled", "disabled");
+			var id= "#"+code_type
+			$(selecter_id).val($(id).val()).attr("selected", true);
+			$(selecter_id).not(":selected").attr("disabled", "disabled");
 		}
 	});
 }
@@ -95,8 +94,6 @@ $(document).ready(getcodes('300', '#select_con_type_cd', 'con_type_cd'));
 $(document).ready(function(){
 	$("#signup").hide();
 	$("#deletelead").hide();
-	CKEDITOR.replace('spec_desc');
-	CKEDITOR.instances.spec_desc.setReadOnly(true);
 });
 
 </script>
@@ -106,7 +103,7 @@ $(document).ready(function(){
 
 	<div class="container-fluid">
 
-		<div class="col-sm-12">
+		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-block">
 					<form id="modifyForm" method="post" action="/consulting/data/modifylead">
@@ -196,14 +193,19 @@ $(document).ready(function(){
 											rows="10" cols="80">
 											${lead.spec_desc}
 											</textarea>
+											<script>
+												CKEDITOR.replace('spec_desc');
+												CKEDITOR.config.readOnly = true;
+												
+											</script>
 									</th>
 								</tr>
 							</tbody>
 						</table>
 						<div id="actionButton" class="modal-footer">
-							<button type="button" id="modify" class="btn btn-primary" onclick="modifyLead()">수정</button>
-							<button type='button' id='signup' class='btn btn-primary' onclick="signUp()">저장</button>
-							<button type='button' id='deletelead' class='btn btn-primary' onclick="dellead()">삭제</button>
+							<button type="button" id="modify" class="btn btn-primary" onclick="modifyActive()">수정</button>
+							<button type='button' id='signup' class='btn btn-primary' onclick="modifyLead()">저장</button>
+							<button type='button' id='deletelead' class='btn btn-primary' onclick="deleteLead()">삭제</button>
 							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
 						</div>
 					</form>

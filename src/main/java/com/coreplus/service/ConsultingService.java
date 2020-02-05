@@ -10,7 +10,10 @@ import com.coreplus.domain.ProspectVO;
 public interface ConsultingService {
 	
 	//code table crud
-	public List<CodeVO> getCodeList(String code);
+	
+	public List<CodeVO> getCodeList();
+	
+	public List<CodeVO> getSelectCodeList(String code);
 
 	//lead table crud
 	

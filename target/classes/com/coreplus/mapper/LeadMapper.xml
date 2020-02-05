@@ -23,8 +23,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<resultMap id="leadReceipt" type="com.coreplus.domain.LeadVO">
 		<result column="lead_id" property="lead_id" />
 		<result column="last_upd" property="last_upd" />
-		<result column="reg_chnl_nm" property="reg_chnl_cd" />
-		<result column="con_type_nm" property="con_type_cd" />
+		<result column="reg_chnl_cd" property="reg_chnl_cd" />
+		<result column="con_type_cd" property="con_type_cd" />
 		<result column="spec_desc" property="spec_desc"/>
 		<collection property="prospectVO" resultMap="prospect" />
 	</resultMap>
@@ -52,8 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <![CDATA[
 select lead_id
-     , reg_chnl_nm
-     , con_type_nm
+     , reg_chnl_cd
+     , con_type_cd
      , pros_nm
      , cell_ph_no
      , cell_ph_tno
@@ -62,46 +62,26 @@ select lead_id
      , eml_domain
      , last_upd
      
-from 
-    (
-    select rownum as rn
-         , x.lead_id
-         , x.reg_chnl_nm
-         , x.con_type_nm
-         , x.pros_nm
-         , x.cell_ph_no
-         , x.cell_ph_tno
-         , x.cell_ph_pno
-         , x.eml_id
-         , x.eml_domain
-         , x.last_upd
-         
-    from 
-        (select a.lead_id
-              , c.code_nm     as reg_chnl_nm
-              , d.code_nm     as con_type_nm
-              , b.pros_nm
-              , b.cell_ph_no
-              , b.cell_ph_tno
-              , b.cell_ph_pno
-              , b.eml_id
-              , b.eml_domain
-              , a.last_upd
+from (select (rank() over(order by a.last_upd desc, b.pros_nm)) rownums
+           , a.lead_id
+           , a.reg_chnl_cd
+           , a.con_type_cd
+           , b.pros_nm
+           , b.cell_ph_no
+           , b.cell_ph_tno
+           , b.cell_ph_pno
+           , b.eml_id
+           , b.eml_domain
+           , a.last_upd
               
-         from     lead a, prospect b, code c, code d
-         where    a.pros_id = b.pros_id
-         and      a.reg_chnl_cd = c.code
-         and      a.con_type_cd = d.code
+      from     lead a, prospect b
+      where    a.pros_id = b.pros_id
          ]]>
-         
-         <include refid="criteria"></include>
-         
+         <include refid="criteria"></include> 
          <![CDATA[
-         order by a.last_upd desc, b.pros_nm
-        ) x
-    where rownum <= #{pageNum} * #{amount}
-    )
-where rn > (#{pageNum}-1) * #{amount}
+     )
+    where rownums <= #{pageNum} * #{amount}
+    and rownums > (#{pageNum}-1) * #{amount}
 ]]>
 
 	</select>
@@ -112,8 +92,8 @@ where rn > (#{pageNum}-1) * #{amount}
 
          select a.lead_id     as lead_id
          	  , b.pros_id	  as pros_id
-         	  , a.reg_chnl_cd as reg_chnl_nm
-         	  , a.con_type_cd as con_type_nm
+         	  , a.reg_chnl_cd as reg_chnl_cd
+         	  , a.con_type_cd as con_type_cd
               , b.pros_nm     as pros_nm
               , b.cell_ph_no  as cell_ph_no
               , b.cell_ph_tno as cell_ph_tno

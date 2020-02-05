@@ -13,17 +13,20 @@
 	</nav>
 	<nav id="topMenu">	
 		<ul>
-			<li><a class="menuLink" href="#">가맹점</a></li>
-			<li><a class="menuLink" href="#">상담/계약</a></li>
+			<li><a class="menuLink" href="/franchise/list">가맹점</a></li>
+			<li><a class="menuLink" href="/consulting/leads">상담/계약</a></li>
 			<li><a class="menuLink" href="#">대시보드</a></li>
 			<li><a class="menuLink" href="#">관리</a></li>
 		</ul>
     </nav>
+    <!-- 빵 조각 네비게이션 -->
      <div class="minimenu">
 		<ul class="breadcrumb pamini"> 
             <li class="breadcrumb-item"><a href="/">홈</a></li>
             <li class="breadcrumb-item"><a href="#">가맹점</a></li>
             <li class="breadcrumb-item"><a href="#">가맹점 정보</a></li>
         </ul>
+
+        
      </div>
         

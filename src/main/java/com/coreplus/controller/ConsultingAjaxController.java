@@ -27,7 +27,7 @@ public class ConsultingAjaxController {
 	@GetMapping(value="/codes/{code}", produces= {
 			MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public List<CodeVO> codes(@PathVariable("code") String code) {
-		List<CodeVO> result=service.getCodeList(code);
+		List<CodeVO> result=service.getSelectCodeList(code);
 		return result;
 	}
 	

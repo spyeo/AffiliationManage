@@ -4,7 +4,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.CodeMapper">
 
+
 <select id="selectList" resultType="com.coreplus.domain.CodeVO">
+
+select code_type
+     , code
+     ,  del_yn
+     , created_by
+     , created
+     , last_upd_by
+     , last_upd
+     , code_nm
+from   code
+
+</select>
+
+<select id="selectSearchList" resultType="com.coreplus.domain.CodeVO">
 
 select code_type
      , code
