@@ -75,7 +75,7 @@ public class FranchiseServiceImpl implements FranchiseService {
 	}
 	
 	@Override
-	public List<BrandVO> getList(String brand_cd){
+	public List<BrandVO> getListB(String brand_cd){
 		log.info("getList.......................Brand" + brand_cd);
 		return mapper2.getList(brand_cd);
 	}
