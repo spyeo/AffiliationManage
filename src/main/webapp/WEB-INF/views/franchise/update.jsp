@@ -69,7 +69,7 @@
                                                     </tbody>
 	                                            </table>
                                        				 <div id="plus-size1" class="modal-footer">
-                                                         <button type="submit" data-oper='update' class="btn btn-primary">수정</button>
+                                                         <button type="submit" data-oper='update' class="btn btn-primary">저장</button>
                                                          <button type="submit" data-oper='delete' class="btn btn-secondary">삭제</button>
                                                          <button type="submit" data-oper='list' class="btn btn-secondary">목록</button>
                                                          

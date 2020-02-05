@@ -21,7 +21,7 @@ public interface FranchiseService {
 	
 	public List<StoreVO> getList(Criteria2 cri);
 	
-	public List<BrandVO> getList(String brand_cd);
+	public List<BrandVO> getListB(String brand_cd);
 	
 	public List<FranchiseVO> getListF(String fra_cd);
 	
