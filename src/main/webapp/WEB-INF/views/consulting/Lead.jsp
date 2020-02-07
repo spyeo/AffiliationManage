@@ -99,13 +99,10 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div id="content-wrapper">
 
 	<div class="container-fluid">
-
 		<div class="col-lg-12">
 			<div class="card">
-				<div class="card-block">
 					<form id="modifyForm" method="post" action="/consulting/data/modifylead">
 						<table id="demo-foo-filtering" class="table">
 							<tbody>
@@ -115,7 +112,7 @@ $(document).ready(function(){
 									<input type="hidden" name="lead_id" id="lead_id" value="${lead.lead_id }">
 									<input type="hidden" name="pros_id" id="pros_id" value="${lead.prospectVO.pros_id }">
 									</th>
-									<th colspan="4">
+									<th colspan="3">
 										<div class="row">
 											<div class="col-lg-6">
 												<input id="pros_nm" name="pros_nm" type="text"
@@ -133,17 +130,13 @@ $(document).ready(function(){
 												<input id="cell_ph_no" name="cell_ph_no" type="text" 
 												 value="${lead.prospectVO.cell_ph_no }" class="form-control" readonly>
 											</div>
-											<div class="col-lg-1">
-												<h2>-</h2>
-											</div>
-											<div class="col-lg-3">
+											<div class="col-form-label">-</div>
+											<div class="col-lg-4">
 												<input id="cell_ph_tno" name="cell_ph_tno" type="text" 
 												 value="${lead.prospectVO.cell_ph_tno }" class="form-control" readonly>
 											</div>
-											<div class="col-lg-1">
-												<h2>-</h2>
-											</div>
-											<div class="col-lg-3">
+											<div class="col-form-label">-</div>
+											<div class="col-lg-4">
 												<input id="cell_ph_pno" name="cell_ph_pno" type="text"
 												 value="${lead.prospectVO.cell_ph_pno }" class="form-control" readonly>
 											</div>
@@ -153,13 +146,13 @@ $(document).ready(function(){
 									<th>이메일</th>
 									<th>
 										<div class="row">
-											<div class="col-lg-5">
+											<div class="col-lg-4">
 												<input id="eml_id" name="eml_id" type="text"
 												 value="${lead.prospectVO.eml_id }"
 													class="form-control" readonly>
 											</div>
-											<div class="col-lg-1">@</div>
-											<div class="col-lg-6">
+											<div class="col-form-label">@</div>
+											<div class="col-lg-7">
 												<input id="eml_domain" name="eml_domain" type="text"
 												 value="${lead.prospectVO.eml_domain }"
 													class="form-control" readonly>
@@ -170,7 +163,7 @@ $(document).ready(function(){
 								<tr>
 									<th>접수채널<input type="hidden" id="reg_chnl_cd" value="${lead.reg_chnl_cd }"></th>
 									<th>
-										<div class="col-12">
+										<div class="col-lg-6">
 											<select name="reg_chnl_cd" id="select_reg_chnl_cd"
 												class="js-example-basic-single form-control">
 												<option value="">없음</option>
@@ -179,7 +172,7 @@ $(document).ready(function(){
 									</th>
 									<th>계약형태<input type="hidden" id="con_type_cd" value="${lead.con_type_cd }"></th>
 									<th>
-										<div class="col-12">
+										<div class="col-lg-6">
 											<select name="con_type_cd" id="select_con_type_cd"
 												class="js-example-basic-single form-control">
 												<option value="">없음</option>
@@ -210,10 +203,8 @@ $(document).ready(function(){
 						</div>
 					</form>
 				</div>
-			</div>
 		</div>
 	</div>
-</div>
 
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value='${pageMarker.cri.pageNum }'>

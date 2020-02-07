@@ -1,6 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script>
 
+function breadCrumbMenu(){
+	var path = window.location.pathname;
+	$.ajax({
+		type : 'get',
+		url : '/breadCrumb',
+		dataType : 'text',
+		data : {url : path},
+		success : function(data){
+			$("#bread").html(data);
+		},
+		error : function(xhr, status, error){
+			alert("에러발생");
+		}
+	});
+}
+
+$(document).ready(function(){
+	breadCrumbMenu();
+});
+
+</script>
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top fsize">
 
       <a class="navbar-brand mr-1" href="/franchise/list">COREPLUS</a>
@@ -19,13 +42,8 @@
 			<li><a class="menuLink" href="#">관리</a></li>
 		</ul>
     </nav>
-    <!-- 빵 조각 네비게이션 -->
-    <!-- 
-        링크 클릭 이벤트 
-    url 생성 후 비교하여 없으면 배열에 추가, 이전 메뉴로 이동시 배열 삭제,
-    for문으로 breadcrumb 생성
-    	  
-    -->
+     <!-- 
+     BreadCrumbMenu.jsp 코드 tiles 에서 제외
      <div class="minimenu">
 		<ul class="breadcrumb pamini"> 
             <li class="breadcrumb-item"><a href="/">홈</a></li>
@@ -35,4 +53,9 @@
 
         
      </div>
+      -->
+      <div id="bread">
+      
+      
+      </div>
         
