@@ -114,19 +114,19 @@
 														end="${pageMarker.endPage }">
 										
 														<c:if test="${pageMarker.cri.pageNum eq num }">
-															<li>
+															<li class="page_ac">
 																<a href="${num}" class="page-link">${num}</a>
 															</li>
 														</c:if>
 														<c:if test="${pageMarker.cri.pageNum ne num }">
-															<li>
+															<li class="page_ac">
 																<a href="${num}" class="page-link">${num}</a>
 															</li>
 														</c:if>
 													</c:forEach>
 										
 													<c:if test="${pageMaker.next }">
-														<li>
+														<li class="page_ac">
 															<a href="${pageMarcker.endPage+1 }" class="page-link">Next</a>
 														</li>
 													</c:if>
