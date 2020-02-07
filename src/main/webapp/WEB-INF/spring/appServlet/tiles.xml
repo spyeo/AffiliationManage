@@ -22,5 +22,13 @@
 	<definition name="consulting/*.tiles" extends="layouts-tiles">
 		<put-attribute name="content" value="/WEB-INF/views/consulting/{1}.jsp" />
 	</definition>
+	
+	<definition name="empty" template="/WEB-INF/views/tiles/empty.jsp">
+		<put-attribute name="content" value=""></put-attribute>
+	</definition>
+	
+	<definition name="htmlcode/*/*.tiles" extends="empty">
+		<put-attribute name="content" value="/WEB-INF/views/htmlcode/{1}/{2}.jsp"></put-attribute>
+	</definition>
 
 </tiles-definitions>

@@ -27,19 +27,23 @@ public class ConsultingController {
 	private ConsultingService service;
 
 	@GetMapping("/leads")
-	public ModelAndView leads(ModelAndView mv, @ModelAttribute Criteria cri, Model model) {
+	public ModelAndView leads(ModelAndView mv, 
+			@ModelAttribute Criteria cri, Model model) {
 		
 		int totalCount = service.getLeadCount(cri);
 		List<LeadVO> result = service.getLeadList(cri);
-		model.addAttribute("leadReceiptList", result);
+		model.addAttribute("leadList", result);
 		model.addAttribute("pageMarker", new PageDTO(cri, totalCount));
+		model.addAttribute("codeList", service.getCodeList());
 		mv.setViewName("consulting/LeadList.tiles");
 		
 		return mv;
 	}
 
 	@GetMapping("/lead")
-	public ModelAndView lead(ModelAndView mv, @ModelAttribute Criteria cri, @RequestParam String lead_id, Model model) {
+	public ModelAndView lead(ModelAndView mv, 
+			@ModelAttribute Criteria cri, 
+			@RequestParam String lead_id, Model model) {
 
 		int totalCount = service.getLeadCount(cri);
 		LeadVO result = service.getLeadInfo(lead_id);
@@ -50,7 +54,8 @@ public class ConsultingController {
 	}
 	
 	@GetMapping("/registlead")
-	public ModelAndView newlead(ModelAndView mv, @ModelAttribute Criteria cri, Model model) {
+	public ModelAndView newlead(ModelAndView mv, 
+			@ModelAttribute Criteria cri, Model model) {
 		int totalCount=service.getLeadCount(cri);
 		model.addAttribute("pageMarker",new PageDTO(cri,totalCount));
 		mv.setViewName("consulting/NewLead.tiles");

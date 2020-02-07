@@ -23,9 +23,15 @@ public class ConsultingServiceImpl implements ConsultingService{
 	private ProspectMapper prospectMapper;
 	
 	@Override
-	public List<CodeVO> getCodeList(String code) {
+	public List<CodeVO> getCodeList() {
+
+		return codeMapper.selectList();
+	}
+	
+	@Override
+	public List<CodeVO> getSelectCodeList(String code) {
 		
-		return codeMapper.selectList(code);
+		return codeMapper.selectSearchList(code);
 	}
 	
 	//lead table crud
@@ -77,11 +83,9 @@ public class ConsultingServiceImpl implements ConsultingService{
 	public boolean modifyLead(LeadVO leadVO) {
 		int prosResult;
 		int leadResult;
-		System.out.println("before");
+		
 		prosResult = prospectMapper.updateProspect(leadVO.getProspectVO());
-		System.out.println("pros=============");
 		leadResult = leadMapper.updateLead(leadVO);
-		System.out.println("lead=============");
 		
 		if(prosResult > 0 && leadResult > 0) {
 			return true;
@@ -91,13 +95,13 @@ public class ConsultingServiceImpl implements ConsultingService{
 
 	@Override
 	public boolean deleteLead(String lead_id) {
-		boolean leadResult=false;
-		if(leadMapper.deleteLead(lead_id)>0)
-		{
-			leadResult=true;
+		if(leadMapper.deleteLead(lead_id)>0) {
+			return true;
 		}
-		return leadResult;
+		return false;
 	}
+
+	
 
 
 }
