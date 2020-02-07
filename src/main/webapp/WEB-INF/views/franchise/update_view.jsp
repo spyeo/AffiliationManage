@@ -4,7 +4,6 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
 
-
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -61,19 +60,16 @@
                                                     <input name="str_addr" type="text" class="form_con numform4" value="${store.str_addr}" readonly="readonly">
                                                     <input name="str_addr_dtl" type="text" class="form_con numform3" value="${store.str_addr_dtl}" readonly="readonly">
                                                     </th></tr>
-                                                    
-                                                    <input name="last_upd" type="hidden" class="form-control plus-imp" 
-                                                    	value='<fmt:formatDate pattern="YYYY-MM-DD" value="${store.last_upd}"/>' readonly="readonly">
-                                                    
+                                                  
                                                     </tbody>
 	                                            </table>
                                        				 <div id="plus-size1" class="modal-footer">
-                                                         <button data-oper='update' class="btn btn-primary">수정</button>
+                                                         <button id='update' class="btn btn-primary">수정</button>
                                                          <button type="submit" class="btn btn-secondary"
                                                          		onclick="location.href='/franchise/list'">목록</button>
                                                          
-                                                         <form 1d='operForm' actione="/franchise/update" method="get">
-                                                         	<input type='hidden' id='str_cd' name='str_cd' value='<c:out value="${store.str_cd}"/>'>
+                                                         <form id='operForm' action="/franchise/update" method="get">
+                                                         	<input type='hidden' id='str_cd' name='str_cd' value='${store.str_cd}'>
                                                          </form>
                                                      </div>
                                         		</div>
@@ -85,7 +81,6 @@
       </div>
       <!-- /.content-wrapper -->
 
-    </div>
     <!-- /#wrapper -->
 
     <!-- Scroll to Top Button-->
@@ -111,15 +106,16 @@
         </div>
       </div>
     </div>
-
 <script type="text/javascript">
 
 	$(document).ready(function(){
 		
 		var operForm = $("#operForm");
 		
-		$("button[data-oper='update']").on("click", function(e){
-			operForm.attr("action", "/franchise/update").submit();			
+		$("button[id='update']").on("click", function(e){
+			operForm.attr("action", "/franchise/update");
+			operForm.attr("method","get");
+			operForm.submit();
 		});
 		
 	});
