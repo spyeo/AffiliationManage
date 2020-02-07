@@ -4,28 +4,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.coreplus.mapper.StoreMapper">
 
-<select id="getList" resultMap="franchise">
-	
-	select fra_cd
-	     , del_yn
-	     , created_by
-	     , created
-	     , last_upd_by
-	     , last_upd
-	     , fra_nm
-	  from franchise
-	 where fra_cd = #{fra_cd}
-
-</select>
-
-
-	<sql id="criteria">
+	<sql id="criteria2">
 		<trim prefix="and (" prefixOverrides="and" suffix=")" >
 			<if test="fra_cd != null">
-				fra_cd like '%'||#{fra_cd}||'%'
+				b.fra_cd like '%'||#{fra_cd}||'%'
 			</if>
 			<if test="brand_cd != null ">
-				and brand_cd like '%'||#{brand_cd}||'%'
+				and b.brand_cd like '%'||#{brand_cd}||'%'
 			</if>
 		</trim>
 	</sql>
@@ -84,7 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	   and f.fra_cd = b.fra_cd
 
 	   ]]>
-           <include refid="criteria"></include>
+           <include refid="criteria2"></include>
  <![CDATA[
        and rownum <= #{pageNum} * #{amount}
          ) s
@@ -94,11 +79,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 </select>
 
 <select id="totalCount" resultType="int">
-
-	select count(*)
-	  from store
-	 where str_cd > 0
-	 
+<![CDATA[	
+		select count(*)
+		  from franchise f
+		     , brand b
+		     , store s
+		 where b.brand_cd = s.brand_cd
+		   and f.fra_cd = b.fra_cd
+]]>
+        <include refid="criteria2"></include>
 </select>
  
 <insert id="insert" parameterType="com.coreplus.domain.StoreVO">

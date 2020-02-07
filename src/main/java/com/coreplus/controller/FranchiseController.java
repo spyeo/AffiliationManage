@@ -73,6 +73,16 @@ public class FranchiseController {
 	}
 	
 	@GetMapping("/update_view")
+	public ModelAndView update_view(@RequestParam("str_cd") String str_cd,
+			@ModelAttribute Criteria2 cri, ModelAndView mv, Model model){
+		
+		model.addAttribute("store", service.read(str_cd));
+		mv.setViewName("franchise/update_view.tiles");
+		return mv;
+		
+	}
+	
+	@GetMapping("/update")
 	public ModelAndView update(@RequestParam("str_cd") String str_cd,
 			@ModelAttribute Criteria2 cri, ModelAndView mv, Model model){
 		

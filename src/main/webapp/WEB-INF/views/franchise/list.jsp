@@ -14,13 +14,13 @@
                                     <div class="card">
                                         <form id="searchForm" name="searchForm" action="/franchise/list" method="get">
 											<input type="hidden" name="pageNum" value="1">
-											<div class="input-group">
+											<div class="inp-group">
 												<div class="input-group-prepend">
 												
-													<span class="input-group-text">
+													<span class="input-group-text ww">
 														가맹사업
 													</span> 
-													<span class="input-group-text">
+													<span class="input-group-text ww">
 														<span class="form-group">
 															<select name="fra_cd" id="fra_cd" class="form-control" value="${store.franchise.fra_cd}">
 																<option value="100">매장</option>
@@ -30,10 +30,10 @@
 														</span>
 													</span> 
 													
-													<span class="input-group-text">
+													<span class="input-group-text ww">
 														브랜드
 													</span> 
-													<span class="input-group-text">
+													<span class="input-group-text ww">
 														<span class="form-group">
 															<select name="brand_cd" id="barnd_cd" class="form-control" value="${store.barnd.brand_cd}">
 																<option value="102">돈까스</option>
@@ -66,8 +66,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th>가맹사업</th>
-                                                        <th>브랜드</th>..
-                                                        <th>가맹점 코드</th>
+                                                        <th>브랜드</th>                                                        <th>가맹점 코드</th>
                                                         <th>가맹점명</th>
                                                         <th>대표자명</th>
                                                         <th>전화번호</th>
@@ -115,19 +114,19 @@
 														end="${pageMarker.endPage }">
 										
 														<c:if test="${pageMarker.cri.pageNum eq num }">
-															<li>
+															<li class="page_ac">
 																<a href="${num}" class="page-link">${num}</a>
 															</li>
 														</c:if>
 														<c:if test="${pageMarker.cri.pageNum ne num }">
-															<li>
+															<li class="page_ac">
 																<a href="${num}" class="page-link">${num}</a>
 															</li>
 														</c:if>
 													</c:forEach>
 										
 													<c:if test="${pageMaker.next }">
-														<li>
+														<li class="page_ac">
 															<a href="${pageMarcker.endPage+1 }" class="page-link">Next</a>
 														</li>
 													</c:if>
@@ -237,3 +236,4 @@ $(document).ready(function (){
 	<input type='hidden' name='brand_cd' value='${pageMaker.cri.brand_cd}'>
 	
 </form>
+

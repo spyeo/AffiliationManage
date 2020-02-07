@@ -72,3 +72,15 @@
     border-bottom: 1px solid #dee2e6;
 }
 
+.inp-group{
+	position: relative;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+    text-align: center;
+}
+
+.ww{
+	width: 15%
+}
+
