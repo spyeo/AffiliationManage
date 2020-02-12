@@ -23,9 +23,9 @@
 													<span class="input-group-text ww">
 														<span class="form-group">
 															<select name="fra_cd" id="fra_cd" class="form-control" value="${store.franchise.fra_cd}">
-																<option value="100">매장</option>
-                                                            	<option value="101">배달</option>
-                                                            	<option value="102">O2O</option>
+																<option value="매장">매장</option>
+                                                            	<option value="배달">배달</option>
+                                                            	<option value="O2O">O2O</option>
 															</select>
 														</span>
 													</span> 
@@ -36,13 +36,13 @@
 													<span class="input-group-text ww">
 														<span class="form-group">
 															<select name="brand_cd" id="barnd_cd" class="form-control" value="${store.barnd.brand_cd}">
-																<option value="102">돈까스</option>
-                                                            	<option value="103">일식</option>
-																<option value="102">분식</option>
-                                                            	<option value="103">도시락</option>
-                                                            	<option value="104">햄버거</option>
-                                                            	<option value="105">한식</option>
-                                                        		<option value="106">설렁탕</option>
+																<option value="돈까스">돈까스</option>
+                                                            	<option value="일식">일식</option>
+                                                            	<option value="분식">분식</option>
+                                                            	<option value="도시락">도시락</option>
+                                                            	<option value="햄버거">햄버거</option>
+                                                            	<option value="한식">한식</option>
+                                                        		<option value="설렁탕">설렁탕</option>
 															</select>
 														</span>
 													</span>  
@@ -193,18 +193,37 @@ function searchReset(){
 function getvalues(brand_cd, tag, name){
 	$.ajax({
 		type : 'get',
-		url : '/franchise/ajax/store/',
+		url : '/franchise/ajax/store/'+fra_cd,
 		dataType : 'json',
 		success : function(data){
 			alert(data);
-			
+			if(data==null){
+				data=0;
+			}
+			for(var i = 0; i < data.length; i++){
+				
+				$(tag).append("<option value='"+ data[i]['fra_cd']
+				+ "'>"+data[i]['fra_cd'] + "</option>");
+			}
+			if(codename != null){
+				$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
+			}
+
 		}
 	})
 }
 
-$(document).ready(getvalues('102','#fra_cd','fra_cd'));
-$(document).ready(getvalues('103','#fra_cd','fra_cd'));
+$(document).ready(getvalues('매장','#fra_cd','fra_cd'));
+$(document).ready(getvalues('배달','#fra_cd','fra_cd'));
+$(document).ready(getvalues('O2O','#fra_cd','fra_cd'));
 
+$(document).ready(getvalues('돈까스','#brand_cd','brand_cd'));
+$(document).ready(getvalues('일식','#brand_cd','brand_cd'));
+$(document).ready(getvalues('분식','#brand_cd','brand_cd'));
+$(document).ready(getvalues('도시락','#brand_cd','brand_cd'));
+$(document).ready(getvalues('햄버거','#brand_cd','brand_cd'));
+$(document).ready(getvalues('한식','#brand_cd','brand_cd'));
+$(document).ready(getvalues('설렁탕','#brand_cd','brand_cd'));
 
 
 $(document).ready(function (){
