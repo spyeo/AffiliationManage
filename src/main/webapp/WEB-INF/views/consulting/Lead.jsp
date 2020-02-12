@@ -10,6 +10,48 @@
 <script>
 
 var check = false;
+
+function leadValidation(){
+	
+	var errorMsg = "";
+	
+	var pros_nm = document.getElementById("pros_nm").value;
+	var cell_ph_no = document.getElementById("cell_ph_no").value;
+	var cell_ph_tno = document.getElementById("cell_ph_tno").value;
+	var cell_ph_pno = document.getElementById("cell_ph_pno").value;
+	var eml_id = document.getElementById("eml_id").value;
+	var eml_domain = document.getElementById("eml_domain").value;
+	var con_type_cd = document.getElementById("select_con_type_cd").value;
+	var reg_chnl_cd = document.getElementById("select_reg_chnl_cd").value;
+	
+	if(reg_chnl_cd == ""){
+		errorMsg = "접수채널";
+	}
+	if(con_type_cd == ""){
+		errorMsg = "계약형태";
+	}
+	if(eml_domain == ""){
+		errorMsg = "이메일";
+	}
+	if(eml_id == ""){
+		errorMsg = "이메일";
+	}
+	if(cell_ph_pno == ""){
+		errorMsg = "전화번호";
+	}
+	if(cell_ph_tno == ""){
+		errorMsg = "전화번호";
+	}
+	if(cell_ph_no == ""){
+		errorMsg = "전화번호";
+	}
+	if(pros_nm == ""){
+		errorMsg = "가망고객명";
+	}
+	
+	return errorMsg;
+}
+
 function modifyActive(){
 	if(check == false){
 		$("#pros_nm").attr("readonly", false);
@@ -47,6 +89,12 @@ function deleteLead(){
 }
 
 function modifyLead(){
+	
+	var isEmpty = leadValidation();
+	if(isEmpty != ''){
+		alert(leadValidation()+" 란이 비어있습니다.");
+		return;
+	}
 	
 	var text = CKEDITOR.instances.spec_desc.getData();
 	$("textarea#spec_desc").val(text);

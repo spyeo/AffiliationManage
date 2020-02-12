@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 
  <div class="minimenu">
-		<ul class="breadcrumb pamini">
+		<ul class="breadcrumb">
 		<c:set var="size" value="${fn:length(breadcrumb)-1}" />
 		
 		<c:forEach var="i" begin="0" end="${size}" step="1">

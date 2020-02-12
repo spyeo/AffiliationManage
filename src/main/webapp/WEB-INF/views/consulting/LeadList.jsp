@@ -2,9 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-
-<script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script>
 	function registLead() {
 		var actionForm = $('#actionForm');
