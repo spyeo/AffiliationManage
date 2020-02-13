@@ -18,20 +18,20 @@
 							<tbody>
 								<tr>
 									<th>가맹사업 <select class="form_con_block">
-											<option value="100">매장</option>
-											<option value="101">배달</option>
-											<option value="102">O2O</option>
+											<option value="매장">매장</option>
+                                          	<option value="배달">배달</option>
+                                          	<option value="O2O">O2O</option>
 									</select>
 									</th>
 									<th>브랜드 <select name="brand_cd" id="brand_cd"
 										class="form_con_block plus-imp" value="${store.brand_cd}">
-											<option value="102">돈까스</option>
-											<option value="103">일식</option>
-											<option value="104">분식</option>
-											<option value="105">도시락</option>
-											<option value="106">햄버거</option>
-											<option value="107">한식</option>
-											<option value="108">설렁탕</option>
+											<option value="돈까스">돈까스</option>
+                                           	<option value="일식">일식</option>
+                                           	<option value="분식">분식</option>
+                                           	<option value="도시락">도시락</option>
+                                           	<option value="햄버거">햄버거</option>
+                                           	<option value="한식">한식</option>
+                                       		<option value="설렁탕">설렁탕</option>
 									</select>
 									</th>
 								</tr>
