@@ -21,9 +21,9 @@ public class StoreVO {
 	private String str_zipcd;
 	private String str_addr;
 	private String str_addr_dtl;
-	private int ph_area_no;
-	private int ph_tno;
-	private int ph_cno;
+	private String ph_area_no;
+	private String ph_tno;
+	private String ph_cno;
 	private String brand_cd;
 	private BrandVO brand;
 	private FranchiseVO franchise;

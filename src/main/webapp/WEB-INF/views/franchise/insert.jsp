@@ -23,7 +23,7 @@
                                                         	</select> 
                                                      	</th>
                                                         <th>브랜드
-                                                    		<select name="barnd_cd" id="brand_cd" class="form_con_block plus-imp">
+                                                    		<select name="brand_cd" id="brand_cd" class="form_con_block plus-imp">
                                                     			<option value="돈까스">돈까스</option>
                                                             	<option value="일식">일식</option>
                                                             	<option value="분식">분식</option>

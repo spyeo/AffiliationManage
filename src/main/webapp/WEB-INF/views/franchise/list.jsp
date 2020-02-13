@@ -23,6 +23,7 @@
 													<span class="input-group-text ww">
 														<span class="form-group">
 															<select name="fra_cd" id="fra_cd" class="form-control" value="${store.franchise.fra_cd}">
+																<option value="">없음</option>
 																<option value="매장">매장</option>
                                                             	<option value="배달">배달</option>
                                                             	<option value="O2O">O2O</option>
@@ -35,7 +36,8 @@
 													</span> 
 													<span class="input-group-text ww">
 														<span class="form-group">
-															<select name="brand_cd" id="barnd_cd" class="form-control" value="${store.barnd.brand_cd}">
+															<select name="brand_cd" id="barnd_cd" class="form-control" value="${store.brand.brand_cd}">
+																<option value="">없음</option>
 																<option value="돈까스">돈까스</option>
                                                             	<option value="일식">일식</option>
                                                             	<option value="분식">분식</option>
@@ -66,7 +68,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th>가맹사업</th>
-                                                        <th>브랜드</th>                                                        <th>가맹점 코드</th>
+                                                        <th>브랜드</th>                                                        
+                                                        <th>가맹점 코드</th>
                                                         <th>가맹점명</th>
                                                         <th>대표자명</th>
                                                         <th>전화번호</th>

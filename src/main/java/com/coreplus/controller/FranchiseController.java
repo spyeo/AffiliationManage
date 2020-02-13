@@ -56,6 +56,8 @@ public class FranchiseController {
 	@PostMapping("/insert")
 	public String insert(@ModelAttribute StoreVO store, RedirectAttributes rttr) {
 		
+		System.out.println(store);
+		
 		log.info("insert " + store);
 		service.insert(store);
 		rttr.addFlashAttribute("result", store.getStr_cd());
