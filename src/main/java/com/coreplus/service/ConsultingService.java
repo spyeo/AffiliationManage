@@ -2,8 +2,10 @@ package com.coreplus.service;
 
 import java.util.List;
 
+import com.coreplus.domain.BrandVO;
 import com.coreplus.domain.CodeVO;
 import com.coreplus.domain.Criteria;
+import com.coreplus.domain.FranchiseVO;
 import com.coreplus.domain.LeadVO;
 import com.coreplus.domain.ProspectVO;
 
@@ -32,6 +34,10 @@ public interface ConsultingService {
 	public boolean modifyLead(LeadVO leadVO);
 
 	public boolean deleteLead(String lead_id);
+
+	public List<FranchiseVO> getFranchiseList();
+
+	public List<BrandVO> getBrands(String fra_cd);
 
 
 }

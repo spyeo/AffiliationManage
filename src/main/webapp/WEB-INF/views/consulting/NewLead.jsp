@@ -152,34 +152,36 @@ function registLead(){
 	});
 }
 
-function getcodes(code, tag, codename){
+function getSelectorOption(url, parameter, selecter_id, save_param, option_value, option_text) {
+	var restUrl=url;
+	if(parameter!=''){
+		restUrl+="/"+parameter;
+	}
 	$.ajax({
 		type : 'get',
-		url : '/consulting/data/codes/'+code,
+		url : restUrl,
 		dataType : 'json',
-		success : function(data){
-			if(data==null){
-				data=0;
+		success : function(data) {
+			if (data == null) {
+				data = 0;
 			}
-			for(var i = 0; i < data.length; i++){
-				
-				$(tag).append("<option value='"+ data[i]['code']
-				+ "'>"+data[i]['code_nm'] + "</option>");
+			$(selecter_id).html("<option value=''>--</option>");
+			for (var i = 0; i < data.length; i++) {
+				$(selecter_id).append("<option value='"+ data[i][option_value]+ "'>"
+				+ data[i][option_text] + "</option>");
 			}
-			if(codename!=null){
-				if($('#actionForm [name="'+codename+'"]').val() != null){
-					$(tag).val($('#actionForm [name="'+codename+'"]').val()).prop("selected", true);
-				}
+			if (save_param != null && data != null) {
+				$(selecter_id).val($('#actionForm [name="' + save_param + '"]')
+				.val()).prop("selected", true);
 			}
-			
 		}
 	});
 }
 
 
 
-$(document).ready(getcodes('200', '#select_reg_chnl_cd', null));
-$(document).ready(getcodes('300', '#select_con_type_cd', null));
+$(document).ready(getSelectorOption('/consulting/data/codes', '200', '#select_reg_chnl_cd', null	, 'code', 'code_nm'));
+$(document).ready(getSelectorOption('/consulting/data/codes', '300', '#select_con_type_cd', null, 'code', 'code_nm'));
 $(document).ready(function(){
 	$("#newProspectCheck").change(function(){
 		if($("#newProspectCheck").is(":checked")){
@@ -352,7 +354,9 @@ $(document).ready(function(){
 	<input type="hidden" name='pageNum' value='${pageMarker.cri.pageNum }'>
 	<input type="hidden" name='amount' value='${pageMarker.cri.amount }'>
 	<input type="hidden" name='reg_chnl_cd' value='${pageMarker.cri.reg_chnl_cd }'> 
-	<input type="hidden" name='con_type_cd' value='${pageMarker.cri.con_type_cd }'> 
+	<input type="hidden" name='con_type_cd' value='${pageMarker.cri.con_type_cd }'>
+	<input type="hidden" name='fra_cd' value='${pageMarker.cri.fra_cd }'>
+	<input type="hidden" name='brand_cd' value='${pageMarker.cri.brand_cd }'> 
 	<input type="hidden" name='pros_nm' value='${pageMarker.cri.pros_nm }'>
 </form>
 

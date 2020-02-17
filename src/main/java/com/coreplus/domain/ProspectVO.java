@@ -13,9 +13,9 @@ public class ProspectVO {
 	String last_upd_by;
 	Date last_upd;
 	String pros_nm;
-	int cell_ph_no;
-	int cell_ph_tno;
-	int cell_ph_pno;
+	String cell_ph_no;
+	String cell_ph_tno;
+	String cell_ph_pno;
 	String eml_id;
 	String eml_domain;
 	

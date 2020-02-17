@@ -50,7 +50,7 @@ public class MainController {
 			RedirectAttributes redirectAttributes) {
 		HttpSession session = request.getSession();
 		if (mgrService.login(manager) > 0) {
-			session.setAttribute("manager", mgrService.getManager(manager.getId()));
+			session.setAttribute("manager", mgrService.getManager(manager.getMgr_id()));
 			return "redirect:/";
 		}
 		redirectAttributes.addAttribute("msg", "아이디 혹은 비밀번호가 틀렸습니다.");

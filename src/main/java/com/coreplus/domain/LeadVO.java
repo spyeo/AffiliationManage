@@ -16,6 +16,7 @@ public class LeadVO {
 	String con_type_cd;
 	String spec_desc;
 	String pros_id;
+	String brand_cd;
 	ProspectVO prospectVO;
 	
 }

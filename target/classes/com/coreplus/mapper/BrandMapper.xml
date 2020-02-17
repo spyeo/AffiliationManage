@@ -18,4 +18,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 where brand_cd = #{brand_cd}
 </select>
 
+<select id="getBrands" resultType="com.coreplus.domain.BrandVO">
+	
+	select brand_cd
+	     , del_yn
+	     , created_by
+	     , created
+	     , last_upd_by
+	     , last_upd
+	     , brand_nm
+	     , fra_cd
+	  from brand
+	 where fra_cd = #{fra_cd}
+</select>
+
 </mapper>

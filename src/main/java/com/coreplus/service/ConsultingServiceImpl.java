@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.coreplus.domain.BrandVO;
 import com.coreplus.domain.CodeVO;
 import com.coreplus.domain.Criteria;
+import com.coreplus.domain.FranchiseVO;
 import com.coreplus.domain.LeadVO;
 import com.coreplus.domain.ProspectVO;
+import com.coreplus.mapper.BrandMapper;
 import com.coreplus.mapper.CodeMapper;
+import com.coreplus.mapper.FranchiseMapper;
 import com.coreplus.mapper.LeadMapper;
 import com.coreplus.mapper.ProspectMapper;
 
@@ -21,6 +25,8 @@ public class ConsultingServiceImpl implements ConsultingService{
 	private CodeMapper codeMapper;
 	private LeadMapper leadMapper;
 	private ProspectMapper prospectMapper;
+	private FranchiseMapper franchiseMapper;
+	private BrandMapper brandMapper;
 	
 	@Override
 	public List<CodeVO> getCodeList() {
@@ -99,6 +105,16 @@ public class ConsultingServiceImpl implements ConsultingService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<FranchiseVO> getFranchiseList() {
+		return franchiseMapper.getFranchises();
+	}
+
+	@Override
+	public List<BrandVO> getBrands(String fra_cd) {
+		return brandMapper.getBrands(fra_cd);
 	}
 
 	

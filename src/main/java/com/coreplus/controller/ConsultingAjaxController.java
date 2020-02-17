@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.coreplus.domain.BrandVO;
 import com.coreplus.domain.CodeVO;
+import com.coreplus.domain.FranchiseVO;
 import com.coreplus.domain.LeadVO;
 import com.coreplus.domain.ProspectVO;
 import com.coreplus.service.ConsultingService;
@@ -31,6 +33,20 @@ public class ConsultingAjaxController {
 		return result;
 	}
 	
+	@GetMapping(value="/franchises", produces= {
+			MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE})
+	public List<FranchiseVO> franchises(){
+		List<FranchiseVO> result=service.getFranchiseList();
+		return result;
+	}
+	
+	@GetMapping(value="/brands/{fra_cd}", produces= {
+			MediaType.APPLICATION_PROBLEM_JSON_UTF8_VALUE})
+	public List<BrandVO> brands(@PathVariable("fra_cd") String fra_cd){
+		List<BrandVO> result=service.getBrands(fra_cd);
+		return result;
+	}
+	
 	//모달창의 검색화면 개선 필요
 	
 	 @GetMapping(value="/prospects/{name}", produces= {
@@ -46,6 +62,7 @@ public class ConsultingAjaxController {
 		 ProspectVO result = service.getProspect(pros_id);
 		 return result;
 	 }
+	 
 	 
 	 // 수정 필요한 부분
 	 

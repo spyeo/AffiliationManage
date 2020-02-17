@@ -18,4 +18,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 </select>
 
+<select id="getFranchises" resultType="com.coreplus.domain.FranchiseVO">
+	
+	select fra_cd
+	     , del_yn
+	     , created_by
+	     , created
+	     , last_upd_by
+	     , last_upd
+	     , fra_nm
+	  from franchise
+
+</select>
+
 </mapper>
