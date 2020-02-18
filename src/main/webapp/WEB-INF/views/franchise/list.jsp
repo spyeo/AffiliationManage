@@ -116,6 +116,10 @@
 													<c:forEach var="num" begin="${pageMarker.startPage }"
 														end="${pageMarker.endPage }">
 										
+														<li class="page_ac ${pageMaker.cri.pageNum == num? "active":""} ">
+																<a href="${num}" class="page-link">${num}</a>
+															</li>
+															
 														<c:if test="${pageMarker.cri.pageNum eq num }">
 															<li class="page_ac">
 																<a href="${num}" class="page-link">${num}</a>

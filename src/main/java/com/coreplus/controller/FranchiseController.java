@@ -46,7 +46,7 @@ public class FranchiseController {
 		log.info("total  :: " + total);
 		
 		model.addAttribute("list", service.getList(cri));
-		model.addAttribute("pageMaker", new PageDTO2(cri, total));
+		model.addAttribute("pageMaker", new PageDTO2(cri, 123));
 		mv.setViewName("franchise/list.tiles");
 		
 		return mv;
