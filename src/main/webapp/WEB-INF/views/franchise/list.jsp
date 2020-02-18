@@ -112,20 +112,14 @@
 														<li class="page_ac">
 														<a href="${pageMarker.startPage-1 }" class="page-link">Previous</a></li>
 													</c:if>
-										
+													
 													<c:forEach var="num" begin="${pageMarker.startPage }"
 														end="${pageMarker.endPage }">
 										
-														<c:if test="${pageMarker.cri.pageNum eq num }">
-															<li class="page_ac">
+															<li class="page_ac ${pageMaker.cri.pageNum == num? "active":""} ">
 																<a href="${num}" class="page-link">${num}</a>
 															</li>
-														</c:if>
-														<c:if test="${pageMarker.cri.pageNum ne num }">
-															<li class="page_ac">
-																<a href="${num}" class="page-link">${num}</a>
-															</li>
-														</c:if>
+
 													</c:forEach>
 										
 													<c:if test="${pageMaker.next }">

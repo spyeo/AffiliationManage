@@ -114,7 +114,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     values 
     	 ( 
     	   #{str_cd}
-    	 , '1'
+    	 , '0'
     	 , 'user03'
          , sysdate
          , 'user03'
