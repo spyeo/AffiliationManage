@@ -15,28 +15,30 @@
                                         <form id="searchForm" name="searchForm" action="/franchise/list" method="get">
 											<input type="hidden" name="pageNum" value="1">
 											<div class="inp-group">
-												<div class="input-group-prepend">
+												<div class="d">
 												
-													<span class="input-group-text ww">
-														가맹사업
-													</span> 
-													<span class="input-group-text ww">
-														<span class="form-group">
-															<select name="fra_cd" id="fra_cd" class="form-control" value="${store.franchise.fra_cd}">
+													<div>
+														<div class="lleft">
+														<span class="b_size s_wize">
+															가맹사업
+														</span>
+													
+														<span class="b_size">
+															<select name="fra_cd" id="fra_cd" class="con_form" value="${store.franchise.fra_cd}">
 																<option value="">없음</option>
 																<option value="매장">매장</option>
                                                             	<option value="배달">배달</option>
                                                             	<option value="O2O">O2O</option>
 															</select>
 														</span>
-													</span> 
-													
-													<span class="input-group-text ww">
-														브랜드
-													</span> 
-													<span class="input-group-text ww">
-														<span class="form-group">
-															<select name="brand_cd" id="barnd_cd" class="form-control" value="${store.brand.brand_cd}">
+														</div>
+														<div class="lleft">
+														<span class="b_size s_wize">
+															브랜드
+														</span>
+														
+														<span class="b_size">
+															<select name="brand_cd" id="barnd_cd" class="con_form" value="${store.brand.brand_cd}">
 																<option value="">없음</option>
 																<option value="돈까스">돈까스</option>
                                                             	<option value="일식">일식</option>
@@ -47,16 +49,17 @@
                                                         		<option value="설렁탕">설렁탕</option>
 															</select>
 														</span>
-													</span>  
-													<span class="input-group-prepend">
-														<button type="button" class="btn btn-primary" onclick="search()"> 검색 </button>
-													</span>
-													<span class="input-group-prepend">
-														<button type="button" class="btn btn-light" onclick="searchReset()">초기화</button>
-													</span>
-													<span class="input-group-prepend">
-														<button type="button" class="btn btn-primary" onclick="insertForm()"> 추가 </button>
-													</span>
+														</div>
+														
+														<div class="rrightt ser_b">
+															<span class="d">
+																<button type="button" class="btn btn-primary" onclick="search()"> 검색 </button>
+															</span>
+															<span class="d">
+																<button type="button" class="btn btn-light" onclick="insertForm()"> 추가 </button>
+															</span>
+														</div>
+												</div>
 												</div>
 											</div>
 										</form>
@@ -107,25 +110,19 @@
                                         </div>
                                         	<div class="container">
 												<ul class="pagedesign">
-										
-													<c:if test="${pageMarker.prev}">
+													<c:if test="${pageMaker.prev}">
 														<li class="page_ac">
-														<a href="${pageMarker.startPage-1 }" class="page-link">Previous</a></li>
+														<a href="${pageMaker.startPage-1 }" class="page-link">Previous</a></li>
 													</c:if>
+													<c:forEach var="num" begin="${pageMaker.startPage }"
+														end="${pageMaker.endPage }">
 										
-													<c:forEach var="num" begin="${pageMarker.startPage }"
-														end="${pageMarker.endPage }">
-										
-														<li class="page_ac ${pageMaker.cri.pageNum == num? "active":""} ">
-																<a href="${num}" class="page-link">${num}</a>
-															</li>
-															
-														<c:if test="${pageMarker.cri.pageNum eq num }">
-															<li class="page_ac">
+													<c:if test="${pageMaker.cri.pageNum eq num }">
+															<li class="page_ac active">
 																<a href="${num}" class="page-link">${num}</a>
 															</li>
 														</c:if>
-														<c:if test="${pageMarker.cri.pageNum ne num }">
+														<c:if test="${pageMaker.cri.pageNum ne num }">
 															<li class="page_ac">
 																<a href="${num}" class="page-link">${num}</a>
 															</li>
@@ -134,7 +131,7 @@
 										
 													<c:if test="${pageMaker.next }">
 														<li class="page_ac">
-															<a href="${pageMarcker.endPage+1 }" class="page-link">Next</a>
+															<a href="${pageMaker.endPage+1 }" class="page-link">Next</a>
 														</li>
 													</c:if>
 												</ul>
@@ -190,11 +187,10 @@ function search(){
 	var brand = $('#searchForm [name="brand_cd"]').val();
 	if(franchise!="" || brand!=""){
 		searchfm.submit();
+	}else if(franchise=="" || brand==""){
+		location.href="/franchise/list";
 	}
-}
-
-function searchReset(){
-	location.href="/franchise/list";
+	
 }
 
 function getvalues(brand_cd, tag, name){
@@ -234,7 +230,6 @@ $(document).ready(getvalues('설렁탕','#brand_cd','brand_cd'));
 
 
 $(document).ready(function (){
-	
 	var actionForm = $("#actionForm");
 	
 	$(".page_ac .page-link").on("click", function(e){

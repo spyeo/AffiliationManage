@@ -18,6 +18,17 @@
     margin: 5px;
 }
 
+.con_form {
+    height: calc(2.25rem + 2px);
+    padding: .375rem .75rem;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    width: 60%;
+}
+
 .form_con_block {
 	display: block;
     height: calc(2.25rem + 2px);
@@ -57,6 +68,15 @@
 	float: right;
 }
 
+.rrightt {
+	float: right;
+}
+
+.lleft{
+	float:left;
+	width:40%;
+}
+
 .pagedesign {
 	text-align: center;
 	list-style: none;
@@ -77,10 +97,30 @@
     flex-wrap: wrap;
     align-items: stretch;
     width: 100%;
-    text-align: center;
 }
 
 .ww{
 	width: 15%
 }
 
+.s_wize{
+	display: inline-block;
+    text-align: center;
+    width: 30%;
+}
+
+.w_two{
+	width:20%;
+}
+
+.b_size{
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+.ser_b{
+	margin-top: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+    margin-right: 10px;
+}
