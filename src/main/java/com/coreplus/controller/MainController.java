@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 	
 	
-	//메인
+	//메인 ??
 /*	@RequestMapping("/")
 	public ModelAndView mainView(ModelAndView mv) throws Exception {
 		
