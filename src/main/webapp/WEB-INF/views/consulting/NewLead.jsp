@@ -5,121 +5,43 @@
 <script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script>
+function modalLoad(){
+	$.ajax({
+		type : 'get',
+		url : '/consulting/modal',
+		dataType : 'text',
+		success : function(data){
+			$("#modal").html(data);
+		}
+	});
+}
+
+function searchProspects(){
+	$("#modalView").modal("show");
+}
 
 function newleadValidation(){
 	
 	var errorMsg = "";
-	
-	var pros_nm = document.getElementById("pros_nm").value;
-	var cell_ph_no = document.getElementById("cell_ph_no").value;
-	var cell_ph_tno = document.getElementById("cell_ph_tno").value;
-	var cell_ph_pno = document.getElementById("cell_ph_pno").value;
-	var eml_id = document.getElementById("eml_id").value;
-	var eml_domain = document.getElementById("eml_domain").value;
+	var pros_id = document.getElementById("pros_id").value;
 	var con_type_cd = document.getElementById("select_con_type_cd").value;
 	var reg_chnl_cd = document.getElementById("select_reg_chnl_cd").value;
+	var brand_cd = document.getElementById("select_brand_cd").value;
 	
-	if(reg_chnl_cd == ""){
-		errorMsg = "접수채널";
+	if(brand_cd == ""){
+		errMsg = "브랜드";
 	}
 	if(con_type_cd == ""){
 		errorMsg = "계약형태";
 	}
-	if(eml_domain == ""){
-		errorMsg = "이메일";
+	if(reg_chnl_cd == ""){
+		errorMsg = "접수채널";
 	}
-	if(eml_id == ""){
-		errorMsg = "이메일";
-	}
-	if(cell_ph_pno == ""){
-		errorMsg = "전화번호";
-	}
-	if(cell_ph_tno == ""){
-		errorMsg = "전화번호";
-	}
-	if(cell_ph_no == ""){
-		errorMsg = "전화번호";
-	}
-	if(pros_nm == ""){
-		errorMsg = "가망고객명";
+	if(pros_id == ""){
+		errorMsg = "고객명";
 	}
 	
 	return errorMsg;
-}
-
-function searchProspects(){
-	if($("input:checkbox[id=newProspectCheck]").is(":checked") == false){
-		$("#modalBody").empty();
-		$("#inputName").val($("#searchProsNm").val());
-		if($.trim($("inputName").val()) == ''){
-			getProspects();
-		}
-		$("#modalView").modal("show");
-		
-	}
-}
-
-function getProspects(){
-	var name = $("#inputName").val();
-	$.ajax({
-		type : 'get',
-		url : '/consulting/data/prospects/'+name,
-		dataType : 'json',
-		success : function(data){
-			$("#modalBody").empty();
-			if(data.length>0){
-				var htmlcode='';
-				htmlcode+='<table class="table table-striped">' 
-				+ '<thead>'
-				+'<tr>'
-				+'<th>이름</th>'
-				+'<th>이메일</th>'
-				+'<th>선택</th>'
-				+'</tr>'
-				+'</thead>'
-				+'<tbody>';
-				
-				for(var i=0; i<data.length ; i++){
-					htmlcode+='<tr>'
-					+'<td>'+data[i]["pros_nm"]+'</td>'
-					+'<td>'+data[i]["eml_id"]+'@'+data[i]["eml_domain"]+'</td>'
-					+'<td><button type="button" class="btn btn-outline-primary btn-sm" onclick="readProspect('+'&quot;'+data[i]["pros_id"]+'&quot;'+')">선택</button></td>'
-					+'</tr>';
-				}
-				htmlcode+='</tbody></table>';
-			}
-			else{
-				htmlcode='검색 결과가 없습니다.';
-			}
-			$("#modalBody").append(htmlcode);
-			
-		},
-		error : function(xhr, status, error){
-			$("#modalBody").empty();
-			$("#modalBody").append('검색어를 입력해 주세요.');
-		}
-	});
-}
-
-function readProspect(id){
-	$("#modalView").modal("hide");
-	
-	$.ajax({
-		type : 'get',
-		url : '/consulting/data/prospect/'+id,
-		dataType : 'json',
-		success : function(data){
-			$("#pros_id").val(data['pros_id']);
-			$("#searchProsNm").val(data['pros_nm']);
-			$("#pros_id").val(data['pros_id']);
-			$("#pros_nm").val(data['pros_nm']);
-			$("#cell_ph_no").val(data['cell_ph_no']);
-			$("#cell_ph_tno").val(data['cell_ph_tno']);
-			$("#cell_ph_pno").val(data['cell_ph_pno']);
-			$("#eml_id").val(data['eml_id']);
-			$("#eml_domain").val(data['eml_domain']);
-		}
-	});
 }
 
 function backToLeads(){
@@ -182,172 +104,130 @@ function getSelectorOption(url, parameter, selecter_id, save_param, option_value
 
 $(document).ready(getSelectorOption('/consulting/data/codes', '200', '#select_reg_chnl_cd', null	, 'code', 'code_nm'));
 $(document).ready(getSelectorOption('/consulting/data/codes', '300', '#select_con_type_cd', null, 'code', 'code_nm'));
+$(document).ready(getSelectorOption('/consulting/data/franchises', '', '#select_fra_cd', 'fra_cd', 'fra_cd', 'fra_nm'));
+$(document).ready(modalLoad());
 $(document).ready(function(){
-	$("#newProspectCheck").change(function(){
-		if($("#newProspectCheck").is(":checked")){
-			$("#pros_nm").attr("readonly",false);
-			$("#cell_ph_no").attr("readonly",false);
-			$("#cell_ph_tno").attr("readonly",false);
-			$("#cell_ph_pno").attr("readonly",false);
-			$("#eml_id").attr("readonly",false);
-			$("#eml_domain").attr("readonly",false);
-			
-			$("#searchProsNm").attr("readonly",true);
+	$("#select_fra_cd").change(function() {
+		var fra = $("#select_fra_cd option:selected").val();
+		if(fra != ''){
+			getSelectorOption('/consulting/data/brands', fra, '#select_brand_cd', 'brand_cd', 'brand_cd', 'brand_nm');
 		}
-		else{
-			$("#pros_nm").attr("readonly",true);
-			$("#cell_ph_no").attr("readonly",true);
-			$("#cell_ph_tno").attr("readonly",true);
-			$("#cell_ph_pno").attr("readonly",true);
-			$("#eml_id").attr("readonly",true);
-			$("#eml_domain").attr("readonly",true);
-			
-			$("#searchProsNm").attr("readonly",false);
-			
-			$("#pros_nm").val('');
-			$("#cell_ph_no").val('');
-			$("#cell_ph_tno").val('');
-			$("#cell_ph_pno").val('');
-			$("#eml_id").val('');
-			$("#eml_domain").val('');
-		}
-	})
+	});
+	$('#searchProsNm').click(function(e) {
+		searchProspects();
+	 });
 });
 </script>
 
-<div id="content-wrapper">
 
-	<div class="container-fluid">
-
-		<div class="col-sm-12">
-			<div class="card">
-				<div class="card-block">
-					<form id="registForm" method="post" action="/consulting/registlead">
-						<table id="demo-foo-filtering" class="table">
-							<tbody>
-								
-								<tr>
-									<th>고객명</th>
-									<th>
-										<div class="input-group mb-3">
-  											<input id="searchProsNm" type="text" class="form-control">
- 					 						<div class="input-group-append">
-	    										<span class="input-group-text" id="basic-addon2">
-		    										 <a href="#" id="searchProspects" onclick="searchProspects()">검색</a>
-												</span>
-										  </div>
-										</div>
-									</th>
-									<th>신규여부</th>
-									<th><label><input type="checkbox" name="newProspectCheck" id="newProspectCheck" value="check">신규</label></th>
-								</tr>
-								<tr>
-									<th>가망고객명</th>
-									<th colspan="3">
-										<div class="row">
-											<div class="col-lg-6">
-												<input id="pros_nm" name="pros_nm" type="text"
-										class="form-control" readonly>
-											</div>
-											<input type="hidden" id="pros_id" name="pros_id">
-										</div>
-									</th>
-									
-								</tr>
-								<tr>
-									<th>이동전화</th>
-									<th>
-										<div class="row">
-											<div class="col-lg-3">
-												<input id="cell_ph_no" name="cell_ph_no" type="text" class="form-control" readonly>
-											</div>
-											<div class="col-lg-1">
-												<h2>-</h2>
-											</div>
-											<div class="col-lg-3">
-												<input id="cell_ph_tno" name="cell_ph_tno" type="text" class="form-control" readonly>
-											</div>
-											<div class="col-lg-1">
-												<h2>-</h2>
-											</div>
-											<div class="col-lg-3">
-												<input id="cell_ph_pno" name="cell_ph_pno" type="text" class="form-control" readonly>
-											</div>
-										</div>
-									</th>
-
-									<th>이메일</th>
-									<th>
-										<div class="row">
-											<div class="col-lg-5">
-												<input id="eml_id" name="eml_id" type="text"
-													class="form-control" readonly>
-											</div>
-											<div class="col-lg-1">@</div>
-											<div class="col-lg-6">
-												<input id="eml_domain" name="eml_domain" type="text"
-													class="form-control" readonly>
-											</div>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<th>접수채널</th>
-									<th>
-										<div class="col-12">
-											<select name="reg_chnl_cd" id="select_reg_chnl_cd"
-												class="js-example-basic-single form-control">
-												<option value="">없음</option>
-											</select>
-										</div>
-									</th>
-									<th>계약형태</th>
-									<th>
-										<div class="col-12">
-											<select name="con_type_cd" id="select_con_type_cd"
-												class="js-example-basic-single form-control">
-												<option value="">없음</option>
-											</select>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<th>특이사항</th>
-									<th colspan="3"><textarea name="spec_desc" id="spec_desc"
-											rows="10" cols="80">
-            						</textarea> <script>
-												CKEDITOR.replace('spec_desc');
-												</script>
-									</th>
-								</tr>
-							</tbody>
-						</table>
-						<div id="plus-size1" class="modal-footer">
+<div class="card" style="width:98%; margin:0 auto;">
+	<div class="card-block">
+		<form id="registForm" method="post" action="/consulting/registlead">
+			<table style="text-align:center; width:100%;" id="demo-foo-filtering" class="table">
+				<colgroup>
+					<col width="10%">
+					<col width="40%">
+					<col width="10%">
+					<col width="40%">
+				</colgroup>
+				<tbody>
+					<tr>
+						<th><label for="searchProsNm">고객명</label></th>
+						<td><input id="searchProsNm" type="text" class="form-control"></td>
+						<th><label for="searchProsNm">고객ID</label></th>
+						<td><input type="text" id="pros_id" name="pros_id" class="form-control" readonly></td>
+					</tr>
+					<tr>
+						<th>
+							<label for="cell_ph_no">전화번호</label>
+						</th>
+						<td>
+							<div style="display:flex;">
+									<input id="cell_ph_no" type="text" class="form-control" readonly>
+									<span style="vertical-align:middle;">-</span>
+									<input id="cell_ph_tno" type="text" class="form-control" readonly>
+									<span style="vertical-align:middle;">-</span>
+									<input id="cell_ph_pno" type="text" class="form-control" readonly>
+							</div>
+						</td>
+						<th>
+							<label for="searchProsNm">이메일</label>
+						</th>
+						<td>
+							<div style="display:flex;">
+								<input id="eml_id" type="text"
+											class="form-control" readonly>
+								<span style="vertical-align:middle;">@</span>
+								<input id="eml_domain" type="text"
+											class="form-control" readonly>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="select_reg_chnl_cd">접수채널</label>
+						</th>
+						<td>
+							<select name="reg_chnl_cd" id="select_reg_chnl_cd"
+									class="js-example-basic-single form-control">
+									<option value="">없음</option>
+							</select>
+						</td>
+						<th>
+							<label for="select_con_type_cd">계약형태</label>
+						</th>
+						<td>
+							<select name="con_type_cd" id="select_con_type_cd"
+									class="js-example-basic-single form-control">
+									<option value="">없음</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>
+							<label for="select_fra_cd">가맹사업</label>
+						</th>
+						<td>
+							<span class="form-group"> <select name="fra_cd"
+							class="form-control" id="select_fra_cd">
+							<option value="">--</option>
+							</select>
+							</span>
+						</td>
+						<th>
+							<label for="select_fra_cd">브랜드</label>
+						</th>
+						<td>
+							<span class="form-group"> <select name="brand_cd"
+							class="form-control" id="select_brand_cd">
+							<option value="">--</option>
+							</select>
+							</span>
+						</td>
+					</tr>
+					<tr>
+						<th>특이사항</th>
+						<td colspan="3">
+							<textarea name="spec_desc" id="spec_desc" rows="10" cols="80">
+         					</textarea> 
+        						<script>
+									CKEDITOR.replace('spec_desc');
+								</script>
+						</td>
+					</tr>
+					<tr>
+						<th colspan="4">
 							<button type="button" id="regist" class="btn btn-primary" onclick="registLead()">등록</button>
 							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
+						</th>
+					</tr>
+				</tbody>
+			</table>
+		</form>
 	</div>
 </div>
 
-<div class="modal fade" id="modalView" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      <h5>고객명</h5>
-    <input type="text" class="form-control" id="inputName">
-    <button type="submit" class="btn btn-primary" onclick="getProspects()">검색</button>
-      </div>
-      <div class="modal-body" id="modalBody">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
+<div id="modal">
 </div>
 
 <form id='actionForm' action="/consulting/leads" method='get'>

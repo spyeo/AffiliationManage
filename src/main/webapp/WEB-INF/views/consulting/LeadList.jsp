@@ -3,6 +3,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script>
+	function getParam(sname) {
+	    var params = location.search.substr(location.search.indexOf("?") + 1);
+	    var sval = "";
+	    params = params.split("&");
+	    for (var i = 0; i < params.length; i++) {
+	        temp = params[i].split("=");
+	        if ([temp[0]] == sname) { sval = temp[1]; }
+	    }
+	    return sval;
+	}
+
 	function registLead() {
 		var actionForm = $('#actionForm');
 		actionForm.attr("action", "/consulting/registlead");
@@ -50,8 +61,12 @@
 	$(document).ready(getSelectorOption('/consulting/data/codes', '200', '#select_reg_chnl_cd', 'reg_chnl_cd', 'code', 'code_nm'));
 	$(document).ready(getSelectorOption('/consulting/data/codes', '300', '#select_con_type_cd', 'con_type_cd', 'code', 'code_nm'));
 	$(document).ready(getSelectorOption('/consulting/data/franchises', '', '#select_fra_cd', 'fra_cd', 'fra_cd', 'fra_nm'));
-	//페이지 로딩시 fra코드가 선택되었고 brand코드가 선택되었으면 검색어 유지
-	
+	$(document).ready(function(){
+		var fra = getParam("fra_cd");
+		if(fra!=''){
+			getSelectorOption('/consulting/data/brands', fra, '#select_brand_cd', 'brand_cd', 'brand_cd', 'brand_nm');
+		}
+	});
 	$(document).ready(function() {
 		var actionForm = $("#actionForm");
 
@@ -156,16 +171,12 @@
 								</span>
 							</th>
 							<th>
-								<div class="col-form-label">삭제여부</div>
+								<div class="col-form-label">삭제 데이터 조회</div>
 							</th>
 							<th style="float:left;">
 								 <div class="form-check form-check-inline">
 								  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="del_yn" value="y">
-								  <label class="form-check-label" for="inlineCheckbox1">YES</label>
-								</div>
-								<div class="form-check form-check-inline">
-								  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" name="del_yn" value="n">
-								  <label class="form-check-label" for="inlineCheckbox2">NO</label>
+								  <label class="form-check-label" for="inlineCheckbox1">Check</label>
 								</div>
 							</th>
 						</tr>

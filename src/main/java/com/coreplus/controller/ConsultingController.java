@@ -74,5 +74,23 @@ public class ConsultingController {
 		leadVO.setProspectVO(prospectVO);
 		return "/consulting/leads";
 	}
+	
+	@GetMapping("/modal")
+	public ModelAndView modal(ModelAndView mv) {
+		mv.setViewName("htmlcode/modal/Modal.tiles");
+		return mv;
+	}
+	
+	@GetMapping("/modal/prospects")
+	public ModelAndView prospectListView(ModelAndView mv) {
+		mv.setViewName("htmlcode/modal/Prospects.tiles");
+		return mv;
+	}
+	
+	@GetMapping("/modal/newprospect")
+	public ModelAndView newProspect(ModelAndView mv) {
+		mv.setViewName("htmlcode/modal/NewProspect.tiles");
+		return mv;
+	}
 
 }

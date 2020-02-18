@@ -11,6 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 select pros_id
      , pros_nm
+     , created
      , cell_ph_no
      , cell_ph_tno
      , cell_ph_pno
