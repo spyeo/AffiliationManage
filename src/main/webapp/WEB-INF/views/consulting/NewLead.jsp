@@ -2,9 +2,50 @@
 	pageEncoding="UTF-8"%>
 <script src="/resources/ckeditor/ckeditor.js"></script>
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <script>
 
+function newleadValidation(){
+	
+	var errorMsg = "";
+	
+	var pros_nm = document.getElementById("pros_nm").value;
+	var cell_ph_no = document.getElementById("cell_ph_no").value;
+	var cell_ph_tno = document.getElementById("cell_ph_tno").value;
+	var cell_ph_pno = document.getElementById("cell_ph_pno").value;
+	var eml_id = document.getElementById("eml_id").value;
+	var eml_domain = document.getElementById("eml_domain").value;
+	var con_type_cd = document.getElementById("select_con_type_cd").value;
+	var reg_chnl_cd = document.getElementById("select_reg_chnl_cd").value;
+	
+	if(reg_chnl_cd == ""){
+		errorMsg = "접수채널";
+	}
+	if(con_type_cd == ""){
+		errorMsg = "계약형태";
+	}
+	if(eml_domain == ""){
+		errorMsg = "이메일";
+	}
+	if(eml_id == ""){
+		errorMsg = "이메일";
+	}
+	if(cell_ph_pno == ""){
+		errorMsg = "전화번호";
+	}
+	if(cell_ph_tno == ""){
+		errorMsg = "전화번호";
+	}
+	if(cell_ph_no == ""){
+		errorMsg = "전화번호";
+	}
+	if(pros_nm == ""){
+		errorMsg = "가망고객명";
+	}
+	
+	return errorMsg;
+}
 
 function searchProspects(){
 	if($("input:checkbox[id=newProspectCheck]").is(":checked") == false){
@@ -27,16 +68,30 @@ function getProspects(){
 		success : function(data){
 			$("#modalBody").empty();
 			if(data.length>0){
-				$("#modalBody").append('<table border="1"> <tr><th colspan="2"> 이름</th></tr>');
+				var htmlcode='';
+				htmlcode+='<table class="table table-striped">' 
+				+ '<thead>'
+				+'<tr>'
+				+'<th>이름</th>'
+				+'<th>이메일</th>'
+				+'<th>선택</th>'
+				+'</tr>'
+				+'</thead>'
+				+'<tbody>';
+				
 				for(var i=0; i<data.length ; i++){
-					$("#modalBody").append('<tr><td><input type="text" value="'+data[i]["pros_nm"]
-					+'"/> </td> <td><button type="button" onclick="readProspect('+'&quot;'+data[i]["pros_id"]+'&quot;'+')">선택</button></td></tr>');
+					htmlcode+='<tr>'
+					+'<td>'+data[i]["pros_nm"]+'</td>'
+					+'<td>'+data[i]["eml_id"]+'@'+data[i]["eml_domain"]+'</td>'
+					+'<td><button type="button" class="btn btn-outline-primary btn-sm" onclick="readProspect('+'&quot;'+data[i]["pros_id"]+'&quot;'+')">선택</button></td>'
+					+'</tr>';
 				}
-				$("#modalBody").append('</table>');
+				htmlcode+='</tbody></table>';
 			}
 			else{
-				$("#modalBody").append('검색 결과가 없습니다.');
+				htmlcode='검색 결과가 없습니다.';
 			}
+			$("#modalBody").append(htmlcode);
 			
 		},
 		error : function(xhr, status, error){
@@ -73,6 +128,12 @@ function backToLeads(){
 }
 
 function registLead(){
+	var isEmpty = newleadValidation();
+	if(isEmpty != ""){
+		alert(isEmpty+" 란이 빈칸입니다.");
+		return;
+	}
+	
 	var text = CKEDITOR.instances.spec_desc.getData();
 	$("#spec_desc").val(text);
 	var queryString = $("form[id=registForm]").serialize();
@@ -138,6 +199,8 @@ $(document).ready(function(){
 			$("#cell_ph_pno").attr("readonly",true);
 			$("#eml_id").attr("readonly",true);
 			$("#eml_domain").attr("readonly",true);
+			
+			$("#searchProsNm").attr("readonly",false);
 			
 			$("#pros_nm").val('');
 			$("#cell_ph_no").val('');

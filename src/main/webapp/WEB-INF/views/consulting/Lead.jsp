@@ -10,7 +10,49 @@
 <script>
 
 var check = false;
-function modifyLead(){
+
+function leadValidation(){
+	
+	var errorMsg = "";
+	
+	var pros_nm = document.getElementById("pros_nm").value;
+	var cell_ph_no = document.getElementById("cell_ph_no").value;
+	var cell_ph_tno = document.getElementById("cell_ph_tno").value;
+	var cell_ph_pno = document.getElementById("cell_ph_pno").value;
+	var eml_id = document.getElementById("eml_id").value;
+	var eml_domain = document.getElementById("eml_domain").value;
+	var con_type_cd = document.getElementById("select_con_type_cd").value;
+	var reg_chnl_cd = document.getElementById("select_reg_chnl_cd").value;
+	
+	if(reg_chnl_cd == ""){
+		errorMsg = "접수채널";
+	}
+	if(con_type_cd == ""){
+		errorMsg = "계약형태";
+	}
+	if(eml_domain == ""){
+		errorMsg = "이메일";
+	}
+	if(eml_id == ""){
+		errorMsg = "이메일";
+	}
+	if(cell_ph_pno == ""){
+		errorMsg = "전화번호";
+	}
+	if(cell_ph_tno == ""){
+		errorMsg = "전화번호";
+	}
+	if(cell_ph_no == ""){
+		errorMsg = "전화번호";
+	}
+	if(pros_nm == ""){
+		errorMsg = "가망고객명";
+	}
+	
+	return errorMsg;
+}
+
+function modifyActive(){
 	if(check == false){
 		$("#pros_nm").attr("readonly", false);
 		$("#cell_ph_no").attr("readonly", false);
@@ -21,15 +63,15 @@ function modifyLead(){
 		$("#spec_desc").attr("readonly", false);
 		$("#select_reg_chnl_cd").removeAttr("disabled");
 		$("#select_con_type_cd").removeAttr("disabled");
-		CKEDITOR.instances.spec_desc.setReadOnly(false);
 		$("#signup").show();
 		$("#deletelead").show();
 		$("#modify").hide();
 		check = true;
+		CKEDITOR.instances['spec_desc'].setReadOnly(false);
 	}
 }
 
-function dellead(){
+function deleteLead(){
 	var lead_id = $("#lead_id").val();
 	$.ajax({
 		type : 'post',
@@ -41,15 +83,20 @@ function dellead(){
 			
 		},
 		error : function(xhr, status, error){
-			alert("수정하는 도중 에러가 발생했습니다.");
+			alert("삭제하는 도중 에러가 발생했습니다.");
 		}
 	});
 }
 
-function signUp(){
+function modifyLead(){
+	
+	var isEmpty = leadValidation();
+	if(isEmpty != ''){
+		alert(leadValidation()+" 란이 비어있습니다.");
+		return;
+	}
 	
 	var text = CKEDITOR.instances.spec_desc.getData();
-	//CKEDITOR.instances.spec_desc.setData(text)
 	$("textarea#spec_desc").val(text);
 	var queryString = $("form[id=modifyForm]").serialize();
 	$.ajax({
@@ -70,7 +117,7 @@ function backToLeads(){
 	document.getElementById('actionForm').submit();
 }
 
-function getcodes(code, tag, codename){
+function getcodes(code, selecter_id, code_type){
 	$.ajax({
 		type : 'get',
 		url : '/consulting/data/codes/'+code,
@@ -80,12 +127,12 @@ function getcodes(code, tag, codename){
 				data=0;
 			}
 			for(var i = 0; i < data.length; i++){
-				$(tag).append("<option value='"+ data[i]['code']
+				$(selecter_id).append("<option value='"+ data[i]['code']
 				+ "'>"+data[i]['code_nm'] + "</option>");
 			}
-			var id= "#"+codename
-			$(tag).val($(id).val()).attr("selected", true);
-			$(tag).not(":selected").attr("disabled", "disabled");
+			var id= "#"+code_type
+			$(selecter_id).val($(id).val()).attr("selected", true);
+			$(selecter_id).not(":selected").attr("disabled", "disabled");
 		}
 	});
 }
@@ -95,20 +142,15 @@ $(document).ready(getcodes('300', '#select_con_type_cd', 'con_type_cd'));
 $(document).ready(function(){
 	$("#signup").hide();
 	$("#deletelead").hide();
-	CKEDITOR.replace('spec_desc');
-	CKEDITOR.instances.spec_desc.setReadOnly(true);
 });
 
 </script>
 </head>
 <body>
-<div id="content-wrapper">
 
 	<div class="container-fluid">
-
-		<div class="col-sm-12">
+		<div class="col-lg-12">
 			<div class="card">
-				<div class="card-block">
 					<form id="modifyForm" method="post" action="/consulting/data/modifylead">
 						<table id="demo-foo-filtering" class="table">
 							<tbody>
@@ -118,7 +160,7 @@ $(document).ready(function(){
 									<input type="hidden" name="lead_id" id="lead_id" value="${lead.lead_id }">
 									<input type="hidden" name="pros_id" id="pros_id" value="${lead.prospectVO.pros_id }">
 									</th>
-									<th colspan="4">
+									<th colspan="3">
 										<div class="row">
 											<div class="col-lg-6">
 												<input id="pros_nm" name="pros_nm" type="text"
@@ -136,17 +178,13 @@ $(document).ready(function(){
 												<input id="cell_ph_no" name="cell_ph_no" type="text" 
 												 value="${lead.prospectVO.cell_ph_no }" class="form-control" readonly>
 											</div>
-											<div class="col-lg-1">
-												<h2>-</h2>
-											</div>
-											<div class="col-lg-3">
+											<div class="col-form-label">-</div>
+											<div class="col-lg-4">
 												<input id="cell_ph_tno" name="cell_ph_tno" type="text" 
 												 value="${lead.prospectVO.cell_ph_tno }" class="form-control" readonly>
 											</div>
-											<div class="col-lg-1">
-												<h2>-</h2>
-											</div>
-											<div class="col-lg-3">
+											<div class="col-form-label">-</div>
+											<div class="col-lg-4">
 												<input id="cell_ph_pno" name="cell_ph_pno" type="text"
 												 value="${lead.prospectVO.cell_ph_pno }" class="form-control" readonly>
 											</div>
@@ -156,13 +194,13 @@ $(document).ready(function(){
 									<th>이메일</th>
 									<th>
 										<div class="row">
-											<div class="col-lg-5">
+											<div class="col-lg-4">
 												<input id="eml_id" name="eml_id" type="text"
 												 value="${lead.prospectVO.eml_id }"
 													class="form-control" readonly>
 											</div>
-											<div class="col-lg-1">@</div>
-											<div class="col-lg-6">
+											<div class="col-form-label">@</div>
+											<div class="col-lg-7">
 												<input id="eml_domain" name="eml_domain" type="text"
 												 value="${lead.prospectVO.eml_domain }"
 													class="form-control" readonly>
@@ -173,7 +211,7 @@ $(document).ready(function(){
 								<tr>
 									<th>접수채널<input type="hidden" id="reg_chnl_cd" value="${lead.reg_chnl_cd }"></th>
 									<th>
-										<div class="col-12">
+										<div class="col-lg-6">
 											<select name="reg_chnl_cd" id="select_reg_chnl_cd"
 												class="js-example-basic-single form-control">
 												<option value="">없음</option>
@@ -182,7 +220,7 @@ $(document).ready(function(){
 									</th>
 									<th>계약형태<input type="hidden" id="con_type_cd" value="${lead.con_type_cd }"></th>
 									<th>
-										<div class="col-12">
+										<div class="col-lg-6">
 											<select name="con_type_cd" id="select_con_type_cd"
 												class="js-example-basic-single form-control">
 												<option value="">없음</option>
@@ -196,22 +234,25 @@ $(document).ready(function(){
 											rows="10" cols="80">
 											${lead.spec_desc}
 											</textarea>
+											<script>
+												CKEDITOR.replace('spec_desc');
+												CKEDITOR.config.readOnly = true;
+												
+											</script>
 									</th>
 								</tr>
 							</tbody>
 						</table>
 						<div id="actionButton" class="modal-footer">
-							<button type="button" id="modify" class="btn btn-primary" onclick="modifyLead()">수정</button>
-							<button type='button' id='signup' class='btn btn-primary' onclick="signUp()">저장</button>
-							<button type='button' id='deletelead' class='btn btn-primary' onclick="dellead()">삭제</button>
+							<button type="button" id="modify" class="btn btn-primary" onclick="modifyActive()">수정</button>
+							<button type='button' id='signup' class='btn btn-primary' onclick="modifyLead()">저장</button>
+							<button type='button' id='deletelead' class='btn btn-primary' onclick="deleteLead()">삭제</button>
 							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
 						</div>
 					</form>
 				</div>
-			</div>
 		</div>
 	</div>
-</div>
 
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value='${pageMarker.cri.pageNum }'>

@@ -27,10 +27,11 @@ public class ConsultingAjaxController {
 	@GetMapping(value="/codes/{code}", produces= {
 			MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public List<CodeVO> codes(@PathVariable("code") String code) {
-		List<CodeVO> result=service.getCodeList(code);
+		List<CodeVO> result=service.getSelectCodeList(code);
 		return result;
 	}
 	
+	//모달창의 검색화면 개선 필요
 	
 	 @GetMapping(value="/prospects/{name}", produces= {
 			MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -45,6 +46,8 @@ public class ConsultingAjaxController {
 		 ProspectVO result = service.getProspect(pros_id);
 		 return result;
 	 }
+	 
+	 // 수정 필요한 부분
 	 
 	 @PostMapping(value = "/registlead", produces= {
 			 MediaType.APPLICATION_JSON_UTF8_VALUE})

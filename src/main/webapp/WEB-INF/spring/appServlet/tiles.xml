@@ -11,16 +11,30 @@
 		<put-attribute name="content" value="" />
 	</definition>
 	
-	<definition name="main/*.tiles" extends="layouts-tiles">
-		<put-attribute name="content" value="/WEB-INF/views/main/{1}.jsp" />
+	<definition name="*/*.tiles" extends="layouts-tiles">
+		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 	
-	<definition name="franchise/*.tiles" extends="layouts-tiles">
-		<put-attribute name="content" value="/WEB-INF/views/franchise/{1}.jsp" />
+	
+	
+	<definition name="htmlcode" template="/WEB-INF/views/tiles/htmlcode.jsp">
+		<put-attribute name="content" value=""/>
 	</definition>
 	
-	<definition name="consulting/*.tiles" extends="layouts-tiles">
-		<put-attribute name="content" value="/WEB-INF/views/consulting/{1}.jsp" />
+	<definition name="htmlcode/*/*.tiles" extends="htmlcode">
+		<put-attribute name="content" value="/WEB-INF/views/htmlcode/{1}/{2}.jsp"></put-attribute>
+	</definition>
+	
+	
+	
+	<definition name="empty" template="/WEB-INF/views/tiles/empty.jsp">
+		<put-attribute name="css" value="/WEB-INF/views/tiles/css.jsp" />
+		<put-attribute name="js" value="/WEB-INF/views/tiles/js.jsp" />
+		<put-attribute name="content" value=""/>
+	</definition>
+	
+	<definition name="*.tiles" extends="empty">
+		<put-attribute name="content" value="/WEB-INF/views/main/{1}.jsp"/>
 	</definition>
 
 </tiles-definitions>

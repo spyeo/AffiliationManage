@@ -114,14 +114,14 @@
 														<li class="page_ac">
 														<a href="${pageMaker.startPage-1 }" class="page-link">Previous</a></li>
 													</c:if>
+													
 													<c:forEach var="num" begin="${pageMaker.startPage }"
 														end="${pageMaker.endPage }">
 										
 													<c:if test="${pageMaker.cri.pageNum eq num }">
-															<li class="page_ac active">
-																<a href="${num}" class="page-link">${num}</a>
-															</li>
-														</c:if>
+															<li class="page_ac">
+															<a href="${num}" class="page-link">${num}</a>
+													</c:if>
 														<c:if test="${pageMaker.cri.pageNum ne num }">
 															<li class="page_ac">
 																<a href="${num}" class="page-link">${num}</a>
