@@ -185,6 +185,7 @@ function search(){
 	var searchfm = $('#searchForm');
 	var franchise = $('#searchForm [name="fra_cd"]').val();
 	var brand = $('#searchForm [name="brand_cd"]').val();
+	
 	if(franchise!="" || brand!=""){
 		searchfm.submit();
 	}else if(franchise=="" || brand==""){
