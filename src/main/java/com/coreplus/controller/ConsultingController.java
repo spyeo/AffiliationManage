@@ -47,8 +47,11 @@ public class ConsultingController {
 
 		int totalCount = service.getLeadCount(cri);
 		LeadVO result = service.getLeadInfo(lead_id);
+		String franchise = service.getFranchise(result.getBrand_cd());
+		model.addAttribute("franchise",franchise);
 		model.addAttribute("lead", result);
 		model.addAttribute("pageMarker",new PageDTO(cri, totalCount));
+		model.addAttribute("brands",service.getBrands(franchise));
 		mv.setViewName("consulting/Lead.tiles");
 		return mv;
 	}

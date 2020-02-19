@@ -32,4 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 where fra_cd = #{fra_cd}
 </select>
 
+<select id="getFranchise" resultType="String">
+
+	select fra_cd
+	from brand
+	where brand_cd = #{brand_cd}
+
+</select>
+
 </mapper>

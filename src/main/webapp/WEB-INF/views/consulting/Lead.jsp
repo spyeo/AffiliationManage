@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,256 +10,260 @@
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
 <script>
 
-var check = false;
-
 function leadValidation(){
 	
 	var errorMsg = "";
-	
-	var pros_nm = document.getElementById("pros_nm").value;
-	var cell_ph_no = document.getElementById("cell_ph_no").value;
-	var cell_ph_tno = document.getElementById("cell_ph_tno").value;
-	var cell_ph_pno = document.getElementById("cell_ph_pno").value;
-	var eml_id = document.getElementById("eml_id").value;
-	var eml_domain = document.getElementById("eml_domain").value;
+	//var pros_id = document.getElementById("pros_id").value;
 	var con_type_cd = document.getElementById("select_con_type_cd").value;
 	var reg_chnl_cd = document.getElementById("select_reg_chnl_cd").value;
+	var brand_cd = document.getElementById("select_brand_cd").value;
 	
-	if(reg_chnl_cd == ""){
-		errorMsg = "접수채널";
+	if(brand_cd == ""){
+		errMsg = "브랜드";
 	}
 	if(con_type_cd == ""){
 		errorMsg = "계약형태";
 	}
-	if(eml_domain == ""){
-		errorMsg = "이메일";
+	if(reg_chnl_cd == ""){
+		errorMsg = "접수채널";
 	}
-	if(eml_id == ""){
-		errorMsg = "이메일";
-	}
-	if(cell_ph_pno == ""){
-		errorMsg = "전화번호";
-	}
-	if(cell_ph_tno == ""){
-		errorMsg = "전화번호";
-	}
-	if(cell_ph_no == ""){
-		errorMsg = "전화번호";
-	}
-	if(pros_nm == ""){
-		errorMsg = "가망고객명";
-	}
+	/*
+	if(pros_id == ""){
+	errorMsg = "고객명";
+}
+	*/
 	
 	return errorMsg;
 }
 
-function modifyActive(){
-	if(check == false){
-		$("#pros_nm").attr("readonly", false);
-		$("#cell_ph_no").attr("readonly", false);
-		$("#cell_ph_tno").attr("readonly", false);
-		$("#cell_ph_pno").attr("readonly", false);
-		$("#eml_id").attr("readonly", false);
-		$("#eml_domain").attr("readonly", false);
-		$("#spec_desc").attr("readonly", false);
-		$("#select_reg_chnl_cd").removeAttr("disabled");
-		$("#select_con_type_cd").removeAttr("disabled");
-		$("#signup").show();
-		$("#deletelead").show();
-		$("#modify").hide();
-		check = true;
-		CKEDITOR.instances['spec_desc'].setReadOnly(false);
-	}
-}
-
 function deleteLead(){
 	var lead_id = $("#lead_id").val();
-	$.ajax({
-		type : 'post',
-		url : '/consulting/data/deletelead/'+lead_id,
-		dataType : 'json',
-		success : function(data){
-			alert("삭제 되었습니다.");
-			backToLeads();
-			
-		},
-		error : function(xhr, status, error){
-			alert("삭제하는 도중 에러가 발생했습니다.");
-		}
-	});
+	var check = confirm("삭제하시겠습니까?");
+	if(check){
+		$.ajax({
+			type : 'post',
+			url : '/consulting/data/deletelead/'+lead_id,
+			dataType : 'json',
+			success : function(data){
+				alert("삭제 되었습니다.");
+				backToLeads();
+				
+			},
+			error : function(xhr, status, error){
+				alert("삭제하는 도중 에러가 발생했습니다.");
+			}
+		});
+	}
 }
 
 function modifyLead(){
 	
 	var isEmpty = leadValidation();
 	if(isEmpty != ''){
-		alert(leadValidation()+" 란이 비어있습니다.");
+		alert(isEmpty+"란이 비어있습니다.");
 		return;
 	}
 	
-	var text = CKEDITOR.instances.spec_desc.getData();
-	$("textarea#spec_desc").val(text);
-	var queryString = $("form[id=modifyForm]").serialize();
-	$.ajax({
-		type : 'post',
-		url : '/consulting/data/modifylead',
-		dataType : 'json',
-		data : queryString,
-		success : function(data){
-			alert("수정하였습니다.");
-		},
-		error : function(xhr, status, error){
-			alert("수정하는 도중 에러가 발생했습니다.");
-		}
-	});
+	var check = confirm('수정하시겠습니까?');
+	if(check){
+		var text = CKEDITOR.instances.spec_desc.getData();
+		$("textarea#spec_desc").val(text);
+		var queryString = $("form[id=modifyForm]").serialize();
+		$.ajax({
+			type : 'post',
+			url : '/consulting/data/modifylead',
+			dataType : 'json',
+			data : queryString,
+			success : function(data){
+				alert("수정 되었습니다.")
+				backToLeads();
+			},
+			error : function(xhr, status, error){
+				alert("수정하는 도중 에러가 발생했습니다.");
+			}
+		});
+	}
 }
 
 function backToLeads(){
 	document.getElementById('actionForm').submit();
 }
 
-function getcodes(code, selecter_id, code_type){
+function getSelectorOption(url, parameter, selecter_id, save_param, option_value, option_text) {
+	var restUrl=url;
+	if(parameter!=''){
+		restUrl+="/"+parameter;
+	}
 	$.ajax({
 		type : 'get',
-		url : '/consulting/data/codes/'+code,
+		url : restUrl,
 		dataType : 'json',
-		success : function(data){
-			if(data==null){
-				data=0;
+		success : function(data) {
+			if (data == null) {
+				data = 0;
 			}
-			for(var i = 0; i < data.length; i++){
-				$(selecter_id).append("<option value='"+ data[i]['code']
-				+ "'>"+data[i]['code_nm'] + "</option>");
+			$(selecter_id).html("<option value=''>--</option>");
+			for (var i = 0; i < data.length; i++) {
+				$(selecter_id).append("<option value='"+ data[i][option_value]+ "'>"
+				+ data[i][option_text] + "</option>");
 			}
-			var id= "#"+code_type
-			$(selecter_id).val($(id).val()).attr("selected", true);
-			$(selecter_id).not(":selected").attr("disabled", "disabled");
+			$(selecter_id).val($(save_param).val()).prop("selected", true);
 		}
 	});
 }
 
-$(document).ready(getcodes('200', '#select_reg_chnl_cd', 'reg_chnl_cd'));
-$(document).ready(getcodes('300', '#select_con_type_cd', 'con_type_cd'));
+$(document).ready(getSelectorOption('/consulting/data/codes', '200', '#select_reg_chnl_cd', '#reg_chnl_cd'	, 'code', 'code_nm'));
+$(document).ready(getSelectorOption('/consulting/data/codes', '300', '#select_con_type_cd', '#con_type_cd', 'code', 'code_nm'));
+$(document).ready(getSelectorOption('/consulting/data/franchises', '', '#select_fra_cd', '#fra_cd', 'fra_cd', 'fra_nm'));
 $(document).ready(function(){
-	$("#signup").hide();
-	$("#deletelead").hide();
+	$("#select_fra_cd").change(function() {
+		var fra = $("#select_fra_cd option:selected").val();
+		if(fra != ''){
+			getSelectorOption('/consulting/data/brands', fra, '#select_brand_cd', 'brand_cd', 'brand_cd', 'brand_nm');
+		}
+	});
+	
 });
 
 </script>
 </head>
 <body>
 
-	<div class="container-fluid">
-		<div class="col-lg-12">
-			<div class="card">
-					<form id="modifyForm" method="post" action="/consulting/data/modifylead">
-						<table id="demo-foo-filtering" class="table">
-							<tbody>
-								<tr>
-									<th>
-									가망고객명
-									<input type="hidden" name="lead_id" id="lead_id" value="${lead.lead_id }">
-									<input type="hidden" name="pros_id" id="pros_id" value="${lead.prospectVO.pros_id }">
-									</th>
-									<th colspan="3">
-										<div class="row">
-											<div class="col-lg-6">
-												<input id="pros_nm" name="pros_nm" type="text"
-										class="form-control" value="${lead.prospectVO.pros_nm }" readonly>
-											</div>
-										</div>
-									</th>
-									
-								</tr>
-								<tr>
-									<th>이동전화</th>
-									<th>
-										<div class="row">
-											<div class="col-lg-3">
-												<input id="cell_ph_no" name="cell_ph_no" type="text" 
-												 value="${lead.prospectVO.cell_ph_no }" class="form-control" readonly>
-											</div>
-											<div class="col-form-label">-</div>
-											<div class="col-lg-4">
-												<input id="cell_ph_tno" name="cell_ph_tno" type="text" 
-												 value="${lead.prospectVO.cell_ph_tno }" class="form-control" readonly>
-											</div>
-											<div class="col-form-label">-</div>
-											<div class="col-lg-4">
-												<input id="cell_ph_pno" name="cell_ph_pno" type="text"
-												 value="${lead.prospectVO.cell_ph_pno }" class="form-control" readonly>
-											</div>
-										</div>
-									</th>
-
-									<th>이메일</th>
-									<th>
-										<div class="row">
-											<div class="col-lg-4">
-												<input id="eml_id" name="eml_id" type="text"
-												 value="${lead.prospectVO.eml_id }"
-													class="form-control" readonly>
-											</div>
-											<div class="col-form-label">@</div>
-											<div class="col-lg-7">
-												<input id="eml_domain" name="eml_domain" type="text"
-												 value="${lead.prospectVO.eml_domain }"
-													class="form-control" readonly>
-											</div>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<th>접수채널<input type="hidden" id="reg_chnl_cd" value="${lead.reg_chnl_cd }"></th>
-									<th>
-										<div class="col-lg-6">
-											<select name="reg_chnl_cd" id="select_reg_chnl_cd"
-												class="js-example-basic-single form-control">
-												<option value="">없음</option>
-											</select>
-										</div>
-									</th>
-									<th>계약형태<input type="hidden" id="con_type_cd" value="${lead.con_type_cd }"></th>
-									<th>
-										<div class="col-lg-6">
-											<select name="con_type_cd" id="select_con_type_cd"
-												class="js-example-basic-single form-control">
-												<option value="">없음</option>
-											</select>
-										</div>
-									</th>
-								</tr>
-								<tr>
-									<th>특이사항</th>
-									<th colspan="3"><textarea name="spec_desc" id="spec_desc"
-											rows="10" cols="80">
-											${lead.spec_desc}
-											</textarea>
-											<script>
-												CKEDITOR.replace('spec_desc');
-												CKEDITOR.config.readOnly = true;
-												
-											</script>
-									</th>
-								</tr>
-							</tbody>
-						</table>
-						<div id="actionButton" class="modal-footer">
-							<button type="button" id="modify" class="btn btn-primary" onclick="modifyActive()">수정</button>
-							<button type='button' id='signup' class='btn btn-primary' onclick="modifyLead()">저장</button>
-							<button type='button' id='deletelead' class='btn btn-primary' onclick="deleteLead()">삭제</button>
-							<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
+<div class="card" style="width:98%; margin:0 auto;">
+	<form id="modifyForm" method="post" action="/consulting/data/modifylead">
+		<table style="text-align:center; width:100%;" class="table table-sm">
+			<colgroup>
+				<col width="10%">
+				<col width="40%">
+				<col width="10%">
+				<col width="40%">
+			</colgroup>
+			<tbody>
+				<tbody>
+				<tr>
+					<th>
+						<label for="searchProsNm">고객명</label>
+						<input type="hidden" id="lead_id" name="lead_id" value="${lead.lead_id }">
+					</th>
+					<td><input id="searchProsNm" type="text" class="form-control" value="${lead.prospectVO.pros_nm }" readonly></td>
+					<th><label for="searchProsNm">고객ID</label></th>
+					<td><input type="text" id="pros_id" name="pros_id" class="form-control" value="${lead.prospectVO.pros_id }" readonly></td>
+					
+				</tr>
+				<tr>
+					<th>
+						<label for="cell_ph_no">전화번호</label>
+					</th>
+					<td>
+						<div style="display:flex;">
+								<input id="cell_ph_no" type="text" class="form-control"
+								value="${lead.prospectVO.cell_ph_no }" readonly>
+								<span style="vertical-align:middle;">-</span>
+								<input id="cell_ph_tno" type="text" class="form-control"
+								value="${lead.prospectVO.cell_ph_tno }" readonly>
+								<span style="vertical-align:middle;">-</span>
+								<input id="cell_ph_pno" type="text" class="form-control"
+								value="${lead.prospectVO.cell_ph_pno }" readonly>
 						</div>
-					</form>
-				</div>
-		</div>
-	</div>
+					</td>
+					<th>
+						<label for="searchProsNm">이메일</label>
+					</th>
+					<td>
+						<div style="display:flex;">
+							<input id="eml_id" type="text" value="${lead.prospectVO.eml_id }"
+										class="form-control" readonly>
+							<span style="vertical-align:middle;">@</span>
+							<input id="eml_domain" type="text" value="${lead.prospectVO.eml_domain }"
+										class="form-control" readonly>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label for="select_reg_chnl_cd">접수채널</label>
+						<input type="hidden" id="reg_chnl_cd" value="${lead.reg_chnl_cd }">
+					</th>
+					<td>
+						<select name="reg_chnl_cd" id="select_reg_chnl_cd"
+								class="js-example-basic-single form-control">
+								<option value="">없음</option>
+						</select>
+					</td>
+					<th>
+						<label for="select_con_type_cd">계약형태</label>
+						<input type="hidden" id="con_type_cd" value="${lead.con_type_cd }">
+					</th>
+					<td>
+						<select name="con_type_cd" id="select_con_type_cd"
+								class="js-example-basic-single form-control">
+								<option value="">없음</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<label for="select_fra_cd">가맹사업</label>
+						<input type="hidden" id="fra_cd" value="${franchise }">
+					</th>
+					<td>
+						<span class="form-group"> <select name="fra_cd"
+						class="form-control" id="select_fra_cd">
+						<option value="">--</option>
+						</select>
+						</span>
+					</td>
+					<th>
+						<label for="select_fra_cd">브랜드</label>
+						<input type="hidden" id="brand_cd" value="${lead.brand_cd }">
+					</th>
+					<td>
+						<span class="form-group"> <select name="brand_cd"
+						class="form-control" id="select_brand_cd">
+						<option value="">--</option>
+						<c:forEach var="brand" items="${brands}">
+							<c:if test="${brand.brand_cd eq lead.brand_cd }">
+								<option value="${brand.brand_cd }" selected>${brand.brand_nm }</option>
+							</c:if>
+							<c:if test="${brand.brand_cd ne lead.brand_cd }">
+								<option value="${brand.brand_cd }">${brand.brand_nm }</option>
+							</c:if>
+						
+						</c:forEach>
+						</select>
+						</span>
+					</td>
+				</tr>
+				<tr>
+					<th>특이사항</th>
+					<td colspan="3">
+						<textarea name="spec_desc" id="spec_desc" rows="10" cols="80">
+        						${lead.spec_desc}
+        					</textarea> 
+       						<script>
+								CKEDITOR.replace('spec_desc');
+							</script>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="4">
+						<button type='button' id='signup' class='btn btn-primary' onclick="modifyLead()">저장</button>
+						<button type='button' id='deletelead' class='btn btn-primary' onclick="deleteLead()">삭제</button>
+						<button type="button" id="return" class="btn btn-default" onclick="backToLeads()">목록</button>
+					</th>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>
 
 <form id='actionForm' action="/consulting/leads" method='get'>
 	<input type="hidden" name='pageNum' value='${pageMarker.cri.pageNum }'>
 	<input type="hidden" name='amount' value='${pageMarker.cri.amount }'>
 	<input type="hidden" name='reg_chnl_cd' value='${pageMarker.cri.reg_chnl_cd }'> 
-	<input type="hidden" name='con_type_cd' value='${pageMarker.cri.con_type_cd }'> 
+	<input type="hidden" name='con_type_cd' value='${pageMarker.cri.con_type_cd }'>
+	<input type="hidden" name='fra_cd' value='${pageMarker.cri.fra_cd }'>
+	<input type="hidden" name='brand_cd' value='${pageMarker.cri.brand_cd }'> 
 	<input type="hidden" name='pros_nm' value='${pageMarker.cri.pros_nm }'>
 </form>
 </body>

@@ -57,9 +57,19 @@ public class ConsultingAjaxController {
 	 }
 	 
 	 @GetMapping(value="/prospect/{id}", produces= {
-			 MediaType.APPLICATION_JSON_UTF8_VALUE})
-	 public ProspectVO prospect(@PathVariable("id") String pros_id) {
-		 ProspectVO result = service.getProspect(pros_id);
+				MediaType.APPLICATION_JSON_UTF8_VALUE})
+	 public ProspectVO prospect(@PathVariable("id") String id) {
+		 ProspectVO result = service.getProspect(id);
+		 return result;
+	 }
+	 
+	 @PostMapping(value="/registprospect", produces= {
+			MediaType.APPLICATION_JSON_UTF8_VALUE})
+	 public ProspectVO registProspect(@ModelAttribute ProspectVO prospectVO) {
+		 String user="admin";
+		 prospectVO.setCreated_by(user);
+		 prospectVO.setLast_upd_by(user);
+		 ProspectVO result = service.insertProspect(prospectVO);
 		 return result;
 	 }
 	 
@@ -68,15 +78,11 @@ public class ConsultingAjaxController {
 	 
 	 @PostMapping(value = "/registlead", produces= {
 			 MediaType.APPLICATION_JSON_UTF8_VALUE})
-		public boolean newlead(@ModelAttribute LeadVO leadVO,
-				@ModelAttribute ProspectVO prospectVO) {
+		public boolean newlead(@ModelAttribute LeadVO leadVO) {
 		 boolean result=false;
-			String user="me";
-			prospectVO.setCreated_by(user);
-			prospectVO.setLast_upd_by(user);
+			String user="admin";
 			leadVO.setCreated_by(user);
 			leadVO.setLast_upd_by(user);
-			leadVO.setProspectVO(prospectVO);
 			if(service.registLead(leadVO)) {
 				result=true;
 			}
@@ -89,15 +95,11 @@ public class ConsultingAjaxController {
 				@ModelAttribute ProspectVO prospectVO) {
 		 
 		 boolean result=false;
-		 String user="me";
-			prospectVO.setCreated_by(user);
-			prospectVO.setLast_upd_by(user);
-			leadVO.setCreated_by(user);
-			leadVO.setLast_upd_by(user);
-			leadVO.setProspectVO(prospectVO);
-			if(service.modifyLead(leadVO)) {
-				result = true;
-			}
+		 String user="admin";
+		 leadVO.setLast_upd_by(user);
+		 if(service.modifyLead(leadVO)) {
+		 	result = true;
+		 }
 		 
 		 return result;
 	 }
@@ -106,11 +108,9 @@ public class ConsultingAjaxController {
 			 MediaType.APPLICATION_JSON_UTF8_VALUE})
 	 public boolean deletelead(@PathVariable("lead_id") String lead_id) {
 		 boolean result=false;
-		 System.out.println(lead_id);
 		 if(service.deleteLead(lead_id)) {
 			 result=true;
 		 }
-		 System.out.println("result   " + result);
 		 return result;
 	 }
 }

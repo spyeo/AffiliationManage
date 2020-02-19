@@ -100,7 +100,7 @@
 		<form id="searchForm" name="searchForm" action="/consulting/leads"
 			method="get">
 			<input type="hidden" name="pageNum" value="1">
-			<div class="table_layout">
+			<div class="table_layout table-sm">
 				<table style="text-align:center; width:100%;">
 					<colgroup>
 						<col width="10%">
@@ -171,13 +171,13 @@
 								</span>
 							</th>
 							<th>
-								<div class="col-form-label">삭제 데이터 조회</div>
+								<!-- <div class="col-form-label">삭제 데이터 조회</div> -->
 							</th>
 							<th style="float:left;">
-								 <div class="form-check form-check-inline">
+								 <!-- <div class="form-check form-check-inline">
 								  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="del_yn" value="y">
 								  <label class="form-check-label" for="inlineCheckbox1">Check</label>
-								</div>
+								</div> -->
 							</th>
 						</tr>
 					</tbody>
@@ -194,6 +194,7 @@
 						<th scope="col">모객접수ID</th>
 						<th scope="col">접수채널</th>
 						<th scope="col">계약형태</th>
+						<th scope="col">브랜드</th>
 						<th scope="col">가망고객명</th>
 						<th scope="col">이동전화</th>
 						<th scope="col">이메일</th>
@@ -223,7 +224,7 @@
 									<td>${code.code_nm}</td>
 								</c:if>					
 							</c:forEach>
-							
+							<td>${lead.brand_cd }</td>
 							<td>${lead.prospectVO.pros_nm}</td>
 							<td>${lead.prospectVO.cell_ph_no}-${lead.prospectVO.cell_ph_tno}-${lead.prospectVO.cell_ph_no}</td>
 							<td>${lead.prospectVO.eml_id}@${lead.prospectVO.eml_domain}</td>

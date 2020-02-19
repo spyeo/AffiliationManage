@@ -13,10 +13,15 @@ function registProspect(){
 			dataType : 'json',
 			data : queryString,
 			success : function(data){
-				if(data>1){
-					alert("등록했습니다.");
-					loadProspects();
-				}
+				$("#modalView").modal("hide");
+				$("#pros_id").val(data.pros_id);
+				$("#searchProsNm").val(data.pros_nm);
+				$("#pros_nm").val(data.pros_nm);
+				$("#cell_ph_no").val(data.cell_ph_no);
+				$("#cell_ph_tno").val(data.cell_ph_tno);
+				$("#cell_ph_pno").val(data.cell_ph_pno);
+				$("#eml_id").val(data.eml_id);
+				$("#eml_domain").val(data.eml_domain);
 			}
 		});
 	}

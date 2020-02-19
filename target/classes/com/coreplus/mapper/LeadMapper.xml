@@ -15,6 +15,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="pros_nm != null ">
 				and pros_nm like '%'||#{pros_nm}||'%'
 			</if>
+			<if test="brand_cd != null ">
+				and brand_cd like '%'||#{brand_cd}||'%'
+			</if>
 		</trim>
 	</sql>
 
@@ -26,11 +29,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="reg_chnl_cd" property="reg_chnl_cd" />
 		<result column="con_type_cd" property="con_type_cd" />
 		<result column="spec_desc" property="spec_desc"/>
+		<result column="brand_cd" property="brand_cd"/>
 		<collection property="prospectVO" resultMap="prospect" />
 	</resultMap>
 
 	<resultMap id="prospect"
 		type="com.coreplus.domain.ProspectVO">
+		<result column="pros_id" property="pros_id" />
 		<result column="pros_nm" property="pros_nm" />
 		<result column="cell_ph_no" property="cell_ph_no" />
 		<result column="cell_ph_tno" property="cell_ph_tno" />
@@ -54,24 +59,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 select lead_id
      , reg_chnl_cd
      , con_type_cd
+     , pros_id
      , pros_nm
      , cell_ph_no
      , cell_ph_tno
      , cell_ph_pno
      , eml_id
      , eml_domain
+     , brand_cd
      , last_upd
      
 from (select (rank() over(order by a.last_upd desc, b.pros_nm)) rownums
            , a.lead_id
            , a.reg_chnl_cd
            , a.con_type_cd
+           , b.pros_id
            , b.pros_nm
            , b.cell_ph_no
            , b.cell_ph_tno
            , b.cell_ph_pno
            , b.eml_id
            , b.eml_domain
+           , a.brand_cd
            , a.last_upd
               
       from     lead a, prospect b
@@ -101,6 +110,7 @@ from (select (rank() over(order by a.last_upd desc, b.pros_nm)) rownums
               , b.eml_id      as eml_id
               , b.eml_domain  as eml_domain
               , a.last_upd    as last_upd
+              , a.brand_cd    as brand_cd
               , a.spec_desc   as spec_desc
               
          from     lead a, prospect b
@@ -112,8 +122,8 @@ from (select (rank() over(order by a.last_upd desc, b.pros_nm)) rownums
 <insert id="insertLead">
 <![CDATA[
 
-insert into lead(lead_id, del_yn, created_by, created, last_upd_by, last_upd, reg_chnl_cd, con_type_cd, spec_desc, pros_id)
-values(seq_lead.nextval, 'n', #{created_by}, sysdate, #{last_upd_by}, sysdate, #{reg_chnl_cd}, #{con_type_cd}, #{spec_desc}, #{prospectVO.pros_id})
+insert into lead(lead_id, created_by, last_upd_by, reg_chnl_cd, con_type_cd, brand_cd, spec_desc, pros_id)
+values((seq_lead.nextval+1000000000), #{created_by}, #{last_upd_by}, #{reg_chnl_cd}, #{con_type_cd},#{brand_cd}, #{spec_desc}, #{pros_id})
 
 ]]>
 </insert>
@@ -127,7 +137,8 @@ reg_chnl_cd = #{reg_chnl_cd},
 con_type_cd = #{con_type_cd},
 spec_desc = #{spec_desc},
 last_upd_by = #{last_upd_by},
-last_upd = sysdate
+last_upd = sysdate,
+brand_cd = #{brand_cd}
 where lead_id = #{lead_id}
 
 ]]>

@@ -62,24 +62,10 @@ public class ConsultingServiceImpl implements ConsultingService{
 		return prospectMapper.selectList(name);
 	}
 
-	@Override
-	public ProspectVO getProspect(String pros_id) {
-		return prospectMapper.selectOne(pros_id);
-	}
-
+	//수정 필요
 	@Override
 	public boolean registLead(LeadVO leadVO) {
-		int prosResult;
-		int leadResult;
-		if(leadVO.getProspectVO().getPros_id().length() <= 0) {
-			prosResult = prospectMapper.insertProspect(leadVO.getProspectVO());
-		}
-		else {
-			prosResult = 1;
-		}
-		leadResult = leadMapper.insertLead(leadVO);
-
-		if(prosResult > 0 && leadResult > 0) {
+		if(leadMapper.insertLead(leadVO)>0) {
 			return true;
 		}
 		return false;
@@ -87,13 +73,8 @@ public class ConsultingServiceImpl implements ConsultingService{
 
 	@Override
 	public boolean modifyLead(LeadVO leadVO) {
-		int prosResult;
-		int leadResult;
 		
-		prosResult = prospectMapper.updateProspect(leadVO.getProspectVO());
-		leadResult = leadMapper.updateLead(leadVO);
-		
-		if(prosResult > 0 && leadResult > 0) {
+		if(leadMapper.updateLead(leadVO) > 0) {
 			return true;
 		}
 		return false;
@@ -116,6 +97,28 @@ public class ConsultingServiceImpl implements ConsultingService{
 	public List<BrandVO> getBrands(String fra_cd) {
 		return brandMapper.getBrands(fra_cd);
 	}
+
+	@Override
+	public ProspectVO insertProspect(ProspectVO prospectVO) {
+		
+		if(prospectMapper.insertProspect(prospectVO)>0) {
+			prospectVO = prospectMapper.selectOne(prospectVO.getPros_id());
+			return prospectVO;
+		}
+		return null;
+	}
+
+	@Override
+	public ProspectVO getProspect(String id) {
+		return prospectMapper.selectOne(id);
+	}
+
+	@Override
+	public String getFranchise(String brand_cd) {
+		return brandMapper.getFranchise(brand_cd);
+	}
+
+	
 
 	
 

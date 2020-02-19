@@ -27,7 +27,9 @@ public interface ConsultingService {
 
 	public List<ProspectVO> getProspectList(String name);
 
-	public ProspectVO getProspect(String pros_id);
+	public ProspectVO insertProspect(ProspectVO prospectVO);
+	
+	public ProspectVO getProspect(String id);
 
 	public boolean registLead(LeadVO leadVO);
 
@@ -39,5 +41,6 @@ public interface ConsultingService {
 
 	public List<BrandVO> getBrands(String fra_cd);
 
+	public String getFranchise(String brand_cd);
 
 }

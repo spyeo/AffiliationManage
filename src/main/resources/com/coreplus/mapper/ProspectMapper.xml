@@ -44,16 +44,16 @@ where    pros_id = #{pros_id}
 
 	</select>
 
-	<insert id="insertProspect">
+	<insert id="insertProspect" parameterType="com.coreplus.domain.ProspectVO">
 
 		<selectKey keyProperty="pros_id" resultType="String" order="BEFORE">
-			select seq_prospect.nextval from dual
+			select (seq_pros.nextval+1000000000)as pros_id from dual
 		</selectKey>
 
-<![CDATA[
-insert into prospect(pros_id, del_yn, created_by, created, last_upd_by, last_upd, pros_nm, cell_ph_no, cell_ph_tno, cell_ph_pno, eml_id, eml_domain)
-values(#{pros_id}, 'n', #{created_by}, sysdate, #{last_upd_by}, sysdate, #{pros_nm}, #{cell_ph_no}, #{cell_ph_tno}, #{cell_ph_pno}, #{eml_id}, #{eml_domain})
-]]>
+		<![CDATA[
+		insert into prospect(pros_id, created_by, last_upd_by, pros_nm, cell_ph_no, cell_ph_tno, cell_ph_pno, eml_id, eml_domain)
+		values(#{pros_id}, #{created_by}, #{last_upd_by}, #{pros_nm}, #{cell_ph_no}, #{cell_ph_tno}, #{cell_ph_pno}, #{eml_id}, #{eml_domain})
+		]]>
 	</insert>
 
 <update id="updateProspect">

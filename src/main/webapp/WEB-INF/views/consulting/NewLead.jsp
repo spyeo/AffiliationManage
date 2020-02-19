@@ -52,26 +52,28 @@ function backToLeads(){
 function registLead(){
 	var isEmpty = newleadValidation();
 	if(isEmpty != ""){
-		alert(isEmpty+" 란이 빈칸입니다.");
+		alert(isEmpty+"란이 빈칸입니다.");
 		return;
 	}
 	
-	var text = CKEDITOR.instances.spec_desc.getData();
-	$("#spec_desc").val(text);
-	var queryString = $("form[id=registForm]").serialize();
-	$.ajax({
-		type : 'post',
-		url : '/consulting/data/registlead',
-		dataType : 'json',
-		data : queryString,
-		success : function(data){
-			alert("저장하였습니다.");
-			backToLeads();
-		},
-		error : function(xhr, status, error){
-			alert("저장하는 도중 에러가 발생했습니다.");
-		}
-	});
+	var check = confirm("등록하시겠습니까?");
+	if(check){
+		var text = CKEDITOR.instances.spec_desc.getData();
+		$("#spec_desc").val(text);
+		var queryString = $("form[id=registForm]").serialize();
+		$.ajax({
+			type : 'post',
+			url : '/consulting/data/registlead',
+			dataType : 'json',
+			data : queryString,
+			success : function(data){
+				backToLeads();
+			},
+			error : function(xhr, status, error){
+				alert("저장하는 도중 에러가 발생했습니다.");
+			}
+		});
+	}
 }
 
 function getSelectorOption(url, parameter, selecter_id, save_param, option_value, option_text) {
@@ -123,7 +125,7 @@ $(document).ready(function(){
 <div class="card" style="width:98%; margin:0 auto;">
 	<div class="card-block">
 		<form id="registForm" method="post" action="/consulting/registlead">
-			<table style="text-align:center; width:100%;" id="demo-foo-filtering" class="table">
+			<table style="text-align:center; width:100%;" class="table table-sm">
 				<colgroup>
 					<col width="10%">
 					<col width="40%">

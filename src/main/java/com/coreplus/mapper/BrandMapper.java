@@ -9,5 +9,7 @@ public interface BrandMapper {
 	public List<BrandVO> getList(String brand_cd);
 
 	public List<BrandVO> getBrands(String fra_cd);
+
+	public String getFranchise(String brand_cd);
 	
 }
