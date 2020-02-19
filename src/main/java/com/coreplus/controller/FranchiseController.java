@@ -76,7 +76,7 @@ public class FranchiseController {
 	
 	@GetMapping("/update_view")
 	public ModelAndView update_view(@RequestParam("str_cd") String str_cd,
-			@ModelAttribute Criteria2 cri, ModelAndView mv, Model model){
+			@ModelAttribute("cri") Criteria2 cri, ModelAndView mv, Model model){
 		
 		model.addAttribute("store", service.read(str_cd));
 		mv.setViewName("franchise/update_view.tiles");
@@ -86,7 +86,7 @@ public class FranchiseController {
 	
 	@GetMapping("/update")
 	public ModelAndView update(@RequestParam("str_cd") String str_cd,
-			@ModelAttribute Criteria2 cri, ModelAndView mv, Model model){
+			@ModelAttribute("cri") Criteria2 cri, ModelAndView mv, Model model){
 		
 		model.addAttribute("store", service.read(str_cd));
 		mv.setViewName("franchise/update.tiles");
@@ -96,24 +96,31 @@ public class FranchiseController {
 	
 	@PostMapping("/update")
 	public String update(@ModelAttribute StoreVO store,
-			@ModelAttribute Criteria2 cri, RedirectAttributes rttr) {
-		System.out.println("업데이트 실행됨");
+			@ModelAttribute("cri") Criteria2 cri, RedirectAttributes rttr) {
+
 		log.info("update : " + store);
 		
-		service.update(store);
-		rttr.addFlashAttribute("result", "success");
-
+		if(service.update(store)) {
+			rttr.addFlashAttribute("result", "success");
+		}
+			rttr.addAttribute("pageNum", cri.getPageNum());
+			rttr.addAttribute("amount", cri.getAmount());
+			
 		return "redirect:/franchise/list";
 	}
 	
 	@PostMapping("/delete")
-	public String delete(@RequestParam("str_cd") String str_cd, RedirectAttributes rttr) {
+	public String delete(@RequestParam("str_cd") String str_cd,
+			@ModelAttribute("cri") Criteria2 cri, RedirectAttributes rttr) {
 		
 		log.info("delete " + str_cd);
 		
 		if(service.delete(str_cd)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+			rttr.addAttribute("pageNum", cri.getPageNum());
+			rttr.addAttribute("amount", cri.getAmount());
+		
 		return "redirect:/franchise/list";
 	}
 	

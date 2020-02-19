@@ -70,6 +70,9 @@
                                                          
                                                          <form id='operForm' action="/franchise/update" method="get">
                                                          	<input type='hidden' id='str_cd' name='str_cd' value='${store.str_cd}'>
+                                                         	<input type='hidden' name='pageNum' value="${cri.pageNum}">
+                                                         	<input type='hidden' name='amount' value="${cri.amount}">
+                                                         	
                                                          </form>
                                                      </div>
                                         		</div>

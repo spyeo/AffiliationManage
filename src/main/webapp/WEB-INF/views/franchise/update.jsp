@@ -14,6 +14,10 @@
 			<div class="card">
 				<div class="card-block">
 					<form id="update" method="post" action="/franchise/update">
+						
+						<input type='hidden' name='pageNum' value="${cri.pageNum}">
+						<input type='hidden' name='amount' value="${cri.amount}">
+					
 						<table id="demo-foo-filtering" class="table">
 							<tbody>
 								<tr>
@@ -143,7 +147,12 @@
 								formObj.attr("action", "/franchise/delete");
 							} else if (operation === 'list') {
 								formObj.attr("action", "/franchise/list").attr("method", "get");
+								var pageNumTag = $("input[name='pageNum']").clone();
+								var amountTage = $("input[name='amount']").clone();
+								
 								formObj.empty();
+								formObj.append(pageNumTag);
+								formObj.append(amountTage);
 							}
 							formObj.submit();
 
