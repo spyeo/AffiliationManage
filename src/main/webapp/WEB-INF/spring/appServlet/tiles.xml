@@ -11,12 +11,6 @@
 		<put-attribute name="content" value="" />
 	</definition>
 	
-	<definition name="*/*.tiles" extends="layouts-tiles">
-		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
-	</definition>
-	
-	
-	
 	<definition name="htmlcode" template="/WEB-INF/views/tiles/htmlcode.jsp">
 		<put-attribute name="content" value=""/>
 	</definition>
@@ -33,8 +27,12 @@
 		<put-attribute name="content" value=""/>
 	</definition>
 	
-	<definition name="*.tiles" extends="empty">
-		<put-attribute name="content" value="/WEB-INF/views/main/{1}.jsp"/>
+	<definition name="pages/*.tiles" extends="empty">
+		<put-attribute name="content" value="/WEB-INF/views/pages/{1}.jsp"/>
+	</definition>
+	
+	<definition name="*/*.tiles" extends="layouts-tiles">
+		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 
 </tiles-definitions>

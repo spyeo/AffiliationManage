@@ -6,7 +6,7 @@ public interface ManagerService {
 
 	int login(ManagerVO manager);
 
-	ManagerVO getManager(String id);
+	ManagerVO getManager(String mgr_id);
 
 
 }

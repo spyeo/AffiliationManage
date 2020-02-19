@@ -226,7 +226,7 @@
 							</c:forEach>
 							<td>${lead.brand_cd }</td>
 							<td>${lead.prospectVO.pros_nm}</td>
-							<td>${lead.prospectVO.cell_ph_no}-${lead.prospectVO.cell_ph_tno}-${lead.prospectVO.cell_ph_no}</td>
+							<td>${lead.prospectVO.cell_ph_no}-${lead.prospectVO.cell_ph_tno}-${lead.prospectVO.cell_ph_pno}</td>
 							<td>${lead.prospectVO.eml_id}@${lead.prospectVO.eml_domain}</td>
 							<td><fmt:formatDate var="dateTempParse"
 									pattern="yyyy-MM-dd HH:mm" value="${lead.last_upd}" /> <c:out

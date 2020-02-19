@@ -26,6 +26,8 @@ public class ConsultingAjaxController {
 	
 	private ConsultingService service;
 	
+	//page loading
+	
 	@GetMapping(value="/codes/{code}", produces= {
 			MediaType.APPLICATION_JSON_UTF8_VALUE})
 	public List<CodeVO> codes(@PathVariable("code") String code) {
@@ -47,7 +49,7 @@ public class ConsultingAjaxController {
 		return result;
 	}
 	
-	//모달창의 검색화면 개선 필요
+	//prospect
 	
 	 @GetMapping(value="/prospects/{name}", produces= {
 			MediaType.APPLICATION_JSON_UTF8_VALUE})
@@ -74,7 +76,7 @@ public class ConsultingAjaxController {
 	 }
 	 
 	 
-	 // 수정 필요한 부분
+	 // lead
 	 
 	 @PostMapping(value = "/registlead", produces= {
 			 MediaType.APPLICATION_JSON_UTF8_VALUE})

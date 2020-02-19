@@ -26,6 +26,8 @@ public class ConsultingController {
 
 	private ConsultingService service;
 
+	//lead
+	
 	@GetMapping("/leads")
 	public ModelAndView leads(ModelAndView mv, 
 			@ModelAttribute Criteria cri, Model model) {
@@ -77,6 +79,8 @@ public class ConsultingController {
 		leadVO.setProspectVO(prospectVO);
 		return "/consulting/leads";
 	}
+	
+	//modalView
 	
 	@GetMapping("/modal")
 	public ModelAndView modal(ModelAndView mv) {

@@ -10,8 +10,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 select count(*)
 from manager
-where id = #{id}
-and password = #{password}
+where mgr_id = #{mgr_id}
+and mgr_pw = #{mgr_pw}
 
 ]]>
 
@@ -21,9 +21,9 @@ and password = #{password}
 
 <![CDATA[
 
-select *
+select mgr_id, mgr_name
 from manager
-where id = #{id}
+where mgr_id = #{mgr_id}
 
 ]]>
 

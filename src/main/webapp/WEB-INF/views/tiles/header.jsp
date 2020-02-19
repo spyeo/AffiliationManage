@@ -21,12 +21,19 @@
 	$(document).ready(function() {
 		breadCrumbMenu();
 	});
+	function logout(){
+		var check = confirm("로그아웃 하시겠습니까?");
+		if(check){
+			location.href="/logout";
+		}
+	}
 </script>
 
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top fsize">
-	<a class="navbar-brand mr-1" href="/franchise/list">COREPLUS</a>
+	<a class="navbar-brand mr-1" href="/">COREPLUS</a>
 	<div align="right" class="right-f">
-		<button type="button" class="btn btn-primary">로그아웃</button>
+		<span><strong>${manager.mgr_name }</strong>님 환영합니다.</span>
+		<span><button type="button" class="btn btn-primary" onclick="logout()">로그아웃</button></span>
 	</div>
 </nav>
 <nav id="topMenu">

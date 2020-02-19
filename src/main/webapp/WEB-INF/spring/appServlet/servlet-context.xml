@@ -39,5 +39,13 @@
 		</beans:property>	
 	</beans:bean>
 	
+	<interceptors>
+       <interceptor>
+           <mapping path="/**"/>
+           <exclude-mapping path="/resources/**"/>
+           <exclude-mapping path="/login"/>
+           <beans:bean id="commonInterceptor" class="com.coreplus.controller.AuthInterceptor"/>
+       </interceptor>
+    </interceptors>
 	
 </beans:beans>

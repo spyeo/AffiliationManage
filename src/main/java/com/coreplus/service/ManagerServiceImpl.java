@@ -18,8 +18,8 @@ public class ManagerServiceImpl implements ManagerService{
 	}
 
 	@Override
-	public ManagerVO getManager(String id) {
-		return managerMapper.getManager(id);
+	public ManagerVO getManager(String mgr_id) {
+		return managerMapper.getManager(mgr_id);
 	}
 
 }

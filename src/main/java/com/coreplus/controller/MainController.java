@@ -28,8 +28,13 @@ public class MainController {
 	private ManagerService mgrService;
 
 	@GetMapping("/")
-	public String franchise() {
-		return "franchise/list.tiles";
+	public String franchise(HttpSession session) {
+		if(session.getAttribute("manager")!= null) {
+			return "franchise/list.tiles";
+		}
+		else {
+			return "redirect:/login";
+		}
 	}
 
 	@GetMapping("/breadCrumb")
@@ -40,20 +45,34 @@ public class MainController {
 	}
 
 	@GetMapping("/login")
-	public ModelAndView login(ModelAndView mv) {
-		mv.setViewName("LoginPage.tiles");
+	public ModelAndView login(ModelAndView mv, HttpSession session,
+			RedirectAttributes redirectAttributes) {
+		mv.setViewName("pages/login.tiles");
+		if(session.getAttribute("manager")==null) {
+			redirectAttributes.addAttribute("msg", "세션이 만료되어 로그아웃 되었습니다.");
+		}
 		return mv;
 	}
 
 	@PostMapping("/login")
-	public String login(@ModelAttribute ManagerVO manager, HttpServletRequest request,
+	public String login(@ModelAttribute ManagerVO manager,
+			ModelAndView mv,
+			HttpServletRequest request,
 			RedirectAttributes redirectAttributes) {
 		HttpSession session = request.getSession();
 		if (mgrService.login(manager) > 0) {
 			session.setAttribute("manager", mgrService.getManager(manager.getMgr_id()));
 			return "redirect:/";
 		}
-		redirectAttributes.addAttribute("msg", "아이디 혹은 비밀번호가 틀렸습니다.");
+		else {
+			redirectAttributes.addAttribute("msg","아이디 혹은 비밀번호가 틀렸습니다.");
+			return "redirect:/login";
+		}
+	}
+	
+	@GetMapping("/logout")
+	public String logout(ModelAndView mv, HttpSession session) {
+		session.invalidate();
 		return "redirect:/login";
 	}
 
