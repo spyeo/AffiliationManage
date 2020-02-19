@@ -74,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        and rownum <= #{pageNum} * #{amount}
          ) s
      where rn > (#{pageNum} -1) * #{amount}
+     order by str_cd desc
        ]]>	   
 	
 </select>

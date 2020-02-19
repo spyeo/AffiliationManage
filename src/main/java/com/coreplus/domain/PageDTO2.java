@@ -1,10 +1,8 @@
 package com.coreplus.domain;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@ToString
+@Data
 public class PageDTO2 {
 	private int startPage;
 	private int endPage;
