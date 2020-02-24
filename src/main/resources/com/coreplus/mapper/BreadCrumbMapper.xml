@@ -10,9 +10,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 select url
      , url_nm
-from route
+from breadcrumb
 start with url = #{url} 
-connect by prior parent = route
+connect by prior p_node = node
 order by level desc
 
 ]]>
