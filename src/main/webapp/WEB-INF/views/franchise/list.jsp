@@ -13,7 +13,10 @@
    <div class="col-sm-12">
                                     <div class="card">
                                         <form id="searchForm" name="searchForm" action="/franchise/list" method="get">
-											<input type="hidden" name="pageNum" value="1">
+											
+											<input type="hidden" name="pageNum" value="${pageMaker.cri.pageNum}">
+											<input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+											
 											<div class="inp-group">
 												<div class="d">
 												
@@ -119,7 +122,7 @@
 														end="${pageMaker.endPage }">
 										
 													<c:if test="${pageMaker.cri.pageNum eq num }">
-															<li class="page_ac">
+															<li class="page_ac active">
 															<a href="${num}" class="page-link">${num}</a>
 													</c:if>
 														<c:if test="${pageMaker.cri.pageNum ne num }">
@@ -190,6 +193,7 @@ function search(){
 		searchfm.submit();
 	}else if(franchise=="" || brand==""){
 		location.href="/franchise/list";
+		searchfm.submit();
 	}
 	
 }
