@@ -58,21 +58,16 @@
                                                     
                                                     <tr><th>가맹점 주소
                                                      </br>
-	                                                    <form name="juso_form" id="juso_form" method="post">
-	
-															<div id="list"></div>
-															<div id="callBackDiv">
-																<table>
-				                                                    <input name="str_zipcd" id="str_zipcd" type="text" class="form_con_block numform" placeholder="우편번호">
-				                                                    <input name="str_addr" id="str_addr" type="text" class="form_con numform4" placeholder="주소">
-				                                                    <input name="str_addr_dtl" id="str_addr_dtl" type="text" class="form_con numform3" placeholder="상세주소">
-																</table>
+	                                                    <div class="form-group">                   
+															<input class="form-control" style="width: 15%; margin-top: 10px; display: inline;" placeholder="우편번호" name="str_zipcd" id="str_zipcd" type="text" readonly="readonly" >
+															    <button type="button" class="btn btn-default" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>                               
 															</div>
-														
-														</form>
-                                                    
-                                                    <button type="button" class="btn btn-warning" onclick="goPopup()">주소검색</button>
-													<input type="text" id="userAddr" name="userAddr" class="form-control" placeholder="주소" required="true" readonly="true"/>
+															<div class="form-group">
+															    <input class="form-control" style="top: 5px;" placeholder="도로명 주소" name="str_addr" id="str_addr" type="text" readonly="readonly" />
+															</div>
+															<div class="form-group">
+															    <input class="form-control" placeholder="상세주소" name="str_addr_dtl" id="str_addr_dtl" type="text"  />
+														</div>
                                                     
                                                     </th></tr>
                                                     
@@ -122,17 +117,50 @@
       </div>
     </div>
 
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
 <script type="text/javascript">
 
-function goPopup(){
+function execPostCode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-	var pop = window.open("/views/franchise/jusoPopup.jsp","pop","width=570,height=420, scrollbars=yes, resizable=yes"); 
-	
+           // 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
+           // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+           var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
+           var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+
+           // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+           // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+           if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+               extraRoadAddr += data.bname;
+           }
+           // 건물명이 있고, 공동주택일 경우 추가한다.
+           if(data.buildingName !== '' && data.apartment === 'Y'){
+              extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+           }
+           // 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+           if(extraRoadAddr !== ''){
+               extraRoadAddr = ' (' + extraRoadAddr + ')';
+           }
+           // 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가한다.
+           if(fullRoadAddr !== ''){
+               fullRoadAddr += extraRoadAddr;
+           }
+
+           // 우편번호와 주소 정보를 해당 필드에 넣는다.
+           console.log(data.zonecode);
+           console.log(fullRoadAddr);
+           
+           $("input[name=str_zipcd]").val(data.zonecode);
+           $("input[name=str_addr]").val(fullRoadAddr);
+           
+       }
+    }).open();
 }
 
-function jusoCallBack(roadFullAddr){
-		document.form.userAddr.value = roadFullAddr;		
-}
 
 </script>
 

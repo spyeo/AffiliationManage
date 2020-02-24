@@ -15,5 +15,3 @@
     <!-- Custom scripts for all pages-->
     <script src="/resources/js/sb-admin.min.js"></script>
 
-    <!-- franchise Updatemodal Js -->
-    
