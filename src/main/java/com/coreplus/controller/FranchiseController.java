@@ -105,6 +105,8 @@ public class FranchiseController {
 		}
 			rttr.addAttribute("pageNum", cri.getPageNum());
 			rttr.addAttribute("amount", cri.getAmount());
+			rttr.addAttribute("fra_cd", cri.getFra_cd());
+			rttr.addAttribute("brand_cd", cri.getBrand_cd());
 			
 		return "redirect:/franchise/list";
 	}
@@ -120,7 +122,9 @@ public class FranchiseController {
 		}
 			rttr.addAttribute("pageNum", cri.getPageNum());
 			rttr.addAttribute("amount", cri.getAmount());
-		
+			rttr.addAttribute("fra_cd", cri.getFra_cd());
+			rttr.addAttribute("brand_cd", cri.getBrand_cd());
+			
 		return "redirect:/franchise/list";
 	}
 	

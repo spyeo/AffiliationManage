@@ -16,7 +16,7 @@
                                             	<tbody>
                                                      <tr>
                                                         <th>가맹사업
-                                                       	 	<select class="form_con_block">
+                                                       	 	<select name="fra_cd" id="fra_cd" class="form_con_block">
                                                             	<option value="매장">매장</option>
                                                             	<option value="배달">배달</option>
                                                             	<option value="O2O">O2O</option>

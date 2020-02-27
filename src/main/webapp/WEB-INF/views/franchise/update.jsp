@@ -15,9 +15,6 @@
 				<div class="card-block">
 					<form id="update" method="post" action="/franchise/update">
 						
-						<input type='hidden' name='pageNum' value="${cri.pageNum}">
-						<input type='hidden' name='amount' value="${cri.amount}">
-					
 						<table id="demo-foo-filtering" class="table">
 							<tbody>
 								<tr>
@@ -90,9 +87,17 @@
 							<button type="submit" data-oper='delete'
 								class="btn btn-secondary">삭제</button>
 							<button type="submit" data-oper='list' class="btn btn-secondary">목록</button>
-
+ 
 						</div>
 					</form>
+					
+					<form id='operForm' action="/franchise/update" method='post'>
+						<input type='hidden' name='pageNum' value='${cri.pageNum}'>
+						<input type='hidden' name='amount' value='${cri.amount}'>
+						<input type='hidden' name='fra_cd' value='${cri.fra_cd}'>
+						<input type='hidden' name='brand_cd' value='${cri.brand_cd}'>
+					</form>
+					
 				</div>
 			</div>
 		</div>
@@ -182,7 +187,7 @@ function execPostCode() {
 
 				var formObj = $("#update");
 
-				$('button').on(
+				$('button .btn btn-primary, button .btn btn-secondary').on(
 						"click",
 						function(e) {
 
@@ -191,17 +196,34 @@ function execPostCode() {
 
 							if (operation === 'delete') {
 								formObj.attr("action", "/franchise/delete");
-							} else if (operation === 'list') {
-								formObj.attr("action", "/franchise/list").attr("method", "get");
-								var pageNumTag = $("input[name='pageNum']").clone();
-								var amountTage = $("input[name='amount']").clone();
-								
-								formObj.empty();
-								formObj.append(pageNumTag);
-								formObj.append(amountTage);
 							}
 							formObj.submit();
 
 						});
-			});
+				
+				function(){
+					var operForm = $("#operForm");
+					
+					$('button .btn btn-primary, button .btn btn-secondary').on(
+							"click",
+							function(e) {
+
+								e.preventDefault();
+								var operation = $(this).data("oper");
+								
+							if (operation === 'list') {
+									formObj.attr("action", "/franchise/list").attr("method", "get");
+									var pageNumTag = $("input[name='pageNum']").clone();
+									var amountTag = $("input[name='amount']").clone();
+									var fra_cdTag = $("input[name='fra_cd']").clone();
+									var brand_cdTag = $("input[name='brand_cd']").clone();
+									
+									formObj.empty();
+									formObj.append(pageNumTag);
+									formObj.append(amountTag);
+									formObj.append(fra_cdTag);
+									formObj.append(brand_cdTag);
+								}
+				});
+					
 </script>
