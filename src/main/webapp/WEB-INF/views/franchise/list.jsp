@@ -27,11 +27,15 @@
 														</span>
 													
 														<span class="b_size">
-															<select name="fra_cd" id="fra_cd" class="con_form" value="${store.franchise.fra_cd}">
-																<option value="">없음</option>
-																<option value="매장">매장</option>
-                                                            	<option value="배달">배달</option>
-                                                            	<option value="O2O">O2O</option>
+															<select name="fra_cd" id="fra_cd" class="con_form">
+																<option value=""
+																	<c:out value="${pageMaker.cri.fra_cd == null?'selected':''}"/>>없음</option>
+																<option value="매장"
+																	<c:out value="${pageMaker.cri.fra_cd == '매장'?'selected':''}"/>>매장</option>
+                                                            	<option value="배달"
+                                                            		<c:out value="${pageMaker.cri.fra_cd == '배달'?'selected':''}"/>>배달</option>
+                                                            	<option value="O2O"
+                                                            		<c:out value="${pageMaker.cri.fra_cd == 'O2O'?'selected':''}"/>>O2O</option>
 															</select>
 														</span>
 														</div>
@@ -41,15 +45,23 @@
 														</span>
 														
 														<span class="b_size">
-															<select name="brand_cd" id="barnd_cd" class="con_form" value="${store.brand.brand_cd}">
-																<option value="">없음</option>
-																<option value="돈까스">돈까스</option>
-                                                            	<option value="일식">일식</option>
-                                                            	<option value="분식">분식</option>
-                                                            	<option value="도시락">도시락</option>
-                                                            	<option value="햄버거">햄버거</option>
-                                                            	<option value="한식">한식</option>
-                                                        		<option value="설렁탕">설렁탕</option>
+															<select name="brand_cd" id="barnd_cd" class="con_form">
+																<option value=""
+																	<c:out value="${pageMaker.cri.brand_cd == null?'selected':''}"/>>없음</option>
+																<option value="돈까스"
+																	<c:out value="${pageMaker.cri.brand_cd == '돈까스'?'selected':''}"/>>돈까스</option>
+                                                            	<option value="일식"
+                                                            		<c:out value="${pageMaker.cri.brand_cd == '일식'?'selected':''}"/>>일식</option>
+                                                            	<option value="분식"
+                                                            		<c:out value="${pageMaker.cri.brand_cd == '분식'?'selected':''}"/>>분식</option>
+                                                            	<option value="도시락"
+                                                            		<c:out value="${pageMaker.cri.brand_cd == '도시락'?'selected':''}"/>>도시락</option>
+                                                            	<option value="햄버거"
+                                                            		<c:out value="${pageMaker.cri.brand_cd == '햄버거'?'selected':''}"/>>햄버거</option>
+                                                            	<option value="한식"
+                                                            		<c:out value="${pageMaker.cri.brand_cd == '한식'?'selected':''}"/>>한식</option>
+                                                        		<option value="설렁탕"
+                                                        			<c:out value="${pageMaker.cri.brand_cd == '설렁탕'?'selected':''}"/>>설렁탕</option>
 															</select>
 														</span>
 														</div>
@@ -195,7 +207,8 @@ function search(){
 		location.href="/franchise/list";
 		searchfm.submit();
 	}
-	
+	searchFm.find("input[name='pageNum']").val("1");
+	e.preventDefault();
 }
 
 function getvalues(brand_cd, tag, name){
